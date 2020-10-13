@@ -32,6 +32,7 @@ export default {
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: auto;
   background-color: $black-color2;
+  user-select: none;
   & > * {
     align-self: center;
   }

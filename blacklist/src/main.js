@@ -7,13 +7,15 @@ import router from "./router";
 import store from "./store";
 
 // Declare uikit globally
-import ButtonEl from "Uikit/ButtonEl";
 import InputEl from "Uikit/InputEl";
+import ButtonEl from "Uikit/ButtonEl";
+import BaseSwitch from "Uikit/BaseSwitch";
 
 Vue.config.productionTip = false;
 
 Vue.component("button-el", ButtonEl);
 Vue.component("input-el", InputEl);
+Vue.component("base-switch", BaseSwitch);
 
 new Vue({
   router,

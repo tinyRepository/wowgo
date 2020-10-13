@@ -10,7 +10,20 @@ const routes = [
   {
     path: "/registration",
     name: "Registration",
-    component: Registration
+    component: Registration,
+    meta: {
+      isRegistrationPage: true,
+      isLoginPage: false
+    }
+  },
+  {
+    path: "/login",
+    name: "Registration",
+    component: Registration,
+    meta: {
+      isRegistrationPage: false,
+      isLoginPage: true
+    }
   },
   {
     path: "/404",

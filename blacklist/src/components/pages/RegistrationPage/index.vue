@@ -8,17 +8,27 @@
       </div>
     </div>
     <div class="contact__form">
-      <h2 class="contact__form-title">Регистрация</h2>
-      <registration-form />
+      <registration-form v-if="isRegistrationPage" />
+      <authorization-form v-else-if="isLoginPage" />
     </div>
   </div>
 </template>
 
 <script>
 import RegistrationForm from "./RegistrationForm";
+import AuthorizationForm from "./AuthorizationForm";
 export default {
   components: {
-    RegistrationForm
+    RegistrationForm,
+    AuthorizationForm
+  },
+  computed: {
+    isRegistrationPage() {
+      return this.$route.meta.isRegistrationPage;
+    },
+    isLoginPage() {
+      return this.$route.meta.isLoginPage;
+    }
   },
   methods: {
     tryToSendForm() {}
