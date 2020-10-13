@@ -1,14 +1,30 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import TermsOfUse from "Pages/TermsOfUse";
+import NotFoundPage from "Pages/NotFoundPage";
 import Registration from "Pages/RegistrationPage";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
+    path: "/registration",
     name: "Registration",
     component: Registration
+  },
+  {
+    path: "/404",
+    name: "404",
+    component: NotFoundPage
+  },
+  {
+    path: "/terms-of-use",
+    name: "404",
+    component: TermsOfUse
+  },
+  {
+    path: "*",
+    redirect: "/404"
   }
 ];
 

@@ -6,7 +6,14 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 
+// Declare uikit globally
+import ButtonEl from "Uikit/ButtonEl";
+import InputEl from "Uikit/InputEl";
+
 Vue.config.productionTip = false;
+
+Vue.component("button-el", ButtonEl);
+Vue.component("input-el", InputEl);
 
 new Vue({
   router,
