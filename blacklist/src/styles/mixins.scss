@@ -1,0 +1,31 @@
+@mixin removeBtnDefaults() {
+  border: none;
+  outline: none;
+  padding: 0;
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+@mixin attachImage($imageUrlWithoutExtension, $imageWidth: null, $imageHeight: null,  $imageExtension: '.png') {
+  $imgPath: '~@/assets/img/';
+  @if ($imageWidth) {
+    width: $imageWidth;
+    max-width: $imageWidth;
+    @if($imageHeight) {
+      background-size: $imageWidth $imageHeight;
+    }
+  }
+  @if ($imageHeight) {
+    height: $imageHeight;
+  }
+
+  background-image: url($imgPath + $imageUrlWithoutExtension + $imageExtension);
+  background-repeat: no-repeat;
+  @media
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi){
+    background-image: url($imgPath + $imageUrlWithoutExtension + '@2x' + $imageExtension);
+  }
+}
