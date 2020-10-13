@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import TermsOfUse from "Pages/TermsOfUse";
 import NotFoundPage from "Pages/NotFoundPage";
 import Registration from "Pages/RegistrationPage";
+import SuccessRegistration from "Pages/SuccessRegistration";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,11 @@ const routes = [
       isRegistrationPage: false,
       isLoginPage: true
     }
+  },
+  {
+    path: "/success-registration",
+    name: "successRegistration",
+    component: SuccessRegistration
   },
   {
     path: "/404",
