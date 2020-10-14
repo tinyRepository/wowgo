@@ -73,7 +73,7 @@
         label="Телефон для связи"
       />
       <div class="registration-form__bottom">
-        <button-el class="registration-form__button"
+        <button-el type="submit" class="registration-form__button"
           >Зарегистрироваться</button-el
         >
         <div class="registration-form__notice">
@@ -86,6 +86,25 @@
     </form>
   </div>
 </template>
+
+<script>
+import { mapActions } from "vuex";
+
+export default {
+  data: () => ({
+    form: {
+      email: "",
+      password: ""
+    }
+  }),
+  methods: {
+    ...mapActions("userData", ["registerUser", "logoutUser"]),
+    tryToSendForm() {
+      this.registerUser(this.form);
+    }
+  }
+};
+</script>
 
 <style lang="scss" scoped>
 .registration-form {

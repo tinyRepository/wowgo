@@ -7,14 +7,16 @@
       class="authorization__form"
     >
       <input-el
+        v-model="form.email"
         class="authorization__input"
-        type="text"
-        name="loginINN"
-        inputId="login__INN"
-        placeholder="Введите ИНН"
-        label="ИНН"
+        type="email"
+        name="loginEmail"
+        inputId="login__email"
+        placeholder="Введите email"
+        label="Email"
       />
       <input-el
+        v-model="form.password"
         class="authorization__input"
         type="password"
         name="password"
@@ -22,7 +24,7 @@
         placeholder="Введите пароль"
         label="Пароль"
       />
-      <button-el class="authorization__button">Войти</button-el>
+      <button-el type="submit" class="authorization__button">Войти</button-el>
       <div class="authorization__remeber">
         <base-switch class="authorization__switcher"
           >Запомнить этот компьютер</base-switch
@@ -41,7 +43,21 @@
 </template>
 
 <script>
-export default {};
+import { mapActions } from "vuex";
+export default {
+  data: () => ({
+    form: {
+      email: "",
+      password: ""
+    }
+  }),
+  methods: {
+    ...mapActions("userData", ["loginUser"]),
+    tryToSendForm() {
+      this.loginUser(this.form);
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

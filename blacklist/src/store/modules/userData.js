@@ -1,10 +1,9 @@
-import { checkSessionToken, removeSessionToken } from "@/utils/helpers";
-import router from "@/router";
-import * as types from "../mutation-types";
+// import router from "@/router";
+import firebase from "firebase/app";
 
 // initial state
 const state = {
-  loginInfo: null
+  user: null
 };
 
 // getters
@@ -12,19 +11,14 @@ const getters = {};
 
 // actions
 const actions = {
-  checkUserAuthSession({ commit, state }) {// eslint-disable-line
-    const loginInfo = checkSessionToken();
-    const newToken = loginInfo && loginInfo.token;
-    const oldToken = state.loginInfo && state.loginInfo.token;
-    const loginWasUpdated = newToken !== oldToken;
-    if (loginWasUpdated) {
-      commit(types.SET_LOGIN_INFO, loginInfo);
-    }
+  registerUser({ email, password }) {
+    firebase.auth().createUserWithEmailAndPassword(email, password);
   },
-  logOut({ commit }) {
-    removeSessionToken();
-    router.push("/");
-    commit(types.REMOVE_LOGIN_INFO);
+  loginUser({ email, password }) {
+    firebase.auth().signInWithEmailAndPassword(email, password);
+  },
+  logoutUser() {
+    firebase.auth().signOut();
   }
 };
 
