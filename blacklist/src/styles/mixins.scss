@@ -29,6 +29,13 @@
   user-select: none;
 }
 
+@mixin trimOverflowText($maxWidth) {
+  max-width: $maxWidth;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 @mixin attachImage($imageUrlWithoutExtension, $imageWidth: null, $imageHeight: null,  $imageExtension: '.png') {
   $imgPath: '~@/assets/img/';
   @if ($imageWidth) {

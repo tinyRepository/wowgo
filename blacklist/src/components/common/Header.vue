@@ -3,23 +3,37 @@
     <router-link to="/registration">
       <div class="header__logo" />
     </router-link>
-    <div class="header__main">
-      <router-link to="/registration" class="header__link"
-        >Регистрация</router-link
-      >
-      <router-link to="/login" class="header__link">Вход</router-link>
+    <div class="header__main" :class="{ header__main_logged: user }">
+      <template v-if="!user">
+        <router-link to="/registration" class="header__link"
+          >Регистрация</router-link
+        >
+        <router-link to="/login" class="header__link">Вход</router-link>
+      </template>
+      <template v-else>
+        <router-link to="/black-list" class="header__link">Список</router-link>
+        <router-link to="/legislation" class="header__link">
+          Законодательство
+        </router-link>
+        <router-link to="/rules" class="header__link">Правила</router-link>
+      </template>
     </div>
-    <button-el class="header__button" v-if="loginInfo"
-      >Добавить в список</button-el
+    <button-el class="header__button" v-if="user" @click="logoutUser"
+      >Выйти</button-el
     >
   </div>
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
-  data: () => ({
-    loginInfo: false
-  })
+  data: () => ({}),
+  computed: {
+    ...mapState("userData", ["user"])
+  },
+  methods: {
+    ...mapActions("userData", ["logoutUser"])
+  }
 };
 </script>
 
@@ -44,6 +58,9 @@ export default {
   &__main {
     grid-column: 3 / 4;
     text-align: center;
+    &_logged {
+      grid-column: 2 / 5;
+    }
   }
   &__button {
     grid-column: 5 / 6;

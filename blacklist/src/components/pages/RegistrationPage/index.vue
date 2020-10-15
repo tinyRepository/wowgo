@@ -60,6 +60,9 @@ export default {
   }
   &__info-img {
     @include attachImage("hotel", 653px, 654px);
+    @media screen and (max-width: 1500px) {
+      background-size: 600px;
+    }
   }
   &__info-title {
     @include font(24px, $white-color2);

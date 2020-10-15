@@ -39,6 +39,14 @@ new Vue({
       measurementId: "G-5NBQ5T5VT5"
     };
     firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
+
+    // Auth Check
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        // Check Logged
+        store.dispatch("userData/loggedUser", user); // TODO add check cookies
+        store.dispatch("userData/getUserInfo", user.uid);
+      }
+    });
   }
 }).$mount("#app");

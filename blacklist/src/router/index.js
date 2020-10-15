@@ -1,17 +1,39 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "@/store";
 import TermsOfUse from "Pages/TermsOfUse";
+import BlackList from "Pages/BlackListPage";
 import NotFoundPage from "Pages/NotFoundPage";
 import Registration from "Pages/RegistrationPage";
 import SuccessRegistration from "Pages/SuccessRegistration";
 
 Vue.use(VueRouter);
 
+function handleUnauthorisedRedirect(to, from, next) {
+  if (!store.state.userData.user) {
+    next("/registration");
+  } else {
+    next();
+  }
+}
+
+function handleAuthorisedRedirect(to, from, next) {
+  if (!store.state.userData.user) {
+    next();
+  } else {
+    next({
+      path: "/black-list",
+      replace: true
+    });
+  }
+}
+
 const routes = [
   {
     path: "/registration",
-    name: "Registration",
+    name: "registration",
     component: Registration,
+    beforeEnter: handleAuthorisedRedirect,
     meta: {
       isRegistrationPage: true,
       isLoginPage: false
@@ -19,8 +41,9 @@ const routes = [
   },
   {
     path: "/login",
-    name: "Registration",
+    name: "login",
     component: Registration,
+    beforeEnter: handleAuthorisedRedirect,
     meta: {
       isRegistrationPage: false,
       isLoginPage: true
@@ -29,7 +52,14 @@ const routes = [
   {
     path: "/success-registration",
     name: "successRegistration",
+    beforeEnter: handleAuthorisedRedirect,
     component: SuccessRegistration
+  },
+  {
+    path: "/black-list",
+    name: "blackList",
+    component: BlackList,
+    beforeEnter: handleUnauthorisedRedirect
   },
   {
     path: "/404",
@@ -38,8 +68,9 @@ const routes = [
   },
   {
     path: "/terms-of-use",
-    name: "404",
-    component: TermsOfUse
+    name: "termOfUse",
+    component: TermsOfUse,
+    beforeEnter: handleUnauthorisedRedirect
   },
   {
     path: "*",

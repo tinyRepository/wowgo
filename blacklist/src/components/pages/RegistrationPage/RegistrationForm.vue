@@ -8,18 +8,19 @@
       @submit.stop.prevent="tryToSendForm"
       class="registration-form"
     >
-      <input-el
+      <!-- <input-el
         class="registration-form__input"
         type="text"
         name="loginINN"
         inputId="login__INN"
         placeholder="Введите ИНН"
         label="ИНН"
-      />
+      /> -->
       <input-el
         class="registration-form__input"
         type="text"
         name="name"
+        v-model="form.name"
         inputId="login__first-name"
         placeholder="Введите имя"
         label="Имя"
@@ -28,6 +29,7 @@
         class="registration-form__input"
         type="text"
         name="nameOfObject"
+        v-model="form.nameOfObject"
         inputId="login__name-of-object"
         placeholder="Введите название объекта"
         label="Название объекта"
@@ -36,6 +38,7 @@
         class="registration-form__input"
         type="text"
         name="surname"
+        v-model="form.surname"
         inputId="login__surname"
         placeholder="Введите фамилию"
         label="Фамилия"
@@ -45,6 +48,7 @@
         type="text"
         name="legalAddress"
         inputId="login__legal-address"
+        v-model="form.address"
         placeholder="Введите юридический адрес"
         label="Юридический адрес"
       />
@@ -52,6 +56,7 @@
         class="registration-form__input"
         type="text"
         name="middleName"
+        v-model="form.middleName"
         inputId="login__middle-name"
         placeholder="Введите отчество"
         label="Отчество"
@@ -60,6 +65,7 @@
         class="registration-form__input"
         type="text"
         name="email"
+        v-model="form.email"
         inputId="login__email"
         placeholder="Введите электронную почта объекта"
         label="Электронная почта объекта"
@@ -68,9 +74,19 @@
         class="registration-form__input"
         type="text"
         name="phone"
+        v-model="form.phone"
         inputId="login__phone"
         placeholder="Введите телефон для связи"
         label="Телефон для связи"
+      />
+      <input-el
+        class="registration-form__input"
+        type="text"
+        name="password"
+        v-model="form.password"
+        inputId="login__password"
+        placeholder="Введите пароль"
+        label="Пароль"
       />
       <div class="registration-form__bottom">
         <button-el type="submit" class="registration-form__button"
@@ -93,12 +109,18 @@ import { mapActions } from "vuex";
 export default {
   data: () => ({
     form: {
+      name: "",
+      phone: "",
       email: "",
-      password: ""
+      surname: "",
+      address: "",
+      password: "",
+      middleName: "",
+      nameOfObject: ""
     }
   }),
   methods: {
-    ...mapActions("userData", ["registerUser", "logoutUser"]),
+    ...mapActions("userData", ["registerUser"]),
     tryToSendForm() {
       this.registerUser(this.form);
     }
@@ -112,6 +134,7 @@ export default {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
   margin-top: 75px;
+  grid-column-gap: 20px;
   &__notice {
     @include font(10px, $gray-color1);
     line-height: 12px;
