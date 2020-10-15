@@ -127,6 +127,7 @@ export default {
     dataForSending() {
       return {
         name: this.form.name,
+        fullName: this.fullName,
         surname: this.form.surname,
         phone: this.userInfo.phone,
         address: this.userInfo.address,
@@ -138,6 +139,10 @@ export default {
         reasonForAdding: this.form.reasonForAdding,
         categoriesOfViolations: this.form.categoriesOfViolations.value
       };
+    },
+    fullName() {
+      const { name, surname, middleName } = this.form;
+      return `${surname} ${name} ${middleName}`;
     }
   },
   methods: {

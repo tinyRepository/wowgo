@@ -3,11 +3,12 @@
     <Popup v-if="showPopup" @close="showPopup = false" />
     <input
       type="text"
-      placeholder="Поиск по списку"
+      v-model="searchText"
+      placeholder="Поиск по ФИО"
       class="black-list__search"
     />
     <div class="black-list__table">
-      <table v-if="listData">
+      <table v-if="formattedListData.length">
         <thead>
           <tr>
             <th>ID</th>
@@ -22,7 +23,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in listData" :key="index">
+          <tr v-for="(item, index) in formattedListData" :key="index">
             <td class="accent-cell">{{ index + 1 }}</td>
             <td class="accent-cell">
               {{ item | formatName }}
@@ -49,13 +50,22 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   data: () => ({
-    showPopup: false
+    showPopup: false,
+    searchText: ""
   }),
   components: {
     Popup
   },
   computed: {
-    ...mapState("blackList", ["listData"])
+    ...mapState("blackList", ["listData"]),
+    formattedListData() {
+      const filterdList = this.listData.filter(item => {
+        return item.fullName
+          .toLowerCase()
+          .includes(this.searchText.toLowerCase());
+      });
+      return this.searchText ? filterdList : this.listData;
+    }
   },
   created() {
     this.loadBlackList();

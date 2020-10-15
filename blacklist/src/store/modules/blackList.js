@@ -2,7 +2,7 @@ import firebase from "firebase/app";
 import * as types from "../mutation-types";
 
 const state = {
-  listData: null
+  listData: []
 };
 
 const getters = {};
