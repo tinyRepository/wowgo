@@ -1,5 +1,6 @@
 <template>
   <div class="black-list">
+    <Popup v-if="showPopup" @close="showPopup = false" />
     <input
       type="text"
       placeholder="Поиск по списку"
@@ -37,42 +38,27 @@
         </tbody>
       </table>
       <div v-else class="stub-text">Ничего не найдено...</div>
-      <button class="black-list__button" @click="openAddPopup"></button>
+      <button class="black-list__button" @click="showPopup = true"></button>
     </div>
   </div>
 </template>
 
 <script>
-import firebase from "firebase/app";
-import { format } from "date-fns";
-import { dateFormat } from "@/utils/config";
-import { mapActions, mapState } from "vuex";
+import Popup from "Common/PopUp";
+import { mapState, mapActions } from "vuex";
 
 export default {
   data: () => ({
-    listData: null
+    showPopup: false
   }),
+  components: {
+    Popup
+  },
   computed: {
-    ...mapState("userData", ["user", "userInfo"]),
-    dataForSending() {
-      return {
-        name: "Иван",
-        surname: "Петров",
-        middleName: "Хренова",
-        placeOfBirth: "Красноярск",
-        dateOfBirth: "13/01/2020", // TODO add format date
-        categoriesOfViolations: "Воровство",
-        nameOfHotel: this.userInfo.nameOfObject,
-        phone: this.userInfo.phone,
-        address: this.userInfo.address,
-        dateAdded: format(new Date(), dateFormat)
-      };
-    }
+    ...mapState("blackList", ["listData"])
   },
   created() {
     this.loadBlackList();
-    // var user = firebase.auth().currentUser;
-    // console.log(user);
   },
   filters: {
     formatName(item) {
@@ -80,33 +66,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("common", ["setLoading"]),
-    loadBlackList() {
-      return firebase
-        .database()
-        .ref("black-list")
-        .once("value")
-        .then(snapshot => {
-          this.listData = Object.values(snapshot.val());
-        });
-    },
-    openAddPopup() {
-      this.setLoading(true);
-      firebase
-        .database()
-        .ref("black-list")
-        .push(this.dataForSending)
-        .then(() => {
-          this.loadBlackList();
-          this.setLoading(false);
-          setTimeout(() => {
-            alert("Успешно добавлен!");
-          }, 100);
-        })
-        .catch(() => {
-          this.setLoading(false);
-        });
-    }
+    ...mapActions("blackList", ["loadBlackList"])
   }
 };
 </script>
@@ -157,16 +117,18 @@ export default {
     }
   }
   &__button {
-    width: 50px;
-    height: 50px;
+    width: 78px;
+    height: 78px;
     border-radius: 50%;
     outline: none;
     margin-top: 30px;
+    z-index: 100;
     border: none;
     cursor: pointer;
     background: $brown-color1 url("~@/assets/svg/plus.svg");
     position: fixed;
     bottom: 30px;
+    right: 0;
   }
   &__search {
     border-radius: 10px;

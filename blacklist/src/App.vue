@@ -16,6 +16,16 @@ export default {
   computed: {
     ...mapGetters("common", ["loading"])
   },
+  watch: {
+    loading(val) {
+      const html = document.querySelector("html");
+      if (val) {
+        html.classList.add("stop");
+      } else {
+        html.classList.remove("stop");
+      }
+    }
+  },
   components: {
     Header
   }
@@ -61,9 +71,5 @@ export default {
   align-items: center;
   justify-content: center;
   background: $black-color1;
-}
-.sss {
-  position: absolute;
-  color: red;
 }
 </style>

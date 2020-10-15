@@ -1,6 +1,10 @@
 <template>
   <div class="form">
-    <label :for="inputId" class="form__label">
+    <label
+      :for="inputId"
+      class="form__label"
+      :class="{ form__label_white: whiteLabel }"
+    >
       {{ label }}
     </label>
     <input
@@ -27,7 +31,8 @@ export default {
     value: [String, Number],
     inputId: String,
     error: Boolean,
-    label: String
+    label: String,
+    whiteLabel: Boolean
   }
 };
 </script>
@@ -64,6 +69,9 @@ export default {
     position: absolute;
     left: 0px;
     top: -35px;
+    &_white {
+      color: $white-color1;
+    }
   }
 }
 </style>

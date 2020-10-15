@@ -1,5 +1,11 @@
 <template>
-  <button class="btn" :disabled="disabled" v-on="$listeners" :type="type">
+  <button
+    class="btn"
+    :class="{ btn_gray: gray }"
+    :disabled="disabled"
+    v-on="$listeners"
+    :type="type"
+  >
     <slot></slot>
   </button>
 </template>
@@ -13,6 +19,9 @@ export default {
     type: {
       type: String,
       default: "button"
+    },
+    gray: {
+      type: Boolean
     }
   }
 };
@@ -29,7 +38,10 @@ export default {
   padding: 12px 20px;
   line-height: 16px;
   text-align: center;
-
+  &_gray {
+    background: $gray-color7;
+    color: $white-color1;
+  }
   &[disabled] {
     cursor: not-allowed;
   }
