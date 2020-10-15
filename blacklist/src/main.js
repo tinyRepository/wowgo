@@ -15,12 +15,14 @@ import "firebase/storage";
 // Declare uikit globally
 import InputEl from "Uikit/InputEl";
 import ButtonEl from "Uikit/ButtonEl";
+import SpinnerEl from "Common/SpinnerEl";
 import BaseSwitch from "Uikit/BaseSwitch";
 
 Vue.config.productionTip = false;
 
-Vue.component("button-el", ButtonEl);
 Vue.component("input-el", InputEl);
+Vue.component("button-el", ButtonEl);
+Vue.component("spinner-el", SpinnerEl);
 Vue.component("base-switch", BaseSwitch);
 
 new Vue({

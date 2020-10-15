@@ -1,13 +1,21 @@
 <template>
   <div id="app">
     <Header class="main-header" />
-    <router-view class="content-block" />
+    <spinner-el v-if="loading" />
+    <transition name="fade" mode="out-in">
+      <router-view class="content-block" />
+    </transition>
   </div>
 </template>
 
 <script>
 import Header from "Common/Header";
+import { mapGetters } from "vuex";
+
 export default {
+  computed: {
+    ...mapGetters("common", ["loading"])
+  },
   components: {
     Header
   }
@@ -27,5 +35,35 @@ export default {
   margin-top: 70px;
   max-width: 1920px;
   margin: 70px auto 0;
+}
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  transition: opacity $transition/2 ease;
+}
+
+.fade-leave-active {
+  transition: opacity $transition/2 ease;
+  opacity: 0;
+}
+
+.spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $black-color1;
+}
+.sss {
+  position: absolute;
+  color: red;
 }
 </style>

@@ -46,7 +46,7 @@
 import firebase from "firebase/app";
 import { format } from "date-fns";
 import { dateFormat } from "@/utils/config";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   data: () => ({
@@ -80,6 +80,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions("common", ["setLoading"]),
     loadBlackList() {
       return firebase
         .database()
@@ -90,12 +91,20 @@ export default {
         });
     },
     openAddPopup() {
+      this.setLoading(true);
       firebase
         .database()
         .ref("black-list")
         .push(this.dataForSending)
         .then(() => {
           this.loadBlackList();
+          this.setLoading(false);
+          setTimeout(() => {
+            alert("Успешно добавлен!");
+          }, 100);
+        })
+        .catch(() => {
+          this.setLoading(false);
         });
     }
   }
@@ -104,7 +113,7 @@ export default {
 
 <style lang="scss" scoped>
 .black-list {
-  margin-top: 110px;
+  margin: 110px 0;
   display: flex;
   flex-direction: column;
   align-items: center;

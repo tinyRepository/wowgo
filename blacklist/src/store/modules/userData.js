@@ -1,5 +1,6 @@
 import router from "@/router";
 import firebase from "firebase/app";
+import * as types from "../mutation-types";
 
 import User from "../user_help";
 
@@ -50,8 +51,8 @@ const actions = {
     { commit },
     { email, password, name, surname, middleName, nameOfObject, address, phone }
   ) {
-    commit("clearError");
-    commit("setLoading", true);
+    commit(`common/${types.CLEAR_ERROR}`, { root: true });
+    commit(`common/${types.SET_LOADING}`, true, { root: true });
     try {
       const user = await firebase
         .auth()
@@ -65,28 +66,28 @@ const actions = {
         middleName,
         nameOfObject
       );
-      commit("setUser", new User(user.user.uid));
+      commit(types.SET_USER, new User(user.user.uid));
 
-      commit("setLoading", false);
+      commit(`common/${types.SET_LOADING}`, false, { root: true });
     } catch (error) {
-      commit("setLoading", false);
-      commit("setError", error.message);
+      commit(`common/${types.SET_LOADING}`, false, { root: true });
+      commit(`common/${types.SET_ERROR}`, error.message, { root: true });
       throw error;
     }
   },
   // Login page
   async loginUser({ commit }, { email, password }) {
-    commit("clearError");
-    commit("setLoading", true);
+    commit(`common/${types.CLEAR_ERROR}`, { root: true });
+    commit(`common/${types.SET_LOADING}`, true, { root: true });
     try {
       const user = await firebase
         .auth()
         .signInWithEmailAndPassword(email, password);
-      commit("setUser", new User(user.user.uid));
-      commit("setLoading", false);
+      commit(types.SET_USER, new User(user.user.uid));
+      commit(`common/${types.SET_LOADING}`, false, { root: true });
     } catch (error) {
-      commit("setLoading", false);
-      commit("setError", error.message);
+      commit(`common/${types.SET_LOADING}`, false, { root: true });
+      commit(`common/${types.SET_ERROR}`, error.message, { root: true });
       throw error;
     }
   },
@@ -96,30 +97,30 @@ const actions = {
       .database()
       .ref(`users/${userId}`)
       .once("value");
-    commit("setUserInfo", user.val());
+    commit(types.SET_USER_INFO, user.val());
     router.push("/black-list");
   },
   // Logged
   loggedUser({ commit }, payload) {
     // Send mutation new uid used helped Class
-    commit("setUser", new User(payload.uid));
+    commit(types.SET_USER, new User(payload.uid));
   },
   // Logout
   logoutUser({ commit }) {
     firebase.auth().signOut();
     // Send mutation null
-    commit("setUser", null);
+    commit(types.SET_USER, null);
     router.push("/login");
   }
 };
 
 // mutations
 const mutations = {
-  setUser(state, payload) {
-    state.user = payload;
+  [types.SET_USER](s, payload) {
+    s.user = payload;
   },
-  setUserInfo(state, payload) {
-    state.userInfo = payload;
+  [types.SET_USER_INFO](s, payload) {
+    s.userInfo = payload;
   }
 };
 

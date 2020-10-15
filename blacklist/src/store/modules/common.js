@@ -1,16 +1,18 @@
+import * as types from "../mutation-types";
+
 const state = {
   loading: false,
   error: null
 };
 
 const mutations = {
-  setLoading(state, payload) {
+  [types.SET_LOADING](state, payload) {
     state.loading = payload;
   },
-  setError(state, payload) {
+  [types.SET_ERROR](state, payload) {
     state.error = payload;
   },
-  clearError(state) {
+  [types.CLEAR_ERROR](state) {
     state.error = null;
   }
 };
@@ -18,15 +20,15 @@ const mutations = {
 const actions = {
   // Show loading
   setLoading({ commit }, payload) {
-    commit("setLoading", payload);
+    commit(types.SET_LOADING, payload);
   },
   // Show error
   setError({ commit }, payload) {
-    commit("setError", payload);
+    commit(types.SET_ERROR, payload);
   },
   // Clear error
   clearError({ commit }) {
-    commit("clearError");
+    commit(types.CLEAR_ERROR);
   }
 };
 
