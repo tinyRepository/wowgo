@@ -2,7 +2,7 @@
   <div class="success-registration">
     <div class="success-registration__card">
       <div class="success-registration__card-title">
-        Уважаемый, Владимир Владимирович!
+        Уважаемый, {{ user.name }} {{ user.surname }}!
       </div>
       <div class="success-registration__description">
         <p class="success-registration__paragraph">
@@ -30,7 +30,13 @@
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+
+export default {
+  computed: {
+    ...mapState("userData", ["user"])
+  }
+};
 </script>
 
 <style lang="scss" scoped>

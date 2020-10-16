@@ -54,8 +54,7 @@ new Vue({
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // Check Logged
-        store.dispatch("userData/loggedUser", user); // TODO add check cookies
-        store.dispatch("userData/getUserInfo", user.uid);
+        store.dispatch("userData/loggedUser", user);
       }
     });
   }

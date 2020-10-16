@@ -66,8 +66,8 @@ const actions = {
         middleName,
         nameOfObject
       );
-      commit(types.SET_USER, new User(user.user.uid));
-
+      commit(types.SET_USER, new User(user.user.uid, name, surname));
+      router.push("/success-registration");
       commit(`common/${types.SET_LOADING}`, false, { root: true });
     } catch (error) {
       commit(`common/${types.SET_LOADING}`, false, { root: true });
@@ -76,15 +76,19 @@ const actions = {
     }
   },
   // Login page
-  async loginUser({ commit }, { email, password }) {
+  async loginUser({ commit, dispatch }, { email, password }) {
     commit(`common/${types.CLEAR_ERROR}`, { root: true });
     commit(`common/${types.SET_LOADING}`, true, { root: true });
     try {
       const user = await firebase
         .auth()
         .signInWithEmailAndPassword(email, password);
+      dispatch("getUserInfo", user.user.uid).then(() => {
+        commit(`common/${types.SET_LOADING}`, false, { root: true });
+      });
+      localStorage.setItem("authUser", user.user.uid);
       commit(types.SET_USER, new User(user.user.uid));
-      commit(`common/${types.SET_LOADING}`, false, { root: true });
+      router.push("/black-list");
     } catch (error) {
       commit(`common/${types.SET_LOADING}`, false, { root: true });
       commit(`common/${types.SET_ERROR}`, error.message, { root: true });
@@ -98,7 +102,6 @@ const actions = {
       .ref(`users/${userId}`)
       .once("value");
     commit(types.SET_USER_INFO, user.val());
-    router.push("/black-list");
   },
   // Logged
   loggedUser({ commit }, payload) {
@@ -109,6 +112,7 @@ const actions = {
   logoutUser({ commit }) {
     firebase.auth().signOut();
     // Send mutation null
+    localStorage.removeItem("authUser");
     commit(types.SET_USER, null);
     commit(types.SET_USER_INFO, null);
     router.push("/login");

@@ -10,7 +10,7 @@ import SuccessRegistration from "Pages/SuccessRegistration";
 Vue.use(VueRouter);
 
 function handleUnauthorisedRedirect(to, from, next) {
-  if (!store.state.userData.user) {
+  if (!store.state.userData.user && !localStorage.getItem("authUser")) {
     next("/registration");
   } else {
     next();
@@ -52,7 +52,7 @@ const routes = [
   {
     path: "/success-registration",
     name: "successRegistration",
-    beforeEnter: handleAuthorisedRedirect,
+    beforeEnter: handleUnauthorisedRedirect,
     component: SuccessRegistration
   },
   {

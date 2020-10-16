@@ -28,12 +28,16 @@ const actions = {
       });
   },
   async loadBlackList({ commit }) {
+    commit(`common/${types.SET_LOADING}`, true, { root: true });
     return await firebase
       .database()
       .ref("black-list")
       .once("value")
       .then(snapshot => {
         commit(types.SET_BLACK_LIST, Object.values(snapshot.val()));
+      })
+      .finally(() => {
+        commit(`common/${types.SET_LOADING}`, false, { root: true });
       });
   }
 };

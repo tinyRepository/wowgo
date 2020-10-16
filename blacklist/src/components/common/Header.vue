@@ -3,8 +3,8 @@
     <router-link to="/registration">
       <div class="header__logo" />
     </router-link>
-    <div class="header__main" :class="{ header__main_logged: user }">
-      <template v-if="!user">
+    <div class="header__main" :class="{ header__main_logged: checkUser }">
+      <template v-if="!checkUser">
         <router-link to="/registration" class="header__link"
           >Регистрация</router-link
         >
@@ -18,18 +18,17 @@
         <router-link to="/rules" class="header__link">Правила</router-link>
       </template>
     </div>
-    <button-el class="header__button" v-if="user" @click="logoutUser"
+    <button-el class="header__button" v-if="checkUser" @click="logoutUser"
       >Выйти</button-el
     >
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
-  data: () => ({}),
   computed: {
-    ...mapState("userData", ["user"])
+    ...mapGetters("userData", ["checkUser"])
   },
   methods: {
     ...mapActions("userData", ["logoutUser"])
