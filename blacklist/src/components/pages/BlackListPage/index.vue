@@ -148,7 +148,6 @@ export default {
     background: $brown-color1 url("~@/assets/svg/plus.svg");
     position: fixed;
     bottom: 30px;
-    right: 0;
   }
   &__search {
     border-radius: 10px;
