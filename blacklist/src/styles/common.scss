@@ -19,3 +19,20 @@ html *:after {
   -webkit-box-sizing: inherit;
   box-sizing: border-box;
 }
+
+
+.tooltip {
+  &.cell-tooltip {
+    .tooltip-inner {
+      @include fontRubik(14px, $white-color1, 400);
+      background: $gray-color1;
+      line-height: 16px;
+      box-shadow: 0px 24px 24px rgba(50, 50, 71, 0.1), 0px 40px 48px rgba(50, 50, 71, 0.25);
+      padding: 16px;
+      border-radius: 15px;
+      width: 320px;
+      min-height: 106px;
+    }
+  }
+}
+

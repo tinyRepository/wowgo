@@ -8,6 +8,13 @@ import Registration from "Pages/RegistrationPage";
 import SuccessRegistration from "Pages/SuccessRegistration";
 
 Vue.use(VueRouter);
+function handleAuthoriseHomePage(to, from, next) {
+  if (!store.state.userData.user && !localStorage.getItem("authUser")) {
+    next("/registration");
+  } else {
+    next("/black-list");
+  }
+}
 
 function handleUnauthorisedRedirect(to, from, next) {
   if (!store.state.userData.user && !localStorage.getItem("authUser")) {
@@ -29,6 +36,12 @@ function handleAuthorisedRedirect(to, from, next) {
 }
 
 const routes = [
+  {
+    path: "/",
+    name: "home",
+    component: BlackList,
+    beforeEnter: handleAuthoriseHomePage
+  },
   {
     path: "/registration",
     name: "registration",

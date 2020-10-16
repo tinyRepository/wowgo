@@ -25,7 +25,14 @@
         <tbody>
           <tr v-for="(item, index) in formattedListData" :key="index">
             <td class="accent-cell">{{ index + 1 }}</td>
-            <td class="accent-cell">
+            <td
+              class="accent-cell accent-cell_with-tooltip"
+              v-tooltip="{
+                placement: 'bottom-right',
+                classes: ['cell-tooltip'],
+                content: item.reasonForAdding
+              }"
+            >
               {{ item | formatName }}
             </td>
             <td>{{ item.dateOfBirth }}</td>
@@ -83,7 +90,7 @@ export default {
 
 <style lang="scss" scoped>
 .black-list {
-  margin: 110px 0;
+  margin: 110px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -119,6 +126,9 @@ export default {
       line-height: 16px;
       &.accent-cell {
         background: $gray-color5;
+        &_with-tooltip {
+          cursor: pointer;
+        }
       }
       &.without-bg {
         background: transparent;
