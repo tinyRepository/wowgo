@@ -1,10 +1,12 @@
 import Vue from "vue";
+import Vuelidate from "vuelidate";
 import "normalize.css";
 import "@/styles/common.scss";
 import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
+import smoothscroll from "smoothscroll-polyfill";
 
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -32,6 +34,9 @@ Vue.component("base-switch", BaseSwitch);
 const VueInputMask = require("vue-inputmask").default;
 
 Vue.use(VueInputMask);
+Vue.use(Vuelidate);
+
+smoothscroll.polyfill();
 
 new Vue({
   router,
@@ -55,6 +60,7 @@ new Vue({
       if (user) {
         // Check Logged
         store.dispatch("userData/loggedUser", user);
+        store.dispatch("userData/getUserInfo", user.uid);
       }
     });
   }

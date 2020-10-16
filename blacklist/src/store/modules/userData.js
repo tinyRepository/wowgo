@@ -83,9 +83,7 @@ const actions = {
       const user = await firebase
         .auth()
         .signInWithEmailAndPassword(email, password);
-      dispatch("getUserInfo", user.user.uid).then(() => {
-        commit(`common/${types.SET_LOADING}`, false, { root: true });
-      });
+      dispatch("getUserInfo", user.user.uid);
       localStorage.setItem("authUser", user.user.uid);
       commit(types.SET_USER, new User(user.user.uid));
       router.push("/black-list");

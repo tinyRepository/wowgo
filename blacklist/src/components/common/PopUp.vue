@@ -15,7 +15,8 @@
                 class="popup__form-input"
                 type="text"
                 name="surname"
-                v-model="form.surname"
+                v-model="$v.form.surname.$model"
+                :validationObj="$v.form.surname"
                 inputId="surname"
                 whiteLabel
                 placeholder="Введите фамилию"
@@ -25,7 +26,8 @@
                 class="popup__form-input"
                 type="text"
                 name="name"
-                v-model="form.name"
+                v-model="$v.form.name.$model"
+                :validationObj="$v.form.name"
                 inputId="name"
                 whiteLabel
                 placeholder="Введите имя"
@@ -35,7 +37,8 @@
                 class="popup__form-input"
                 type="text"
                 name="middleName"
-                v-model="form.middleName"
+                v-model="$v.form.middleName.$model"
+                :validationObj="$v.form.middleName"
                 inputId="middleName"
                 whiteLabel
                 placeholder="Введите отчество"
@@ -47,7 +50,8 @@
                 class="popup__form-input"
                 type="text"
                 name="placeOfBirth"
-                v-model="form.placeOfBirth"
+                v-model="$v.form.placeOfBirth.$model"
+                :validationObj="$v.form.placeOfBirth"
                 inputId="placeOfBirth"
                 whiteLabel
                 placeholder="Введите место рождения"
@@ -56,7 +60,8 @@
               <select-box
                 whiteLabel
                 label="Выбирете категорию нарушения"
-                v-model="form.categoriesOfViolations"
+                v-model="$v.form.categoriesOfViolations.$model"
+                :validationObj="$v.form.categoriesOfViolations"
                 :options="selectboxOptions"
               ></select-box>
               <input-el
@@ -64,7 +69,8 @@
                 type="text"
                 name="dateOfBirth"
                 mask="99/99/9999"
-                v-model="form.dateOfBirth"
+                v-model="$v.form.dateOfBirth.$model"
+                :validationObj="$v.form.dateOfBirth"
                 inputId="dateOfBirth"
                 whiteLabel
                 placeholder="Введите дату рождения"
@@ -74,7 +80,8 @@
 
             <textarea-el
               whiteLabel
-              v-model="form.reasonForAdding"
+              v-model="$v.form.reasonForAdding.$model"
+              :validationObj="$v.form.reasonForAdding"
               label="Причина внесения в список человека"
               class="popup__form-textarea"
               placeholder="Опишите подробно причину почему Вы хотите
@@ -87,7 +94,7 @@
           <button-el gray class="popup__footer-button" @click="$emit('close')">
             Отменить
           </button-el>
-          <button-el class="popup__footer-button" @click="addItem">
+          <button-el class="popup__footer-button" @click="tryToSendForm">
             Сохранить
           </button-el>
         </div>
@@ -97,11 +104,16 @@
 </template>
 
 <script>
+import validateFormMixin from "@/mixins/validateForm";
+import { required } from "vuelidate/lib/validators";
 import { mapActions, mapState } from "vuex";
 import { format } from "date-fns";
 import { dateFormat } from "@/utils/config";
 
+const dateIsFilled = val => !val.includes("_");
+
 export default {
+  mixins: [validateFormMixin],
   data: () => ({
     form: {
       name: "",
@@ -123,6 +135,32 @@ export default {
       { value: "Неоплата услуг", id: "NonPaymentOfServices" }
     ]
   }),
+  validations: {
+    form: {
+      name: {
+        required
+      },
+      surname: {
+        required
+      },
+      middleName: {
+        required
+      },
+      dateOfBirth: {
+        required,
+        dateIsFilled
+      },
+      placeOfBirth: {
+        required
+      },
+      reasonForAdding: {
+        required
+      },
+      categoriesOfViolations: {
+        required
+      }
+    }
+  },
   computed: {
     ...mapState("userData", ["userInfo"]),
     dataForSending() {
@@ -151,6 +189,11 @@ export default {
     addItem() {
       this.addItemToList(this.dataForSending).finally(() => {
         this.$emit("close");
+      });
+    },
+    tryToSendForm() {
+      this.validateForm().then(() => {
+        this.addItem();
       });
     }
   }

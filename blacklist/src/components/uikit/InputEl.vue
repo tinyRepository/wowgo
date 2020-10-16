@@ -9,32 +9,80 @@
     </label>
     <input
       v-mask="mask"
-      :class="{ 'is-danger': error }"
+      :class="{ 'is-danger': showError }"
       :id="inputId"
       class="form__input"
       :value="value"
-      @input="$emit('input', $event.target.value)"
+      @input="onInput"
+      @blur="onBlur"
       @focus="$emit('focus', $event)"
-      @blur="$emit('blur', $event)"
       @keypress="$emit('keypress', $event)"
       @paste="$emit('paste', $event)"
       v-bind="$attrs"
     />
-    <!-- TODO: show custom errors -->
-    <span v-show="error" class="error-text">Ошибка!</span>
+    <span v-show="showError" class="error-text">{{ errorText }}</span>
   </div>
 </template>
 
 <script>
+const errorsTexts = {
+  required: "Заполните поле",
+  email: "Неверный формат",
+  sameAs: "Пароли не совпадают",
+  phoneIsFilled: "Заполните телефон",
+  dateIsFilled: "Заполните дату",
+  minLength: `Пароль должен быть не менее ${passwordMinLength} символов`
+};
+
+import { passwordMinLength } from "@/utils/config";
+
 export default {
+  data: () => ({
+    userIsTyping: false
+  }),
   inheritAttrs: false,
   props: {
+    validationObj: Object,
+    customErrorsTexts: {
+      type: Object,
+      default: () => ({})
+    },
     mask: String,
     value: [String, Number],
     inputId: String,
     error: Boolean,
     label: String,
     whiteLabel: Boolean
+  },
+  methods: {
+    onBlur(e) {
+      this.$emit("blur", e);
+      this.userIsTyping = false;
+    },
+    onInput(e) {
+      this.$emit("input", e.target.value);
+      this.userIsTyping = true;
+    }
+  },
+  computed: {
+    errorText() {
+      if (!this.validationObj) {
+        return null;
+      }
+      const keys = Object.keys(this.validationObj.$params);
+      const invalidKey = keys.find(k => !this.validationObj[k]);
+      if (!invalidKey) {
+        return null;
+      }
+      return (
+        this.customErrorsTexts[invalidKey] ||
+        errorsTexts[invalidKey] ||
+        "Ошибка!"
+      );
+    },
+    showError() {
+      return !this.userIsTyping && this.errorText && this.validationObj.$dirty;
+    }
   }
 };
 </script>
@@ -75,5 +123,15 @@ export default {
       color: $white-color1;
     }
   }
+}
+.is-danger {
+  border: 1px solid $red-color1;
+}
+.error-text {
+  @include fontRubik(12px, $red-color1, 300);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -21px;
 }
 </style>

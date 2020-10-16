@@ -12,6 +12,7 @@
       :searchable="false"
       :track-by="trackBy"
       :label="optionLabel"
+      :class="{ 'is-danger': showError }"
       :id="selectId"
       :value="value"
       @input="onChange"
@@ -22,6 +23,7 @@
       class="multiselect"
     >
     </multiselect>
+    <span v-show="showError" class="error-text">{{ errorText }}</span>
   </div>
 </template>
 
@@ -33,6 +35,7 @@ export default {
     Multiselect
   },
   props: {
+    validationObj: Object,
     whiteLabel: Boolean,
     trackBy: {
       type: String,
@@ -47,6 +50,20 @@ export default {
     selectId: String,
     label: String,
     selectFirstByDefault: Boolean
+  },
+  computed: {
+    errorText() {
+      if (!this.validationObj) {
+        return null;
+      }
+      if (!this.validationObj.$invalid) {
+        return null;
+      }
+      return "Заполните поле";
+    },
+    showError() {
+      return this.errorText && this.validationObj.$dirty;
+    }
   },
   methods: {
     onChange(val) {
@@ -128,10 +145,20 @@ export default {
     position: absolute;
     transition: transform $transition;
   }
+  &.is-danger {
+    border-color: $red-color1;
+  }
 }
 .multiselect--active {
   .multiselect__select {
     transform: rotate(180deg);
   }
+}
+.error-text {
+  @include fontRubik(12px, $red-color1, 300);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -21px;
 }
 </style>

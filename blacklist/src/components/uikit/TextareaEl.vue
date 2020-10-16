@@ -10,19 +10,33 @@
       :name="name"
       class="textarea"
       :id="textareaId"
+      :class="{ 'is-danger': showError }"
       :placeholder="placeholder"
       :value="value"
-      @input="$emit('input', $event.target.value)"
+      @input="onInput"
+      @blur="onBlur"
     >
     </textarea>
-    <span v-show="error" class="error-text">Ошибка!</span>
+    <span v-show="showError" class="error-text">{{ errorText }}</span>
   </div>
 </template>
 
 <script>
+const errorsTexts = {
+  required: "Заполните поле"
+};
+
 export default {
   inheritAttrs: false,
+  data: () => ({
+    userIsTyping: false
+  }),
   props: {
+    validationObj: Object,
+    customErrorsTexts: {
+      type: Object,
+      default: () => ({})
+    },
     name: String,
     placeholder: String,
     value: [String, Number],
@@ -30,6 +44,36 @@ export default {
     error: Boolean,
     label: String,
     whiteLabel: Boolean
+  },
+  methods: {
+    onBlur(e) {
+      this.$emit("blur", e);
+      this.userIsTyping = false;
+    },
+    onInput(e) {
+      this.$emit("input", e.target.value);
+      this.userIsTyping = true;
+    }
+  },
+  computed: {
+    errorText() {
+      if (!this.validationObj) {
+        return null;
+      }
+      const keys = Object.keys(this.validationObj.$params);
+      const invalidKey = keys.find(k => !this.validationObj[k]);
+      if (!invalidKey) {
+        return null;
+      }
+      return (
+        this.customErrorsTexts[invalidKey] ||
+        errorsTexts[invalidKey] ||
+        "Ошибка!"
+      );
+    },
+    showError() {
+      return !this.userIsTyping && this.errorText && this.validationObj.$dirty;
+    }
   }
 };
 </script>
@@ -65,5 +109,15 @@ export default {
       color: $white-color1;
     }
   }
+}
+.is-danger {
+  border: 1px solid $red-color1;
+}
+.error-text {
+  @include fontRubik(12px, $red-color1, 300);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -21px;
 }
 </style>

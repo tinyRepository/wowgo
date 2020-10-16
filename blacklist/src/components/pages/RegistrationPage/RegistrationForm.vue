@@ -20,7 +20,8 @@
         class="registration-form__input"
         type="text"
         name="name"
-        v-model="form.name"
+        v-model="$v.form.name.$model"
+        :validationObj="$v.form.name"
         inputId="login__first-name"
         placeholder="Введите имя"
         label="Имя"
@@ -29,7 +30,8 @@
         class="registration-form__input"
         type="text"
         name="nameOfObject"
-        v-model="form.nameOfObject"
+        v-model="$v.form.nameOfObject.$model"
+        :validationObj="$v.form.nameOfObject"
         inputId="login__name-of-object"
         placeholder="Введите название объекта"
         label="Название объекта"
@@ -38,7 +40,8 @@
         class="registration-form__input"
         type="text"
         name="surname"
-        v-model="form.surname"
+        v-model="$v.form.surname.$model"
+        :validationObj="$v.form.surname"
         inputId="login__surname"
         placeholder="Введите фамилию"
         label="Фамилия"
@@ -48,7 +51,8 @@
         type="text"
         name="legalAddress"
         inputId="login__legal-address"
-        v-model="form.address"
+        v-model="$v.form.address.$model"
+        :validationObj="$v.form.address"
         placeholder="Введите юридический адрес"
         label="Юридический адрес"
       />
@@ -56,7 +60,8 @@
         class="registration-form__input"
         type="text"
         name="middleName"
-        v-model="form.middleName"
+        v-model="$v.form.middleName.$model"
+        :validationObj="$v.form.middleName"
         inputId="login__middle-name"
         placeholder="Введите отчество"
         label="Отчество"
@@ -65,7 +70,8 @@
         class="registration-form__input"
         type="text"
         name="email"
-        v-model="form.email"
+        v-model="$v.form.email.$model"
+        :validationObj="$v.form.email"
         inputId="login__email"
         placeholder="Введите электронную почта объекта"
         label="Электронная почта объекта"
@@ -75,7 +81,8 @@
         type="text"
         name="phone"
         mask="+7 (999) 999-99-99"
-        v-model="form.phone"
+        v-model="$v.form.phone.$model"
+        :validationObj="$v.form.phone"
         inputId="login__phone"
         placeholder="Введите телефон для связи"
         label="Телефон для связи"
@@ -84,7 +91,8 @@
         class="registration-form__input"
         type="password"
         name="password"
-        v-model="form.password"
+        v-model="$v.form.password.$model"
+        :validationObj="$v.form.password"
         inputId="login__password"
         placeholder="Введите пароль"
         label="Пароль"
@@ -108,9 +116,15 @@
 </template>
 
 <script>
+import validateFormMixin from "@/mixins/validateForm";
+import { required, minLength, email } from "vuelidate/lib/validators";
 import { mapActions, mapGetters } from "vuex";
+import { passwordMinLength } from "@/utils/config";
+
+const phoneIsFilled = val => !val.includes("_");
 
 export default {
+  mixins: [validateFormMixin],
   data: () => ({
     form: {
       name: "",
@@ -123,13 +137,46 @@ export default {
       nameOfObject: ""
     }
   }),
+  validations: {
+    form: {
+      name: {
+        required
+      },
+      surname: {
+        required
+      },
+      middleName: {
+        required
+      },
+      nameOfObject: {
+        required
+      },
+      address: {
+        required
+      },
+      phone: {
+        required,
+        phoneIsFilled
+      },
+      email: {
+        email,
+        required
+      },
+      password: {
+        required,
+        minLength: minLength(passwordMinLength)
+      }
+    }
+  },
   computed: {
     ...mapGetters("common", ["loading"])
   },
   methods: {
     ...mapActions("userData", ["registerUser"]),
     tryToSendForm() {
-      this.registerUser(this.form);
+      this.validateForm().then(() => {
+        this.registerUser(this.form);
+      });
     }
   }
 };

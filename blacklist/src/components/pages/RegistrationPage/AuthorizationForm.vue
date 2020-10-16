@@ -7,7 +7,8 @@
       class="authorization__form"
     >
       <input-el
-        v-model="form.email"
+        v-model="$v.form.email.$model"
+        :validationObj="$v.form.email"
         class="authorization__input"
         type="email"
         name="loginEmail"
@@ -16,7 +17,8 @@
         label="Email"
       />
       <input-el
-        v-model="form.password"
+        v-model="$v.form.password.$model"
+        :validationObj="$v.form.password"
         class="authorization__input"
         type="password"
         name="password"
@@ -24,11 +26,13 @@
         placeholder="Введите пароль"
         label="Пароль"
       />
+      <div class="authorization__submit-status">{{ beautifyErrorMessage }}</div>
       <button-el type="submit" class="authorization__button">Войти</button-el>
       <div class="authorization__remeber">
-        <base-switch class="authorization__switcher"
+        <!-- TODO implement -->
+        <!-- <base-switch class="authorization__switcher"
           >Запомнить этот компьютер</base-switch
-        >
+        > -->
       </div>
     </form>
     <div class="authorization__bottom">
@@ -43,18 +47,56 @@
 </template>
 
 <script>
+import validateFormMixin from "@/mixins/validateForm";
+import { required, minLength, email } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
+import { passwordMinLength } from "@/utils/config";
+
 export default {
+  mixins: [validateFormMixin],
   data: () => ({
     form: {
       email: "",
       password: ""
-    }
+    },
+    submitStatus: null
   }),
+  validations: {
+    form: {
+      email: {
+        email,
+        required
+      },
+      password: {
+        required,
+        minLength: minLength(passwordMinLength)
+      }
+    }
+  },
+  computed: {
+    beautifyErrorMessage() {
+      const status = this.submitStatus && this.submitStatus.code;
+      switch (status) {
+        case "auth/user-not-found":
+          return "Пользователя не существует. Возможно, он был удален.";
+        case "auth/wrong-password":
+          return "Неверный пароль.";
+        case "auth/too-many-requests":
+          return "Доступ к этой учетной записи был временно отключен из-за многих неудачных попыток входа в систему.";
+        default:
+          return "";
+      }
+    }
+  },
   methods: {
     ...mapActions("userData", ["loginUser"]),
     tryToSendForm() {
-      this.loginUser(this.form);
+      this.submitStatus = null;
+      this.validateForm().then(() => {
+        this.loginUser(this.form).catch(err => {
+          this.submitStatus = err;
+        });
+      });
     }
   }
 };
@@ -100,6 +142,11 @@ export default {
   &__switcher {
     display: flex;
     justify-content: center;
+  }
+  &__submit-status {
+    @include fontRubik(15px, $red-color1, 300);
+    position: relative;
+    top: -33px;
   }
   &__link {
     @include fontRubik(16px, $blue-color1, 300);
