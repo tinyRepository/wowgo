@@ -8,6 +8,7 @@
       {{ label }}
     </label>
     <input
+      v-mask="mask"
       :class="{ 'is-danger': error }"
       :id="inputId"
       class="form__input"
@@ -28,6 +29,7 @@
 export default {
   inheritAttrs: false,
   props: {
+    mask: String,
     value: [String, Number],
     inputId: String,
     error: Boolean,

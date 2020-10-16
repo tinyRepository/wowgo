@@ -29,6 +29,10 @@ Vue.component("spinner-el", SpinnerEl);
 Vue.component("textarea-el", TextareaEl);
 Vue.component("base-switch", BaseSwitch);
 
+const VueInputMask = require("vue-inputmask").default;
+
+Vue.use(VueInputMask);
+
 new Vue({
   router,
   store,

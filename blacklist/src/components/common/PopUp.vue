@@ -63,6 +63,7 @@
                 class="popup__form-input"
                 type="text"
                 name="dateOfBirth"
+                mask="99/99/9999"
                 v-model="form.dateOfBirth"
                 inputId="dateOfBirth"
                 whiteLabel
@@ -132,7 +133,7 @@ export default {
         phone: this.userInfo.phone,
         address: this.userInfo.address,
         middleName: this.form.middleName,
-        dateOfBirth: this.form.dateOfBirth, // TODO add format date
+        dateOfBirth: this.form.dateOfBirth,
         placeOfBirth: this.form.placeOfBirth,
         nameOfHotel: this.userInfo.nameOfObject,
         dateAdded: format(new Date(), dateFormat),

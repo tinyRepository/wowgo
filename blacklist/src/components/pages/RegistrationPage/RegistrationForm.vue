@@ -74,6 +74,7 @@
         class="registration-form__input"
         type="text"
         name="phone"
+        mask="+7 (999) 999-99-99"
         v-model="form.phone"
         inputId="login__phone"
         placeholder="Введите телефон для связи"
@@ -81,7 +82,7 @@
       />
       <input-el
         class="registration-form__input"
-        type="text"
+        type="password"
         name="password"
         v-model="form.password"
         inputId="login__password"
@@ -89,7 +90,10 @@
         label="Пароль"
       />
       <div class="registration-form__bottom">
-        <button-el type="submit" class="registration-form__button"
+        <button-el
+          type="submit"
+          :disabled="loading"
+          class="registration-form__button"
           >Зарегистрироваться</button-el
         >
         <div class="registration-form__notice">
@@ -104,7 +108,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   data: () => ({
@@ -119,6 +123,9 @@ export default {
       nameOfObject: ""
     }
   }),
+  computed: {
+    ...mapGetters("common", ["loading"])
+  },
   methods: {
     ...mapActions("userData", ["registerUser"]),
     tryToSendForm() {

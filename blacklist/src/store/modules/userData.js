@@ -26,8 +26,8 @@ function writeUserData(
   userId,
   name,
   phone,
-  address,
   surname,
+  address,
   middleName,
   nameOfObject
 ) {
@@ -35,10 +35,10 @@ function writeUserData(
     .database()
     .ref("users/" + userId)
     .set({
-      phone: phone,
       name: name,
-      address: address,
+      phone: phone,
       surname: surname,
+      address: address,
       middleName: middleName,
       nameOfObject: nameOfObject
     });
@@ -110,6 +110,7 @@ const actions = {
     firebase.auth().signOut();
     // Send mutation null
     commit(types.SET_USER, null);
+    commit(types.SET_USER_INFO, null);
     router.push("/login");
   }
 };
