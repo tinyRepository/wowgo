@@ -132,7 +132,8 @@ export default {
       { value: "Распитие алкоголя", id: "drinkingAlcohol" },
       { value: "Потребление наркотических веществ", id: "consumptionOfDrugs" },
       { value: "Разбой", id: "murder" },
-      { value: "Неоплата услуг", id: "NonPaymentOfServices" }
+      { value: "Неоплата услуг", id: "nonPaymentOfServices" },
+      { value: "Другое", id: "other" }
     ]
   }),
   validations: {

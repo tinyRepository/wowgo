@@ -17,7 +17,8 @@ module.exports = {
     iconPaths: {
       favicon32: "favicon.ico"
     },
-    theme_color: "#212226",
+    themeColor: "#212226",
+    background_color: "#212226",
     short_name: "Black list",
     manifestOptions: {
       icons: [

@@ -18,7 +18,7 @@
             <th>Нарушение</th>
             <th>Дата добавления в список</th>
             <th class="without-bg">Название гостиницы</th>
-            <th class="without-bg">Адрес</th>
+            <th class="without-bg">Адрес гостиницы</th>
             <th class="without-bg">Телефон гостиницы</th>
           </tr>
         </thead>
@@ -134,6 +134,7 @@ export default {
         }
       }
       &.without-bg {
+        white-space: nowrap;
         background: transparent;
         border: none;
       }
