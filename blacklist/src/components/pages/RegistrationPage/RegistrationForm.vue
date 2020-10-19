@@ -25,6 +25,7 @@
         inputId="login__first-name"
         placeholder="Введите имя"
         label="Имя"
+        tabindex="1"
       />
       <input-el
         class="registration-form__input"
@@ -35,6 +36,7 @@
         inputId="login__name-of-object"
         placeholder="Введите название объекта"
         label="Название объекта"
+        tabindex="5"
       />
       <input-el
         class="registration-form__input"
@@ -45,6 +47,7 @@
         inputId="login__surname"
         placeholder="Введите фамилию"
         label="Фамилия"
+        tabindex="2"
       />
       <input-el
         class="registration-form__input"
@@ -53,8 +56,9 @@
         inputId="login__legal-address"
         v-model="$v.form.address.$model"
         :validationObj="$v.form.address"
-        placeholder="Введите юридический адрес"
-        label="Юридический адрес"
+        placeholder="Введите адрес"
+        label="Адрес"
+        tabindex="6"
       />
       <input-el
         class="registration-form__input"
@@ -65,6 +69,7 @@
         inputId="login__middle-name"
         placeholder="Введите отчество"
         label="Отчество"
+        tabindex="3"
       />
       <input-el
         class="registration-form__input"
@@ -75,6 +80,7 @@
         inputId="login__email"
         placeholder="Введите электронную почта объекта"
         label="Электронная почта объекта"
+        tabindex="7"
       />
       <input-el
         class="registration-form__input"
@@ -86,6 +92,7 @@
         inputId="login__phone"
         placeholder="Введите телефон для связи"
         label="Телефон для связи"
+        tabindex="4"
       />
       <input-el
         class="registration-form__input"
@@ -96,6 +103,7 @@
         inputId="login__password"
         placeholder="Введите пароль"
         label="Пароль"
+        tabindex="8"
       />
       <div class="registration-form__bottom">
         <button-el

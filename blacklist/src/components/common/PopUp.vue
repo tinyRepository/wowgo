@@ -126,12 +126,12 @@ export default {
     },
     selectboxOptions: [
       { value: "Воровство", id: "theft" },
-      { value: "Оскорбление граждан", id: "insultingCitizens" },
+      { value: "Оскорбление", id: "insultingCitizens" },
       { value: "Порча имущества", id: "destructionOfProperty" },
       { value: "Курение", id: "smoking" },
       { value: "Распитие алкоголя", id: "drinkingAlcohol" },
       { value: "Потребление наркотических веществ", id: "consumptionOfDrugs" },
-      { value: "Убийство", id: "murder" },
+      { value: "Разбой", id: "murder" },
       { value: "Неоплата услуг", id: "NonPaymentOfServices" }
     ]
   }),
@@ -164,24 +164,29 @@ export default {
   computed: {
     ...mapState("userData", ["userInfo"]),
     dataForSending() {
+      const { name, surname, middleName } = this.form;
       return {
-        name: this.form.name,
         fullName: this.fullName,
-        surname: this.form.surname,
         phone: this.userInfo.phone,
         address: this.userInfo.address,
-        middleName: this.form.middleName,
         dateOfBirth: this.form.dateOfBirth,
         placeOfBirth: this.form.placeOfBirth,
         nameOfHotel: this.userInfo.nameOfObject,
         dateAdded: format(new Date(), dateFormat),
         reasonForAdding: this.form.reasonForAdding,
-        categoriesOfViolations: this.form.categoriesOfViolations.value
+        name: name[0].toUpperCase() + name.slice(1).toLowerCase(),
+        categoriesOfViolations: this.form.categoriesOfViolations.value,
+        surname: surname[0].toUpperCase() + surname.slice(1).toLowerCase(),
+        middleName:
+          middleName[0].toUpperCase() + middleName.slice(1).toLowerCase()
       };
     },
     fullName() {
       const { name, surname, middleName } = this.form;
-      return `${surname} ${name} ${middleName}`;
+      return `${surname[0].toUpperCase() +
+        surname.slice(1).toLowerCase()} ${name[0].toUpperCase() +
+        name.slice(1).toLowerCase()} ${middleName[0].toUpperCase() +
+        middleName.slice(1).toLowerCase()}`;
     }
   },
   methods: {

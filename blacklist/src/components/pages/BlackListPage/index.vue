@@ -11,14 +11,14 @@
       <table v-if="formattedListData.length">
         <thead>
           <tr>
-            <th>ID</th>
+            <th>№</th>
             <th>ФИО</th>
             <th>Дата рождения</th>
             <th>Город рождения</th>
             <th>Нарушение</th>
             <th>Дата добавления в список</th>
             <th class="without-bg">Название гостиницы</th>
-            <th class="without-bg">Местоположение</th>
+            <th class="without-bg">Адрес</th>
             <th class="without-bg">Телефон гостиницы</th>
           </tr>
         </thead>
