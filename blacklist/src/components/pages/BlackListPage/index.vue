@@ -137,15 +137,15 @@ export default {
     }
   }
   &__button {
-    width: 78px;
-    height: 78px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     outline: none;
     margin-top: 30px;
     z-index: 100;
     border: none;
     cursor: pointer;
-    background: $brown-color1 url("~@/assets/svg/plus.svg");
+    background: $brown-color1 url("~@/assets/svg/plus.svg") no-repeat center;
     position: fixed;
     bottom: 30px;
   }
