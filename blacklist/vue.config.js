@@ -16,7 +16,8 @@ module.exports = {
     name: "black list",
     iconPaths: {
       favicon32: "favicon.ico"
-    }
+    },
+    theme_color: "#212226"
   },
   chainWebpack: config => {
     config.resolve.alias

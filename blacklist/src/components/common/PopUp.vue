@@ -218,6 +218,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 768px) {
+    align-items: baseline;
+  }
   &__content {
     width: 100%;
     height: 100%;
@@ -231,6 +234,10 @@ export default {
     padding: 35px 0;
     box-shadow: 0px 28px 28px rgba(50, 50, 71, 0.15),
       0px 48px 56px rgba(50, 50, 71, 0.25);
+    @media screen and (max-width: 768px) {
+      top: 0;
+      max-height: 100%;
+    }
   }
   &__overlay {
     width: 100%;
@@ -243,15 +250,27 @@ export default {
     padding: 0 70px;
     border-bottom: 2px solid $gray-color8;
     padding-bottom: 27px;
+    @media screen and (max-width: 768px) {
+      padding: 0 10px 20px;
+      text-align: center;
+      font-size: 16px;
+    }
   }
   &__body {
     padding: 65px 70px;
+    @media screen and (max-width: 768px) {
+      padding: 65px 10px;
+    }
   }
   &__footer {
     padding: 0 70px;
     margin-left: auto;
     margin-top: -15px;
     display: table;
+    @media screen and (max-width: 768px) {
+      padding: 0 10px;
+      margin: -15px auto 0;
+    }
   }
   &__footer-button {
     height: 46px;
@@ -270,6 +289,11 @@ export default {
     padding-bottom: 50px;
     margin-bottom: 85px;
     border-bottom: 2px solid $gray-color8;
+    @media screen and (max-width: 768px) {
+      grid-template-columns: auto;
+      grid-row-gap: 60px;
+      grid-template-rows: repeat(3, 1fr);
+    }
   }
 }
 </style>
