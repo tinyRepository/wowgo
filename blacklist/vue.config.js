@@ -13,7 +13,10 @@ module.exports = {
     }
   },
   pwa: {
-    name: "black list"
+    name: "black list",
+    iconPaths: {
+      favicon32: "favicon.ico"
+    }
   },
   chainWebpack: config => {
     config.resolve.alias
