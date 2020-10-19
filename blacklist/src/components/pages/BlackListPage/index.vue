@@ -95,6 +95,9 @@ export default {
   flex-direction: column;
   align-items: center;
   min-height: calc(100vh - #{$header-height});
+  @media screen and (max-width: 768px) {
+    margin: 240px auto 110px;
+  }
   &__table {
     max-width: 1670px;
     width: 100%;

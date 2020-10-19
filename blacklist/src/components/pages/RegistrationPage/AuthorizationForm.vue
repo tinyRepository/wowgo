@@ -108,6 +108,12 @@ export default {
     line-height: 18px;
     margin-top: 177px;
     margin-bottom: 71px;
+    @media screen and (max-width: 1300px) {
+      margin-top: 70px;
+    }
+    @media screen and (max-width: 450px) {
+      margin-top: 40px;
+    }
   }
   &__form {
     max-width: 506px;
@@ -120,6 +126,9 @@ export default {
     padding: 17px 20px !important;
     color: $white-color1 !important;
     margin-bottom: 44px;
+    @media screen and (max-width: 450px) {
+      width: 100%;
+    }
   }
   &__remember-computer {
     @include fontRubik(16px, $black-color1, 300);
@@ -132,6 +141,9 @@ export default {
     margin-top: 100px;
     display: flex;
     justify-content: space-between;
+    @media screen and (max-width: 450px) {
+      margin-top: 20px;
+    }
   }
   &__remember {
     @include fontRubik(16px, $black-color1, 300);

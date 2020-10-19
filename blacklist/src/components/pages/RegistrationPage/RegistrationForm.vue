@@ -197,6 +197,11 @@ export default {
   grid-template-rows: auto;
   margin-top: 75px;
   grid-column-gap: 20px;
+  @media screen and (max-width: 600px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-column-gap: 0;
+  }
   &__notice {
     @include font(10px, $gray-color1);
     line-height: 12px;
@@ -208,6 +213,11 @@ export default {
   &__link {
     text-decoration: none;
     color: $blue-color1;
+  }
+  &__title {
+    @media screen and (max-width: 670px) {
+      text-align: center;
+    }
   }
   &__button {
     width: 100%;

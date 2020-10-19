@@ -42,6 +42,20 @@ export default {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
   padding: 77px 80px;
+  @media screen and (max-width: 1300px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    & > * {
+      justify-self: center;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    padding: 70px 20px;
+  }
+
+  @media screen and (max-width: 425px) {
+    padding: 70px 10px;
+  }
   &__title {
     text-align: center;
   }
@@ -52,16 +66,32 @@ export default {
     max-width: 879px;
     margin-top: -11px;
     margin-left: 2px;
+    @media screen and (max-width: 670px) {
+      padding: 32px;
+    }
+    @media screen and (max-width: 450px) {
+      padding: 20px;
+      width: 100%;
+    }
   }
   &__form-title {
     @include font(36px, $black-color2);
     margin-top: 0;
     line-height: 42px;
   }
+  &__info {
+    @media screen and (max-width: 1300px) {
+      display: none;
+    }
+  }
   &__info-img {
     @include attachImage("hotel", 653px, 654px);
     @media screen and (max-width: 1500px) {
       background-size: 600px;
+    }
+    @media screen and (min-width: 1301px) and (max-width: 1499px) {
+      width: 100%;
+      background-size: contain;
     }
   }
   &__info-title {
