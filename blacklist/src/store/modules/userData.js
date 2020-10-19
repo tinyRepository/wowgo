@@ -67,7 +67,7 @@ const actions = {
         nameOfObject
       );
       commit(types.SET_USER, new User(user.user.uid, name, surname));
-      router.push("/success-registration");
+      router.push("/black-list"); // TODO redirect ot success registration page
       commit(`common/${types.SET_LOADING}`, false, { root: true });
     } catch (error) {
       commit(`common/${types.SET_LOADING}`, false, { root: true });
@@ -84,7 +84,6 @@ const actions = {
         .auth()
         .signInWithEmailAndPassword(email, password);
       dispatch("getUserInfo", user.user.uid);
-      localStorage.setItem("authUser", user.user.uid);
       commit(types.SET_USER, new User(user.user.uid));
       router.push("/black-list");
     } catch (error) {
@@ -104,6 +103,7 @@ const actions = {
   // Logged
   loggedUser({ commit }, payload) {
     // Send mutation new uid used helped Class
+    localStorage.setItem("authUser", payload.uid);
     commit(types.SET_USER, new User(payload.uid));
   },
   // Logout

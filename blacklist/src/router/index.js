@@ -25,7 +25,7 @@ function handleUnauthorisedRedirect(to, from, next) {
 }
 
 function handleAuthorisedRedirect(to, from, next) {
-  if (!store.state.userData.user) {
+  if (!store.state.userData.user && !localStorage.getItem("authUser")) {
     next();
   } else {
     next({
@@ -82,8 +82,7 @@ const routes = [
   {
     path: "/terms-of-use",
     name: "termOfUse",
-    component: TermsOfUse,
-    beforeEnter: handleUnauthorisedRedirect
+    component: TermsOfUse
   },
   {
     path: "*",

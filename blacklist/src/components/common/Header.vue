@@ -12,10 +12,10 @@
       </template>
       <template v-else>
         <router-link to="/black-list" class="header__link">Список</router-link>
-        <router-link to="/legislation" class="header__link">
+        <div @click="wip" class="header__link">
           Законодательство
-        </router-link>
-        <router-link to="/rules" class="header__link">Правила</router-link>
+        </div>
+        <div @click="wip" class="header__link">Правила</div>
       </template>
     </div>
     <button-el class="header__button" v-if="checkUser" @click="logoutUser"
@@ -66,6 +66,8 @@ export default {
     justify-self: end;
   }
   &__link {
+    cursor: pointer;
+    display: initial;
     margin: 0 40px;
     @include fontRubik(17px, $white-color1, 500);
     font-weight: 500;

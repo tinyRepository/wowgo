@@ -33,6 +33,7 @@ Vue.component("textarea-el", TextareaEl);
 Vue.component("base-switch", BaseSwitch);
 
 const VueInputMask = require("vue-inputmask").default;
+Vue.prototype.wip = () => alert('Функционал в разработке'); // eslint-disable-line
 
 Vue.use(VueInputMask);
 Vue.use(Vuelidate);

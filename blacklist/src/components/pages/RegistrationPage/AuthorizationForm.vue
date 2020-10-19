@@ -39,9 +39,7 @@
       <router-link to="/registration" class="authorization__link"
         >Регистрация</router-link
       >
-      <router-link to="/reset-password" class="authorization__link"
-        >Забыли пароль?</router-link
-      >
+      <div click="wip" class="authorization__link">Забыли пароль?</div>
     </div>
   </div>
 </template>
@@ -149,6 +147,7 @@ export default {
     top: -33px;
   }
   &__link {
+    cursor: pointer;
     @include fontRubik(16px, $blue-color1, 300);
     line-height: 18px;
     text-decoration: none;
