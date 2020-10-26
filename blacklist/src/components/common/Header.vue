@@ -12,10 +12,10 @@
       </template>
       <template v-else>
         <router-link to="/black-list" class="header__link">Список</router-link>
-        <div @click="wip" class="header__link">
-          Законодательство
-        </div>
         <div @click="wip" class="header__link">Правила</div>
+        <div @click="wip" class="header__link">
+          Поддержать
+        </div>
       </template>
     </div>
     <button-el class="header__button" v-if="checkUser" @click="logoutUser"

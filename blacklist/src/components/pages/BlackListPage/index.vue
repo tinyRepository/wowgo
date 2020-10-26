@@ -18,21 +18,15 @@
             <th>Нарушение</th>
             <th>Дата добавления в список</th>
             <th class="without-bg">Название гостиницы</th>
-            <th class="without-bg">Адрес гостиницы</th>
-            <th class="without-bg">Телефон гостиницы</th>
+            <th class="without-bg">Местоположение</th>
+            <th class="without-bg">Комментарий</th>
+            <th class="without-bg" v-if="isAdmin">Телефон гостиницы</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item, index) in formattedListData" :key="index">
             <td class="accent-cell">{{ index + 1 }}</td>
-            <td
-              class="accent-cell accent-cell_with-tooltip"
-              v-tooltip="{
-                placement: 'bottom-right',
-                classes: ['cell-tooltip'],
-                content: item.reasonForAdding
-              }"
-            >
+            <td class="accent-cell accent-cell_with-tooltip">
               {{ item | formatName }}
             </td>
             <td>{{ item.dateOfBirth }}</td>
@@ -41,7 +35,12 @@
             <td>{{ item.dateAdded }}</td>
             <td class="without-bg">{{ item.nameOfHotel }}</td>
             <td class="without-bg">{{ item.address }}</td>
-            <td class="without-bg">{{ item.phone }}</td>
+            <td class="without-bg" :title="item.reasonForAdding">
+              {{ item.reasonForAdding | trimReasonForAdding }}
+            </td>
+            <td class="without-bg phone-cell" v-if="isAdmin">
+              {{ item.phone }}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -53,7 +52,9 @@
 
 <script>
 import Popup from "Common/PopUp";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
+
+const maxQuantityChars = 100;
 
 export default {
   data: () => ({
@@ -65,6 +66,7 @@ export default {
   },
   computed: {
     ...mapState("blackList", ["listData"]),
+    ...mapGetters("userData", ["isAdmin"]),
     formattedListData() {
       const filterdList = this.listData.filter(item => {
         return item.fullName
@@ -80,6 +82,11 @@ export default {
   filters: {
     formatName(item) {
       return `${item.surname} ${item.name} ${item.middleName}`;
+    },
+    trimReasonForAdding(str) {
+      return str.length > maxQuantityChars
+        ? `${str.slice(0, maxQuantityChars)}...`
+        : str;
     }
   },
   methods: {
@@ -114,6 +121,7 @@ export default {
       background: $gray-color5;
       border: 1px solid $gray-color5;
       &.without-bg {
+        max-width: 400px;
         background: transparent;
         border: none;
       }
@@ -130,13 +138,14 @@ export default {
       &.accent-cell {
         background: $gray-color5;
         &_with-tooltip {
-          cursor: pointer;
+          // cursor: pointer;
         }
       }
       &.without-bg {
-        white-space: nowrap;
+        max-width: 400px;
         background: transparent;
         border: none;
+        cursor: default;
       }
     }
   }
@@ -174,5 +183,8 @@ export default {
 .stub-text {
   text-align: center;
   @include fontRubik(25px, $white-color1);
+}
+.phone-cell {
+  white-space: nowrap;
 }
 </style>

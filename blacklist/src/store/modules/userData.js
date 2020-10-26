@@ -16,6 +16,9 @@ const getters = {
   user(state) {
     return state.user;
   },
+  isAdmin(state) {
+    return state.userInfo && state.userInfo.admin;
+  },
   // Check User (for logged)
   checkUser(state) {
     return state.user !== null;

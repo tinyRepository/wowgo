@@ -7,7 +7,6 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import smoothscroll from "smoothscroll-polyfill";
-import VTooltip from "v-tooltip";
 
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -37,7 +36,6 @@ Vue.prototype.wip = () => alert('Функционал в разработке');
 
 Vue.use(VueInputMask);
 Vue.use(Vuelidate);
-Vue.use(VTooltip);
 
 smoothscroll.polyfill();
 
