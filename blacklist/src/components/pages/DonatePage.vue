@@ -48,7 +48,7 @@ export default {};
     @include fontRubik(32px, $white-color2);
     line-height: 34px;
     @media screen and (max-width: 768px) {
-      font-size: 20px;
+      font-size: 22px;
       line-height: initial;
     }
   }
@@ -57,7 +57,7 @@ export default {};
     line-height: 25px;
     margin-bottom: 25px;
     @media screen and (max-width: 768px) {
-      font-size: 22px;
+      font-size: 20px;
       line-height: initial;
     }
   }

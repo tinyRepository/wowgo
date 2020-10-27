@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "@/store";
+import RulesPage from "Pages/RulesPage";
 import DonatePage from "Pages/DonatePage";
 import TermsOfUse from "Pages/TermsOfUse";
 import BlackList from "Pages/BlackListPage";
@@ -79,6 +80,12 @@ const routes = [
     path: "/support",
     name: "support",
     component: DonatePage,
+    beforeEnter: handleUnauthorisedRedirect
+  },
+  {
+    path: "/rules",
+    name: "rules",
+    component: RulesPage,
     beforeEnter: handleUnauthorisedRedirect
   },
   {
