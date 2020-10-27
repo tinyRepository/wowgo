@@ -1,7 +1,7 @@
 <template>
   <button
     class="btn"
-    :class="{ btn_gray: gray }"
+    :class="{ btn_gray: gray, btn_red: red }"
     :disabled="disabled"
     v-on="$listeners"
     :type="type"
@@ -22,6 +22,9 @@ export default {
     },
     gray: {
       type: Boolean
+    },
+    red: {
+      type: Boolean
     }
   }
 };
@@ -41,6 +44,15 @@ export default {
   &_gray {
     background: $gray-color7;
     color: $white-color1;
+  }
+  &_red {
+    border-radius: 5px;
+    @include fontRubik(32px, $white-color1, 300);
+    padding: 30px;
+    background: $red-color2;
+    width: 100%;
+    box-shadow: 0px 4px 4px rgba(50, 50, 71, 0.08),
+      0px 4px 8px rgba(50, 50, 71, 0.06);
   }
   &[disabled] {
     cursor: not-allowed;

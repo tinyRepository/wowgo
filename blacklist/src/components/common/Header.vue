@@ -13,9 +13,7 @@
       <template v-else>
         <router-link to="/black-list" class="header__link">Список</router-link>
         <div @click="wip" class="header__link">Правила</div>
-        <div @click="wip" class="header__link">
-          Поддержать
-        </div>
+        <router-link to="/support" class="header__link">Поддержать</router-link>
       </template>
     </div>
     <button-el class="header__button" v-if="checkUser" @click="logoutUser"
