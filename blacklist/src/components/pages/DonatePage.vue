@@ -17,14 +17,23 @@
         проекта, а потому принимаем пожертвования для поддержания проекта. Будем
         рады сотрудничеству!
       </p>
-      <button-el @click="wip" red class="donate__btn">Поддержать</button-el>
+      <button-el @click="goToDonatePage" red class="donate__btn"
+        >Поддержать</button-el
+      >
     </div>
     <div class="donate__image" />
   </div>
 </template>
 
 <script>
-export default {};
+import { donateUrl } from "@/utils/config";
+export default {
+  methods: {
+    goToDonatePage() {
+      window.open(donateUrl);
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
