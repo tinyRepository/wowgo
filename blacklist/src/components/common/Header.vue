@@ -13,6 +13,9 @@
       <template v-else>
         <router-link to="/black-list" class="header__link">Список</router-link>
         <router-link to="/rules" class="header__link">Правила</router-link>
+        <router-link to="/knowledge-base" class="header__link"
+          >База знаний</router-link
+        >
         <router-link to="/support" class="header__link">Поддержать</router-link>
       </template>
     </div>
