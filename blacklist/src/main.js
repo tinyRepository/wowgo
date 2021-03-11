@@ -17,6 +17,7 @@ import "firebase/storage";
 // Declare uikit globally
 import InputEl from "Uikit/InputEl";
 import ButtonEl from "Uikit/ButtonEl";
+import SearchEl from "Common/SearchEl";
 import SelectBox from "Uikit/SelectBox";
 import SpinnerEl from "Common/SpinnerEl";
 import TextareaEl from "Uikit/TextareaEl";
@@ -25,6 +26,7 @@ import BaseSwitch from "Uikit/BaseSwitch";
 Vue.config.productionTip = false;
 
 Vue.component("input-el", InputEl);
+Vue.component("search-el", SearchEl);
 Vue.component("button-el", ButtonEl);
 Vue.component("select-box", SelectBox);
 Vue.component("spinner-el", SpinnerEl);
