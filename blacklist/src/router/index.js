@@ -5,8 +5,11 @@ import RulesPage from "Pages/RulesPage";
 import DonatePage from "Pages/DonatePage";
 import TermsOfUse from "Pages/TermsOfUse";
 import BlackList from "Pages/BlackListPage";
+import ArticlePage from "Pages/ArticlePage";
 import NotFoundPage from "Pages/NotFoundPage";
 import Registration from "Pages/RegistrationPage";
+import KnowledgeBasePage from "Pages/KnowledgeBasePage";
+import CreateArticlePage from "Pages/CreateArticlePage";
 import SuccessRegistration from "Pages/SuccessRegistration";
 
 Vue.use(VueRouter);
@@ -86,6 +89,24 @@ const routes = [
     path: "/rules",
     name: "rules",
     component: RulesPage,
+    beforeEnter: handleUnauthorisedRedirect
+  },
+  {
+    path: "/knowledge-base",
+    name: "knowledge-base",
+    component: KnowledgeBasePage,
+    beforeEnter: handleUnauthorisedRedirect
+  },
+  {
+    path: "/knowledge-base/:id",
+    name: "article",
+    component: ArticlePage,
+    beforeEnter: handleUnauthorisedRedirect
+  },
+  {
+    path: "/create-article",
+    name: "create-article",
+    component: CreateArticlePage,
     beforeEnter: handleUnauthorisedRedirect
   },
   {

@@ -1,8 +1,7 @@
 <template>
   <div class="black-list">
     <Popup v-if="showPopup" @close="showPopup = false" />
-    <input
-      type="text"
+    <search-el
       v-model="searchText"
       placeholder="Поиск по ФИО"
       class="black-list__search"
@@ -102,6 +101,11 @@ export default {
   flex-direction: column;
   align-items: center;
   min-height: calc(100vh - #{$header-height});
+
+  &__search {
+    margin-bottom: 83px;
+  }
+
   @media screen and (max-width: 768px) {
     margin: 240px auto 110px;
   }
@@ -161,23 +165,6 @@ export default {
     background: $brown-color1 url("~@/assets/svg/plus.svg") no-repeat center;
     position: fixed;
     bottom: 30px;
-  }
-  &__search {
-    border-radius: 10px;
-    @include fontRubik(14px, $white-color1);
-    line-height: 18px;
-    border: none;
-    -moz-appearance: textfield;
-    outline: none;
-    padding: 16px 50px 16px 20px;
-    max-width: 325px;
-    width: 100%;
-    margin-bottom: 83px;
-    background: $gray-color1 url("~@/assets/svg/search.svg") right 10px center
-      no-repeat;
-    &::placeholder {
-      color: $white-color1;
-    }
   }
 }
 .stub-text {

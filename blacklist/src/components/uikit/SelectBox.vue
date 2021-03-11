@@ -9,13 +9,15 @@
       {{ label }}
     </label>
     <multiselect
-      :searchable="false"
+      :searchable="searchable"
+      :taggable="taggable"
       :track-by="trackBy"
       :label="optionLabel"
       :class="{ 'is-danger': showError }"
       :id="selectId"
       :value="value"
       @input="onChange"
+      @tag="$emit('tag', $event)"
       placeholder="Выберите из списка"
       :options="options"
       :allow-empty="false"
@@ -45,6 +47,11 @@ export default {
       type: String,
       default: "value"
     },
+    searchable: {
+      type: Boolean,
+      default: false
+    },
+    taggable: Boolean,
     value: Object,
     options: Array,
     selectId: String,
@@ -129,6 +136,14 @@ export default {
     &:hover {
       background: $brown-color1;
     }
+  }
+  &__tags {
+    width: calc(100% - 20px);
+  }
+  &__input {
+    outline: none;
+    border: none;
+    background: transparent;
   }
   &__option {
     display: block;
