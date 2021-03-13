@@ -5,6 +5,8 @@
       @selectActiveSection="selectActiveSection"
     />
     <div class="article">
+      <button class="article__print" @click="print" />
+
       <div class="article__wrapper">
         <div class="article__info">
           <h4 class="article__date">{{ article.createdDate }}</h4>
@@ -39,12 +41,12 @@ const defaultSection = "Все статьи";
 
 export default {
   components: {
-    KnowledgeBaseMenu
+    KnowledgeBaseMenu,
   },
   data() {
     return {
       article: {},
-      zoomed: false
+      zoomed: false,
     };
   },
   computed: {
@@ -63,7 +65,7 @@ export default {
     },
     getTimeDeclension() {
       return getUnitsDeclension(this.readTime, ["минута", "минуты", "минут"]);
-    }
+    },
   },
   created() {
     Promise.all([this.loadSections(), this.getArticleById()]);
@@ -85,7 +87,7 @@ export default {
         .database()
         .ref(`articles/${this.articleId}`)
         .once("value")
-        .then(snapshot => {
+        .then((snapshot) => {
           if (!snapshot.val()) {
             this.$router.replace("/knowledge-base");
           }
@@ -106,8 +108,11 @@ export default {
       if (event) {
         this.zoomed = false;
       }
-    }
-  }
+    },
+    print() {
+      window.print();
+    },
+  },
 };
 </script>
 
@@ -136,6 +141,7 @@ export default {
   background: $gray-color9;
   border-radius: 10px;
   margin-top: -10px;
+  position: relative;
 
   &__info {
     display: flex;
@@ -166,6 +172,10 @@ export default {
     & > a {
       color: $brown-color1;
     }
+
+    & > img {
+      margin: 10px 0;
+    }
   }
 
   &__wrapper {
@@ -174,6 +184,17 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 69px 0 178px;
+  }
+
+  &__print {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    right: 42px;
+    top: 28px;
+    @include removeBtnDefaults();
+    background: url("~@/assets/svg/print.svg") no-repeat center;
   }
 
   &__read-time {

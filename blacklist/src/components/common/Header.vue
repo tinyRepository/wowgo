@@ -1,5 +1,5 @@
 <template>
-  <div class="header" :class="{ header_logged: checkUser }">
+  <header class="header" :class="{ header_logged: checkUser }">
     <router-link to="/registration" class="header__logo-link">
       <div class="header__logo" />
     </router-link>
@@ -22,18 +22,18 @@
     <button-el class="header__button" v-if="checkUser" @click="logoutUser"
       >Выйти</button-el
     >
-  </div>
+  </header>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters } from 'vuex';
 export default {
   computed: {
-    ...mapGetters("userData", ["checkUser"])
+    ...mapGetters('userData', ['checkUser']),
   },
   methods: {
-    ...mapActions("userData", ["logoutUser"])
-  }
+    ...mapActions('userData', ['logoutUser']),
+  },
 };
 </script>
 
@@ -68,7 +68,7 @@ export default {
     }
   }
   &__logo {
-    background: url("~@/assets/svg/logo.svg") no-repeat;
+    background: url('~@/assets/svg/logo.svg') no-repeat;
     width: 126px;
     height: 29px;
   }
@@ -107,8 +107,7 @@ export default {
     cursor: pointer;
     display: initial;
     margin: 0 40px;
-    @include fontRubik(17px, $white-color1, 500);
-    font-weight: 500;
+    @include fontRubik(17px, $white-color1, 300);
     line-height: 22px;
     letter-spacing: 1px;
     text-decoration: none;

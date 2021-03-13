@@ -1,4 +1,4 @@
-@import 'fonts';
+@import "fonts";
 
 html {
   min-height: 100%;
@@ -20,14 +20,14 @@ html *:after {
   box-sizing: border-box;
 }
 
-
 .tooltip {
   &.cell-tooltip {
     .tooltip-inner {
       @include fontRubik(14px, $white-color1, 400);
       background: $gray-color1;
       line-height: 16px;
-      box-shadow: 0px 24px 24px rgba(50, 50, 71, 0.1), 0px 40px 48px rgba(50, 50, 71, 0.25);
+      box-shadow: 0px 24px 24px rgba(50, 50, 71, 0.1),
+        0px 40px 48px rgba(50, 50, 71, 0.25);
       padding: 16px;
       border-radius: 15px;
       width: 320px;
@@ -36,3 +36,31 @@ html *:after {
   }
 }
 
+@media print {
+  header,
+  .main-header,
+  .knowledge-menu__list {
+    display: none !important;
+  }
+  .article-page {
+    margin-top: 0 !important;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  *,
+  *:before,
+  *:after,
+  *:first-letter,
+  p:first-line,
+  div:first-line,
+  blockquote:first-line,
+  li:first-line {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+}
