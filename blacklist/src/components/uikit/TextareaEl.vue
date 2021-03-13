@@ -9,6 +9,7 @@
     <textarea
       :name="name"
       class="textarea"
+      ref="textarea"
       :id="textareaId"
       :class="{ 'is-danger': showError }"
       :placeholder="placeholder"
@@ -23,19 +24,19 @@
 
 <script>
 const errorsTexts = {
-  required: "Заполните поле"
+  required: 'Заполните поле',
 };
 
 export default {
   inheritAttrs: false,
   data: () => ({
-    userIsTyping: false
+    userIsTyping: false,
   }),
   props: {
     validationObj: Object,
     customErrorsTexts: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     name: String,
     placeholder: String,
@@ -43,17 +44,27 @@ export default {
     textareaId: String,
     error: Boolean,
     label: String,
-    whiteLabel: Boolean
+    whiteLabel: Boolean,
   },
   methods: {
     onBlur(e) {
-      this.$emit("blur", e);
+      this.$emit('blur', e);
       this.userIsTyping = false;
     },
     onInput(e) {
-      this.$emit("input", e.target.value);
+      this.$emit('input', e.target.value);
       this.userIsTyping = true;
-    }
+    },
+    textareaResize() {
+      this.$refs.textarea.style.minHeight = `${this.$refs.textarea.scrollHeight}px`;
+    },
+    resetTextareaSize() {
+      this.$refs.textarea.style.minHeight = '0px';
+    },
+    updateTextareaState() {
+      this.resetTextareaSize();
+      this.textareaResize();
+    },
   },
   computed: {
     errorText() {
@@ -61,20 +72,30 @@ export default {
         return null;
       }
       const keys = Object.keys(this.validationObj.$params);
-      const invalidKey = keys.find(k => !this.validationObj[k]);
+      const invalidKey = keys.find((k) => !this.validationObj[k]);
       if (!invalidKey) {
         return null;
       }
       return (
         this.customErrorsTexts[invalidKey] ||
         errorsTexts[invalidKey] ||
-        "Ошибка!"
+        'Ошибка!'
       );
     },
     showError() {
       return !this.userIsTyping && this.errorText && this.validationObj.$dirty;
-    }
-  }
+    },
+  },
+  watch: {
+    value: {
+      handler() {
+        this.$nextTick(() => {
+          this.updateTextareaState();
+        });
+      },
+      immediate: true,
+    },
+  },
 };
 </script>
 
