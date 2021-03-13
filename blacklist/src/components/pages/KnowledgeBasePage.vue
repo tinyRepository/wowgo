@@ -47,32 +47,32 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from "vuex";
-import KnowledgeBaseMenu from "Common/KnowledgeBaseMenu";
-import SkeletonImage from "Common/SkeletonImage";
+import { mapActions, mapState, mapGetters } from 'vuex';
+import KnowledgeBaseMenu from 'Common/KnowledgeBaseMenu';
+import SkeletonImage from 'Common/SkeletonImage';
 
-const defaultSection = { title: "Все статьи" };
+const defaultSection = { title: 'Все статьи' };
 
 export default {
   components: { SkeletonImage, KnowledgeBaseMenu },
   data() {
     return {
-      searchText: "",
+      searchText: '',
       activeSection: defaultSection.title,
-      select: []
+      select: [],
     };
   },
   computed: {
-    ...mapGetters("userData", ["isAdmin"]),
-    ...mapState("articles", ["articles"]),
+    ...mapGetters('userData', ['isAdmin']),
+    ...mapState('articles', ['articles']),
     notFound() {
-      return this.select.some(s =>
+      return this.select.some((s) =>
         s.title.toLowerCase().includes(this.searchText.toLowerCase())
       );
     },
     sectionType() {
       return this.$route.query.sectionType;
-    }
+    },
   },
   created() {
     this.loadArticles().then(() => {
@@ -86,7 +86,7 @@ export default {
   watch: {
     searchText(val) {
       if (val) {
-        const filterdList = this.articles.filter(item => {
+        const filterdList = this.articles.filter((item) => {
           return item.title.toLowerCase().includes(val.toLowerCase());
         });
         this.activeSection = defaultSection.title;
@@ -94,23 +94,23 @@ export default {
       } else {
         this.select = this.articles;
       }
-    }
+    },
   },
   methods: {
-    ...mapActions("articles", ["loadArticles"]),
+    ...mapActions('articles', ['loadArticles']),
     selectActiveSection(title) {
       this.activeSection = title;
-      this.searchText = "";
+      this.searchText = '';
 
       if (title == defaultSection.title) {
         this.select = this.articles;
         return;
       }
-      this.select = this.articles.filter(a => {
+      this.select = this.articles.filter((a) => {
         return a.section.title === title;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -138,17 +138,17 @@ export default {
   }
 
   &__button {
-    width: 100px;
-    height: 100px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     outline: none;
     z-index: 100;
     border: none;
     cursor: pointer;
-    background: $brown-color1 url("~@/assets/svg/plus.svg") no-repeat center;
+    background: $brown-color1 url('~@/assets/svg/plus.svg') no-repeat center;
     position: fixed;
     bottom: 50px;
-    margin-left: 95px;
+    margin-left: 80px;
   }
 
   &__article {
@@ -183,7 +183,7 @@ export default {
     }
 
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       z-index: 1;
       left: 0;
