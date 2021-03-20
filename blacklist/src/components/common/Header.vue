@@ -26,14 +26,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters('userData', ['checkUser']),
+    ...mapGetters("userData", ["checkUser"])
   },
   methods: {
-    ...mapActions('userData', ['logoutUser']),
-  },
+    ...mapActions("userData", ["logoutUser"])
+  }
 };
 </script>
 
@@ -53,7 +53,7 @@ export default {
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(2, 1fr);
-    padding: 20px;
+    padding: 15px;
     height: 125px;
     & > * {
       justify-self: center;
@@ -68,7 +68,7 @@ export default {
     }
   }
   &__logo {
-    background: url('~@/assets/svg/logo.svg') no-repeat;
+    background: url("~@/assets/svg/logo.svg") no-repeat;
     width: 126px;
     height: 29px;
   }
@@ -76,6 +76,7 @@ export default {
     @media screen and (max-width: 768px) {
       justify-content: center;
       display: flex;
+      zoom: 0.7;
     }
   }
   &__main {
@@ -111,6 +112,12 @@ export default {
     line-height: 22px;
     letter-spacing: 1px;
     text-decoration: none;
+
+    @media screen and (max-width: 768px) {
+      font-size: 15px;
+      line-height: 21px;
+    }
+
     &.router-link-active {
       color: $brown-color1;
     }

@@ -5,11 +5,13 @@
     <transition name="fade" mode="out-in">
       <router-view class="content-block" />
     </transition>
+    <Mertrika />
   </div>
 </template>
 
 <script>
 import Header from "Common/Header";
+import Mertrika from "Common/YaMetrika";
 import { mapGetters } from "vuex";
 
 export default {
@@ -27,7 +29,8 @@ export default {
     }
   },
   components: {
-    Header
+    Header,
+    Mertrika
   }
 };
 </script>
