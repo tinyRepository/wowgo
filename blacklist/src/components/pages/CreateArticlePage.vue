@@ -244,7 +244,8 @@ export default {
 
   &__select-box {
     margin-bottom: 60px;
-    width: 500px;
+    max-width: 500px;
+    width: 100%;
   }
 
   &__upload {
@@ -261,10 +262,15 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @media screen and (max-width: 600px) {
+      margin: 0 15px;
+    }
   }
 
   &__form-input {
-    width: 500px !important;
+    max-width: 500px;
+    width: 100%;
 
     & > textarea {
       height: 150px !important;
