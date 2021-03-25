@@ -24,19 +24,19 @@
 
 <script>
 const errorsTexts = {
-  required: 'Заполните поле',
+  required: 'Заполните поле'
 };
 
 export default {
   inheritAttrs: false,
   data: () => ({
-    userIsTyping: false,
+    userIsTyping: false
   }),
   props: {
     validationObj: Object,
     customErrorsTexts: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
     name: String,
     placeholder: String,
@@ -44,7 +44,7 @@ export default {
     textareaId: String,
     error: Boolean,
     label: String,
-    whiteLabel: Boolean,
+    whiteLabel: Boolean
   },
   methods: {
     onBlur(e) {
@@ -64,7 +64,7 @@ export default {
     updateTextareaState() {
       this.resetTextareaSize();
       this.textareaResize();
-    },
+    }
   },
   computed: {
     errorText() {
@@ -72,7 +72,7 @@ export default {
         return null;
       }
       const keys = Object.keys(this.validationObj.$params);
-      const invalidKey = keys.find((k) => !this.validationObj[k]);
+      const invalidKey = keys.find(k => !this.validationObj[k]);
       if (!invalidKey) {
         return null;
       }
@@ -84,7 +84,7 @@ export default {
     },
     showError() {
       return !this.userIsTyping && this.errorText && this.validationObj.$dirty;
-    },
+    }
   },
   watch: {
     value: {
@@ -93,9 +93,9 @@ export default {
           this.updateTextareaState();
         });
       },
-      immediate: true,
-    },
-  },
+      immediate: true
+    }
+  }
 };
 </script>
 

@@ -47,32 +47,32 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex';
-import KnowledgeBaseMenu from 'Common/KnowledgeBaseMenu';
-import SkeletonImage from 'Common/SkeletonImage';
+import { mapActions, mapState, mapGetters } from "vuex";
+import KnowledgeBaseMenu from "Common/KnowledgeBaseMenu";
+import SkeletonImage from "Common/SkeletonImage";
 
-const defaultSection = { title: 'Все статьи' };
+const defaultSection = { title: "Все статьи" };
 
 export default {
   components: { SkeletonImage, KnowledgeBaseMenu },
   data() {
     return {
-      searchText: '',
+      searchText: "",
       activeSection: defaultSection.title,
-      select: [],
+      select: []
     };
   },
   computed: {
-    ...mapGetters('userData', ['isAdmin']),
-    ...mapState('articles', ['articles']),
+    ...mapGetters("userData", ["isAdmin"]),
+    ...mapState("articles", ["articles"]),
     notFound() {
-      return this.select.some((s) =>
+      return this.select.some(s =>
         s.title.toLowerCase().includes(this.searchText.toLowerCase())
       );
     },
     sectionType() {
       return this.$route.query.sectionType;
-    },
+    }
   },
   created() {
     this.loadArticles().then(() => {
@@ -86,7 +86,7 @@ export default {
   watch: {
     searchText(val) {
       if (val) {
-        const filterdList = this.articles.filter((item) => {
+        const filterdList = this.articles.filter(item => {
           return item.title.toLowerCase().includes(val.toLowerCase());
         });
         this.activeSection = defaultSection.title;
@@ -94,23 +94,23 @@ export default {
       } else {
         this.select = this.articles;
       }
-    },
+    }
   },
   methods: {
-    ...mapActions('articles', ['loadArticles']),
+    ...mapActions("articles", ["loadArticles"]),
     selectActiveSection(title) {
       this.activeSection = title;
-      this.searchText = '';
+      this.searchText = "";
 
       if (title == defaultSection.title) {
         this.select = this.articles;
         return;
       }
-      this.select = this.articles.filter((a) => {
+      this.select = this.articles.filter(a => {
         return a.section.title === title;
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -122,8 +122,23 @@ export default {
   flex-direction: column;
   align-items: center;
 
+  @media screen and (max-width: 768px) {
+    margin: 225px auto 50px;
+  }
+
   &__search {
     margin-bottom: 40px;
+
+    @media screen and (max-width: 768px) {
+      &.search {
+        max-width: 250px;
+        padding: 10px;
+        font-weight: 300;
+        background-size: 20px;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+      }
+    }
   }
 
   &__content {
@@ -131,10 +146,29 @@ export default {
     width: 100%;
     grid-template-columns: 3fr 9fr 3fr;
     grid-template-rows: auto;
+
+    @media screen and (max-width: 768px) {
+      grid-template-columns: 12fr;
+      grid-template-rows: auto;
+      padding: 0 24px;
+
+      .knowledge-base {
+        &__menu {
+          width: 100%;
+          overflow-x: auto;
+          padding-right: 20px;
+          padding-left: 0;
+        }
+      }
+    }
   }
 
   &__menu {
     margin-left: 80px;
+
+    @media screen and (max-width: 768px) {
+      margin: 10px;
+    }
   }
 
   &__button {
@@ -145,10 +179,16 @@ export default {
     z-index: 100;
     border: none;
     cursor: pointer;
-    background: $brown-color1 url('~@/assets/svg/plus.svg') no-repeat center;
+    background: $brown-color1 url("~@/assets/svg/plus.svg") no-repeat center;
     position: fixed;
     bottom: 50px;
     margin-left: 80px;
+
+    @media screen and (max-width: 768px) {
+      width: 50px;
+      height: 50px;
+      margin-left: 13px;
+    }
   }
 
   &__article {
@@ -182,8 +222,14 @@ export default {
       margin: 0;
     }
 
+    @media screen and (max-width: 768px) {
+      width: 100% !important;
+      height: 151px;
+      padding: 10px;
+    }
+
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       z-index: 1;
       left: 0;
@@ -218,6 +264,11 @@ export default {
     @include fontRubik(18px, $white-color1);
     position: absolute;
     top: 200px;
+
+    @media screen and (max-width: 768px) {
+      top: 275px;
+      font-size: 15px;
+    }
   }
 }
 </style>

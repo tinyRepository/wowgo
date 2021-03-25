@@ -41,12 +41,12 @@ const defaultSection = "Все статьи";
 
 export default {
   components: {
-    KnowledgeBaseMenu,
+    KnowledgeBaseMenu
   },
   data() {
     return {
       article: {},
-      zoomed: false,
+      zoomed: false
     };
   },
   computed: {
@@ -65,7 +65,7 @@ export default {
     },
     getTimeDeclension() {
       return getUnitsDeclension(this.readTime, ["минута", "минуты", "минут"]);
-    },
+    }
   },
   created() {
     Promise.all([this.loadSections(), this.getArticleById()]);
@@ -87,7 +87,7 @@ export default {
         .database()
         .ref(`articles/${this.articleId}`)
         .once("value")
-        .then((snapshot) => {
+        .then(snapshot => {
           if (!snapshot.val()) {
             this.$router.replace("/knowledge-base");
           }
@@ -111,8 +111,8 @@ export default {
     },
     print() {
       window.print();
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -124,9 +124,18 @@ export default {
   grid-template-rows: auto;
   margin-top: 115px;
 
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 12fr;
+    grid-template-rows: auto;
+  }
+
   &__menu {
     margin-left: 80px;
     margin-top: 94px;
+
+    @media screen and (max-width: 768px) {
+      margin: 94px 5px 0;
+    }
   }
 
   .knowledge-menu__list-button:hover {
@@ -143,6 +152,10 @@ export default {
   margin-top: -10px;
   position: relative;
 
+  @media screen and (max-width: 768px) {
+    border-radius: 0;
+  }
+
   &__info {
     display: flex;
     align-items: center;
@@ -155,6 +168,12 @@ export default {
     letter-spacing: 0.7px;
     margin-top: 1px;
     margin-bottom: -1px;
+
+    @media screen and (max-width: 768px) {
+      font-size: 20px;
+      line-height: 30px;
+      word-break: initial;
+    }
   }
 
   &__date {
@@ -175,6 +194,7 @@ export default {
 
     & > img {
       margin: 10px 0;
+      max-width: 100%;
     }
   }
 
@@ -184,6 +204,11 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 69px 0 178px;
+
+    @media screen and (max-width: 768px) {
+      padding: 39px 0;
+      margin: 0 15px;
+    }
   }
 
   &__print {
@@ -195,6 +220,10 @@ export default {
     top: 28px;
     @include removeBtnDefaults();
     background: url("~@/assets/svg/print.svg") no-repeat center;
+
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
   }
 
   &__read-time {
