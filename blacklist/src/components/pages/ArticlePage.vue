@@ -134,7 +134,7 @@ export default {
     margin-top: 94px;
 
     @media screen and (max-width: 768px) {
-      margin: 94px 5px 0;
+      margin: 94px 0 0;
     }
   }
 
@@ -154,6 +154,7 @@ export default {
 
   @media screen and (max-width: 768px) {
     border-radius: 0;
+    margin-top: 10px;
   }
 
   &__info {

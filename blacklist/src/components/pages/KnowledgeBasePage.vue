@@ -17,14 +17,17 @@
         class="knowledge-base__menu"
       />
 
-      <section v-if="notFound">
+      <section v-if="notFound" class="knowledge-base__cards">
         <router-link
-          v-for="article in select"
+          v-for="article in selectedItems"
           :key="article.id"
           class="knowledge-base__article"
           :to="`/knowledge-base/${article.id}`"
         >
-          <skeleton-image :src="article.imageUrl" />
+          <skeleton-image
+            :src="article.imageUrl"
+            class="knowledge-base__skeleton"
+          />
 
           <div class="knowledge-base__article-content">
             <div class="knowledge-base__article-title">
@@ -59,14 +62,14 @@ export default {
     return {
       searchText: "",
       activeSection: defaultSection.title,
-      select: []
+      selectedItems: []
     };
   },
   computed: {
     ...mapGetters("userData", ["isAdmin"]),
     ...mapState("articles", ["articles"]),
     notFound() {
-      return this.select.some(s =>
+      return this.selectedItems.some(s =>
         s.title.toLowerCase().includes(this.searchText.toLowerCase())
       );
     },
@@ -76,7 +79,7 @@ export default {
   },
   created() {
     this.loadArticles().then(() => {
-      this.select = [...this.articles];
+      this.selectedItems = [...this.articles];
 
       if (this.sectionType) {
         this.selectActiveSection(this.sectionType);
@@ -90,9 +93,9 @@ export default {
           return item.title.toLowerCase().includes(val.toLowerCase());
         });
         this.activeSection = defaultSection.title;
-        this.select = filterdList;
+        this.selectedItems = filterdList;
       } else {
-        this.select = this.articles;
+        this.selectedItems = this.articles;
       }
     }
   },
@@ -103,10 +106,10 @@ export default {
       this.searchText = "";
 
       if (title == defaultSection.title) {
-        this.select = this.articles;
+        this.selectedItems = this.articles;
         return;
       }
-      this.select = this.articles.filter(a => {
+      this.selectedItems = this.articles.filter(a => {
         return a.section.title === title;
       });
     }
@@ -130,6 +133,8 @@ export default {
     margin-bottom: 40px;
 
     @media screen and (max-width: 768px) {
+      margin-bottom: 18px;
+
       &.search {
         max-width: 250px;
         padding: 10px;
@@ -150,13 +155,11 @@ export default {
     @media screen and (max-width: 768px) {
       grid-template-columns: 12fr;
       grid-template-rows: auto;
-      padding: 0 24px;
 
       .knowledge-base {
         &__menu {
           width: 100%;
           overflow-x: auto;
-          padding-right: 20px;
           padding-left: 0;
         }
       }
@@ -167,7 +170,7 @@ export default {
     margin-left: 80px;
 
     @media screen and (max-width: 768px) {
-      margin: 10px;
+      margin: 10px 0;
     }
   }
 
@@ -201,31 +204,41 @@ export default {
     position: relative;
     padding: 77px 30px;
     text-decoration: none;
+    user-select: none;
 
     overflow: hidden;
     background-color: $gray-color10;
 
-    &:nth-child(2n + 1) {
-      width: 30%;
-    }
-    &:nth-child(2n) {
-      width: calc(70% - 16px);
-    }
-    &:nth-child(3n) {
-      width: 100%;
-    }
-    &:nth-child(3n + 1) {
-      margin-right: 16px;
-    }
-    &:only-child {
-      width: 100%;
-      margin: 0;
+    @media screen and (min-width: 769px) {
+      &:nth-child(2n + 1) {
+        width: 30%;
+      }
+      &:nth-child(2n) {
+        width: calc(70% - 16px);
+      }
+      &:nth-child(3n) {
+        width: 100%;
+      }
+      &:nth-child(3n + 1) {
+        margin-right: 16px;
+      }
+      &:only-child {
+        width: 100%;
+        margin: 0;
+      }
     }
 
     @media screen and (max-width: 768px) {
-      width: 100% !important;
-      height: 151px;
-      padding: 10px;
+      padding: 8px 15px;
+      background: $gray-color11;
+      max-width: 270px;
+      height: auto;
+      margin: 0 auto 12px !important;
+      display: flex;
+
+      &::before {
+        max-height: 89px;
+      }
     }
 
     &::before {
@@ -245,6 +258,10 @@ export default {
     word-break: break-all;
     position: relative;
     z-index: 2;
+
+    @media screen and (max-width: 768px) {
+      margin-top: 87px;
+    }
   }
 
   &__article-title {
@@ -252,12 +269,41 @@ export default {
     margin-bottom: 7px;
     line-height: 20px;
     text-shadow: 0px 1px 1px rgba(33, 34, 38, 0.8);
+
+    @media screen and (max-width: 768px) {
+      font-size: 14px;
+      line-height: 20px;
+      margin-bottom: 0px;
+      letter-spacing: 0.3px;
+    }
   }
 
   &__article-description {
     @include fontRubik(14px, $white-color2, 300);
     word-break: break-all;
     line-height: 20px;
+
+    @media screen and (max-width: 768px) {
+      font-size: 12px;
+      line-height: 14px;
+    }
+  }
+
+  &__cards {
+    @media screen and (max-width: 768px) {
+      margin: 0 25px;
+      margin-top: -5px;
+    }
+  }
+
+  &__skeleton {
+    @media screen and (max-width: 768px) {
+      max-height: 89px;
+
+      /deep/ .skeleton-image {
+        border-radius: 10px;
+      }
+    }
   }
 
   .stub-text {
@@ -266,8 +312,8 @@ export default {
     top: 200px;
 
     @media screen and (max-width: 768px) {
-      top: 275px;
-      font-size: 15px;
+      top: 270px;
+      font-size: 13px;
     }
   }
 }
