@@ -24,7 +24,7 @@
 
 <script>
 const errorsTexts = {
-  required: 'Заполните поле'
+  required: "Заполните поле"
 };
 
 export default {
@@ -48,18 +48,18 @@ export default {
   },
   methods: {
     onBlur(e) {
-      this.$emit('blur', e);
+      this.$emit("blur", e);
       this.userIsTyping = false;
     },
     onInput(e) {
-      this.$emit('input', e.target.value);
+      this.$emit("input", e.target.value);
       this.userIsTyping = true;
     },
     textareaResize() {
       this.$refs.textarea.style.minHeight = `${this.$refs.textarea.scrollHeight}px`;
     },
     resetTextareaSize() {
-      this.$refs.textarea.style.minHeight = '0px';
+      this.$refs.textarea.style.minHeight = "0px";
     },
     updateTextareaState() {
       this.resetTextareaSize();
@@ -79,7 +79,7 @@ export default {
       return (
         this.customErrorsTexts[invalidKey] ||
         errorsTexts[invalidKey] ||
-        'Ошибка!'
+        "Ошибка!"
       );
     },
     showError() {
