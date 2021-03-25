@@ -107,8 +107,13 @@ export default {
   }
 
   @media screen and (max-width: 768px) {
-    margin: 240px auto 110px;
+    margin: 85px auto 110px;
+
+    &__search {
+      margin-bottom: 43px;
+    }
   }
+
   &__table {
     max-width: 1670px;
     width: 100%;
@@ -159,7 +164,7 @@ export default {
     border-radius: 50%;
     outline: none;
     margin-top: 30px;
-    z-index: 100;
+    z-index: 99;
     border: none;
     cursor: pointer;
     background: $brown-color1 url("~@/assets/svg/plus.svg") no-repeat center;

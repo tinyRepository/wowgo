@@ -69,9 +69,10 @@ export default {};
 .terms-of-use {
   padding: 60px;
   @include fontRubik(22px, $white-color1);
+
   @media screen and (max-width: 768px) {
-    margin-top: 170px;
-    padding: 60px 20px;
+    margin-top: 70px;
+    padding: 20px;
     font-size: 18px;
     ul {
       padding-left: 20px;

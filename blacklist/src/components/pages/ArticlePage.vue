@@ -124,16 +124,17 @@ export default {
   grid-template-rows: auto;
   margin-top: 115px;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1279px) {
     grid-template-columns: 12fr;
     grid-template-rows: auto;
+    margin-top: 0;
   }
 
   &__menu {
     margin-left: 80px;
     margin-top: 94px;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       margin: 94px 0 0;
     }
   }
@@ -152,7 +153,7 @@ export default {
   margin-top: -10px;
   position: relative;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1279px) {
     border-radius: 0;
     margin-top: 10px;
   }
@@ -170,7 +171,7 @@ export default {
     margin-top: 1px;
     margin-bottom: -1px;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       font-size: 20px;
       line-height: 30px;
       word-break: initial;
@@ -206,7 +207,7 @@ export default {
     flex-direction: column;
     padding: 69px 0 178px;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       padding: 39px 0;
       margin: 0 15px;
     }
@@ -222,7 +223,7 @@ export default {
     @include removeBtnDefaults();
     background: url("~@/assets/svg/print.svg") no-repeat center;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       display: none;
     }
   }

@@ -50,7 +50,7 @@ export default {
     padding: 0;
     margin-top: 0;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       display: flex;
       overflow-x: auto;
       padding-left: 15px;
@@ -67,7 +67,7 @@ export default {
     margin-bottom: 19px;
     transition: color, $transition/2;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       padding: 3px 9px;
       border-radius: 10px;
       background: $gray-color11;
@@ -88,7 +88,7 @@ export default {
   }
 
   &__list-item {
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       white-space: nowrap;
       margin-right: 8px;
 

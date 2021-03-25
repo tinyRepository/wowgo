@@ -125,14 +125,14 @@ export default {
   flex-direction: column;
   align-items: center;
 
-  @media screen and (max-width: 768px) {
-    margin: 225px auto 50px;
+  @media screen and (max-width: 1279px) {
+    margin: 75px auto 50px;
   }
 
   &__search {
     margin-bottom: 40px;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       margin-bottom: 18px;
 
       &.search {
@@ -152,7 +152,7 @@ export default {
     grid-template-columns: 3fr 9fr 3fr;
     grid-template-rows: auto;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       grid-template-columns: 12fr;
       grid-template-rows: auto;
 
@@ -169,7 +169,7 @@ export default {
   &__menu {
     margin-left: 80px;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       margin: 10px 0;
     }
   }
@@ -179,7 +179,7 @@ export default {
     height: 38px;
     border-radius: 50%;
     outline: none;
-    z-index: 100;
+    z-index: 99;
     border: none;
     cursor: pointer;
     background: $brown-color1 url("~@/assets/svg/plus.svg") no-repeat center;
@@ -187,7 +187,7 @@ export default {
     bottom: 50px;
     margin-left: 80px;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       width: 50px;
       height: 50px;
       margin-left: 13px;
@@ -209,7 +209,7 @@ export default {
     overflow: hidden;
     background-color: $gray-color10;
 
-    @media screen and (min-width: 769px) {
+    @media screen and (min-width: 1280px) {
       &:nth-child(2n + 1) {
         width: 30%;
       }
@@ -228,7 +228,7 @@ export default {
       }
     }
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       padding: 8px 15px;
       background: $gray-color11;
       max-width: 270px;
@@ -259,7 +259,7 @@ export default {
     position: relative;
     z-index: 2;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       margin-top: 87px;
     }
   }
@@ -270,7 +270,7 @@ export default {
     line-height: 20px;
     text-shadow: 0px 1px 1px rgba(33, 34, 38, 0.8);
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       font-size: 14px;
       line-height: 20px;
       margin-bottom: 0px;
@@ -283,21 +283,21 @@ export default {
     word-break: break-all;
     line-height: 20px;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       font-size: 12px;
       line-height: 14px;
     }
   }
 
   &__cards {
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       margin: 0 25px;
       margin-top: -5px;
     }
   }
 
   &__skeleton {
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       max-height: 89px;
 
       /deep/ .skeleton-image {
@@ -311,8 +311,8 @@ export default {
     position: absolute;
     top: 200px;
 
-    @media screen and (max-width: 768px) {
-      top: 270px;
+    @media screen and (max-width: 1279px) {
+      top: 120px;
       font-size: 13px;
     }
   }

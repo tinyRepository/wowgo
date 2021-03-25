@@ -43,45 +43,56 @@ export default {
   align-items: center;
   justify-content: space-between;
   min-height: calc(100vh - #{$header-height});
+
   @media screen and (max-width: 1600px) {
     justify-content: center;
   }
+
   @media screen and (max-width: 768px) {
-    padding: 135px 20px 20px;
+    padding: 0 20px 20px;
   }
+
   &__description {
     max-width: 821px;
   }
+
   &__title {
     margin-bottom: 50px;
     @include fontRubik(32px, $white-color2);
     line-height: 34px;
+
     @media screen and (max-width: 768px) {
       font-size: 22px;
       line-height: initial;
     }
   }
+
   &__paragraph {
     @include fontRubik(28px, $white-color2, 300);
     line-height: 25px;
     margin-bottom: 25px;
+
     @media screen and (max-width: 768px) {
       font-size: 20px;
       line-height: initial;
     }
   }
+
   &__btn {
     margin-top: 66px;
+
     @media screen and (max-width: 768px) {
       margin-top: 25px;
       font-size: 27px;
       padding: 24px;
     }
   }
+
   &__image {
     @include attachImage("donate", 602px, 551px);
     margin-top: 27px;
     margin-right: -9px;
+
     @media screen and (max-width: 1600px) {
       display: none;
     }

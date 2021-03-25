@@ -35,26 +35,40 @@ export default {};
   display: flex;
   padding: 151px 20px 20px;
   justify-content: space-between;
+
   @media screen and (max-width: 1500px) {
     flex-direction: column;
     align-items: center;
   }
+
+  @media screen and (max-width: 768px) {
+    padding: 20px;
+  }
+
   &__image {
     @include attachImage("rules", 896px, 640px);
+
     @media screen and (max-width: 768px) {
       background-size: contain;
       max-width: 100%;
+      height: 100%;
+      min-height: 300px;
+      margin: auto;
+      background-position-x: center;
     }
   }
+
   &__title {
     @include fontSans(17px, $white-color1, bold);
     line-height: 22px;
     margin-bottom: 20px;
   }
+
   &__text {
     @include fontSans(16px, rgba(255, 255, 255, 0.48), 300);
     line-height: 22px;
   }
+
   &__item {
     max-width: 416px;
     margin-bottom: 48px;

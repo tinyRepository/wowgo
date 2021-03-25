@@ -232,10 +232,17 @@ export default {
 .create-article {
   max-width: 1200px;
   margin: 100px auto 50px;
+  @media screen and (max-width: 768px) {
+    margin: 70px auto;
+  }
 
   &__title {
     margin-bottom: 60px;
     @include fontRubik(32px, $white-color2);
+
+    @media screen and (max-width: 768px) {
+      font-size: 26px;
+    }
   }
 
   &__form-input {

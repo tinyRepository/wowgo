@@ -10,5 +10,9 @@
   align-items: center;
   justify-content: center;
   min-height: calc(100vh - #{$header-height});
+
+  @media screen and (max-width: 768px) {
+    font-size: 30px;
+  }
 }
 </style>
