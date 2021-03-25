@@ -22,17 +22,77 @@
     <button-el class="header__button" v-if="checkUser" @click="logoutUser"
       >Выйти</button-el
     >
+    <div
+      class="header__menu"
+      :class="{ header__menu_opened: showMenu }"
+      @click="toggleMenu"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="menu-overlay" :class="{ 'menu-overlay_opened': showMenu }">
+      <template v-if="checkUser">
+        <router-link to="/black-list" class="header__link">Список</router-link>
+        <router-link to="/rules" class="header__link">Правила</router-link>
+        <router-link to="/knowledge-base" class="header__link"
+          >База знаний</router-link
+        >
+        <router-link to="/support" class="header__link">Поддержать</router-link>
+
+        <button-el
+          class="menu-overlay__button"
+          v-if="checkUser"
+          @click="logoutUser"
+          >Выйти</button-el
+        >
+      </template>
+
+      <template v-else>
+        <router-link to="/registration" class="header__link"
+          >Регистрация</router-link
+        >
+        <router-link to="/login" class="header__link">Вход</router-link>
+      </template>
+    </div>
   </header>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 export default {
+  data() {
+    return {
+      showMenu: false
+    };
+  },
   computed: {
     ...mapGetters("userData", ["checkUser"])
   },
   methods: {
-    ...mapActions("userData", ["logoutUser"])
+    ...mapActions("userData", ["logoutUser"]),
+    toggleMenu() {
+      this.showMenu = !this.showMenu;
+
+      const html = document.querySelector("html");
+      if (this.showMenu) {
+        html.classList.add("stop");
+      } else {
+        html.classList.remove("stop");
+      }
+    }
+  },
+  watch: {
+    $route: {
+      handler() {
+        this.showMenu = false;
+
+        const html = document.querySelector("html");
+        html.classList.remove("stop");
+      },
+      immediate: true
+    }
   }
 };
 </script>
@@ -47,14 +107,17 @@ export default {
   grid-template-rows: auto;
   background-color: $black-color2;
   user-select: none;
+
   @media screen and (max-width: 1100px) {
     padding: 0 20px;
   }
-  @media screen and (max-width: 768px) {
+
+  @media screen and (max-width: 1279px) {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(2, 1fr);
-    padding: 15px;
-    height: 125px;
+    height: auto;
+    padding: 20px 0 0;
+
     & > * {
       justify-self: center;
     }
@@ -62,18 +125,14 @@ export default {
   & > * {
     align-self: center;
   }
-  &_logged {
-    @media screen and (max-width: 768px) {
-      height: 200px;
-    }
-  }
+
   &__logo {
     background: url("~@/assets/svg/logo.svg") no-repeat;
     width: 126px;
     height: 29px;
   }
   &__logo-link {
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       justify-content: center;
       display: flex;
       zoom: 0.7;
@@ -82,26 +141,24 @@ export default {
   &__main {
     grid-column: 3 / 4;
     text-align: center;
+
     &_logged {
       grid-column: 2 / 5;
+
       @media screen and (max-width: 1000px) {
         display: flex;
         flex-direction: column;
       }
     }
-    @media screen and (max-width: 768px) {
-      grid-column: auto;
-      display: flex;
-      flex-direction: column;
-      margin: 10px 0;
+    @media screen and (max-width: 1279px) {
+      display: none;
     }
   }
   &__button {
     grid-column: 5 / 6;
     justify-self: end;
-    @media screen and (max-width: 768px) {
-      grid-column: auto;
-      justify-self: center;
+    @media screen and (max-width: 1279px) {
+      display: none;
     }
   }
   &__link {
@@ -113,14 +170,72 @@ export default {
     letter-spacing: 1px;
     text-decoration: none;
 
-    @media screen and (max-width: 768px) {
-      font-size: 15px;
-      line-height: 21px;
+    @media screen and (max-width: 1279px) {
+      margin-bottom: 10px;
     }
 
     &.router-link-active {
       color: $brown-color1;
     }
+  }
+
+  @media screen and (max-width: 1279px) {
+    &__menu {
+      cursor: pointer;
+      position: absolute;
+      right: 15px;
+      z-index: 101;
+
+      & > span {
+        width: 28px;
+        height: 2px;
+        margin-bottom: 5px;
+        background: $white-color1;
+        border-radius: 3px;
+        display: block;
+        transition: transform $transition/2;
+        transform-origin: 23px 1px;
+      }
+
+      &_opened {
+        & > span {
+          transform: rotate(45deg) translate(-2px, -1px);
+        }
+
+        & > span:nth-last-child(3) {
+          transform: rotate(-45deg) translate(0, -1px);
+        }
+
+        & > span:nth-last-child(2) {
+          opacity: 0;
+          transform: rotate(0deg) scale(0.2, 0.2);
+        }
+      }
+    }
+  }
+}
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: $gray-color5;
+  z-index: 100;
+  transform: translate(100%, 0);
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &__button {
+    margin-top: 20px;
+  }
+
+  &_opened {
+    transform: none;
   }
 }
 </style>
