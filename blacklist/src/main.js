@@ -47,7 +47,7 @@ new Vue({
   render: h => h(App),
   created() {
     var firebaseConfig = {
-      apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+      apiKey: "AIzaSyD9CaVFgo3YvJ9Nh6pgUMUIXJJ__HE7LnU",
       authDomain: "black-list-5cf3a.firebaseapp.com",
       databaseURL: "https://black-list-5cf3a.firebaseio.com",
       projectId: "black-list-5cf3a",
