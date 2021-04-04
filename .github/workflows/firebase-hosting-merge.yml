@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
+      uses:
         working-directory: ./blacklist
     steps:
       - uses: actions/checkout@v2
