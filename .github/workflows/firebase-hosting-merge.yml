@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
+        working-directory: ./blacklist
       uses:
         working-directory: ./blacklist
     steps:
