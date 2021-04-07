@@ -52,7 +52,7 @@ export default {
       default: false
     },
     taggable: Boolean,
-    value: Object,
+    value: [Object, String],
     options: Array,
     selectId: String,
     label: String,

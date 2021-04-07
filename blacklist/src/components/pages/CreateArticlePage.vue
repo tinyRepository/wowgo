@@ -76,11 +76,7 @@
         </div>
       </div>
 
-      <img
-        class="create-article__preview"
-        v-if="form.image"
-        :src="form.image"
-      />
+      <img class="create-article__preview" :src="previewSrc" />
 
       <button-el class="create-article__button" @click="tryToSendForm">
         Сохранить
@@ -101,12 +97,7 @@ import validateFormMixin from "@/mixins/validateForm";
 export default {
   mixins: [validateFormMixin],
   mounted() {
-    this.setLoading(true);
-    this.loadSections()
-      .then(() => {})
-      .finally(() => {
-        this.setLoading(false);
-      });
+    this.fetchArticleData();
 
     if (!this.isAdmin) {
       this.$router.replace({ name: "knowledge-base" });
@@ -121,7 +112,9 @@ export default {
         image: null,
         imageUrl: "",
         section: ""
-      }
+      },
+      editMode: false,
+      fileIsUpload: false
     };
   },
   computed: {
@@ -129,6 +122,9 @@ export default {
     ...mapGetters("userData", ["isAdmin"]),
     fileIsEmpty() {
       return this.$v.form.image.$invalid && this.$v.form.image.$dirty;
+    },
+    articleId() {
+      return this.$route.params.id;
     },
     dataForSending() {
       return {
@@ -142,6 +138,12 @@ export default {
     },
     isNewSection() {
       return this.sections.every(s => s.title !== this.form.section.title);
+    },
+    previewSrc() {
+      return this.form.image || this.form.imageUrl;
+    },
+    alertText() {
+      return this.editMode ? `обновлена` : `создана`;
     }
   },
   validations: {
@@ -184,18 +186,19 @@ export default {
         .then(snapshot => snapshot.ref.getDownloadURL())
         .then(url => {
           this.form.imageUrl = url;
-          return this.addArticle(this.dataForSending);
         })
         .catch(console.error);
     },
     handleFileUpload(event) {
       const input = event.target;
+
       if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = e => {
           this.form.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
+        this.fileIsUpload = true;
       }
     },
     async addSection() {
@@ -204,25 +207,76 @@ export default {
         .ref("sections")
         .push(this.form.section);
     },
-    async createArticle() {
-      const actions = [this.uploadImage()];
+    editArticle() {
+      const actions = [];
+
+      if (this.fileIsUpload) {
+        actions.push(this.uploadImage());
+      }
 
       if (this.isNewSection) {
         actions.push(this.addSection());
       }
-      await Promise.all(actions).then(() => {
-        alert("Статья успешно создана");
-        this.$router.push({ name: "knowledge-base" });
+
+      return Promise.all(actions).then(() => {
+        const task = this.editMode
+          ? this.updateArticle()
+          : this.addArticle(this.dataForSending);
+
+        task.then(() => {
+          alert(`Статья успешно ${this.alertText}`);
+          this.goToKnowledgeBasePage();
+        });
       });
+    },
+    async updateArticle() {
+      await firebase
+        .database()
+        .ref(`articles/${this.articleId}`)
+        .update({
+          title: this.form.title,
+          shortDescription: this.form.shortDescription,
+          description: this.form.description,
+          imageUrl: this.form.imageUrl,
+          section: this.form.section
+        });
+    },
+    async getArticleById() {
+      await firebase
+        .database()
+        .ref(`articles/${this.articleId}`)
+        .once("value")
+        .then(snapshot => {
+          Object.assign(this.form, snapshot.val());
+          this.form.image = snapshot.val().imageUrl;
+          this.editMode = true;
+        });
     },
     tryToSendForm() {
       this.validateForm().then(() => {
         this.setLoading(true);
 
-        this.createArticle().finally(() => {
+        return this.editArticle().finally(() => {
           this.setLoading(false);
         });
       });
+    },
+    goToKnowledgeBasePage() {
+      this.$router.push({ name: "knowledge-base" });
+    },
+    fetchArticleData() {
+      const actions = [this.loadSections()];
+
+      this.setLoading(true);
+      if (this.articleId) {
+        actions.push(this.getArticleById());
+      }
+
+      Promise.all(actions)
+        .then(() => {})
+        .finally(() => {
+          this.setLoading(false);
+        });
     }
   }
 };

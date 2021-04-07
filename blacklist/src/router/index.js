@@ -104,7 +104,7 @@ const routes = [
     beforeEnter: handleUnauthorisedRedirect
   },
   {
-    path: "/create-article",
+    path: "/create-article/:id?",
     name: "create-article",
     component: CreateArticlePage,
     beforeEnter: handleUnauthorisedRedirect
