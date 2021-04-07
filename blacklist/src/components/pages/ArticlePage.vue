@@ -5,6 +5,11 @@
       @selectActiveSection="selectActiveSection"
     />
     <div class="article">
+      <button
+        class="article__edit-article"
+        @click="goToEditArticlePage"
+        v-if="isAdmin"
+      />
       <button class="article__print" @click="print" />
 
       <div class="article__wrapper">
@@ -33,7 +38,7 @@
 
 <script>
 import firebase from "firebase/app";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import { getUnitsDeclension } from "@/utils/helpers";
 import KnowledgeBaseMenu from "Common/KnowledgeBaseMenu";
 
@@ -50,6 +55,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters("userData", ["isAdmin"]),
     articleId() {
       return this.$route.params.id;
     },
@@ -111,6 +117,9 @@ export default {
     },
     print() {
       window.print();
+    },
+    goToEditArticlePage() {
+      this.$router.push(`/create-article/${this.articleId}`);
     }
   }
 };
@@ -226,6 +235,17 @@ export default {
     @media screen and (max-width: 1279px) {
       display: none;
     }
+  }
+
+  &__edit-article {
+    position: absolute;
+    right: 82px;
+    top: 28px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    @include removeBtnDefaults();
+    background: url("~@/assets/svg/pencil.svg") no-repeat center;
   }
 
   &__read-time {
