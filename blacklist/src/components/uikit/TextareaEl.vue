@@ -104,6 +104,7 @@ export default {
   position: relative;
   width: 100%;
 }
+
 .textarea {
   @include fontRubik(13px, $black-color1, 300);
   line-height: 18px;
@@ -112,13 +113,12 @@ export default {
   height: 100%;
   padding: 15px 19px;
   border: 1px solid $gray-color3;
+  overflow-y: hidden;
   -moz-appearance: textfield;
   outline: none;
   resize: none;
   white-space: normal;
-  &::placeholder {
-    // color: $grey-color1;
-  }
+
   &__label {
     @include fontSans(15px, $black-color2, bold);
     line-height: 20px;
@@ -131,9 +131,11 @@ export default {
     }
   }
 }
+
 .is-danger {
   border: 1px solid $red-color1;
 }
+
 .error-text {
   @include fontRubik(12px, $red-color1, 300);
   position: absolute;

@@ -280,7 +280,9 @@ export default {
     }
   }
   &__form-textarea {
-    height: 148px;
+    /deep/ .textarea {
+      height: 148px;
+    }
   }
   &__form-row {
     display: grid;
