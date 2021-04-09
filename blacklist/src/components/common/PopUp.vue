@@ -80,7 +80,7 @@
 
             <textarea-el
               whiteLabel
-              v-model="$v.form.reasonForAdding.$model"
+              v-model.trim="$v.form.reasonForAdding.$model"
               :validationObj="$v.form.reasonForAdding"
               label="Причина внесения в список человека"
               class="popup__form-textarea"

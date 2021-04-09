@@ -13,12 +13,12 @@
             <th>№</th>
             <th>ФИО</th>
             <th>Дата рождения</th>
-            <th>Город рождения</th>
-            <th>Нарушение</th>
+            <th class="place-of-birth">Город рождения</th>
+            <th class="categories-of-violations">Нарушение</th>
             <th>Дата добавления в список</th>
             <th class="without-bg">Название гостиницы</th>
             <th class="without-bg">Местоположение</th>
-            <th class="without-bg">Комментарий</th>
+            <th class="without-bg comment-cell">Комментарий</th>
             <th class="without-bg" v-if="isAdmin">Телефон гостиницы</th>
           </tr>
         </thead>
@@ -29,13 +29,15 @@
               {{ item | formatName }}
             </td>
             <td>{{ item.dateOfBirth }}</td>
-            <td>{{ item.placeOfBirth }}</td>
-            <td>{{ item.categoriesOfViolations }}</td>
+            <td class="place-of-birth">{{ item.placeOfBirth }}</td>
+            <td class="categories-of-violations">
+              {{ item.categoriesOfViolations }}
+            </td>
             <td>{{ item.dateAdded }}</td>
             <td class="without-bg">{{ item.nameOfHotel }}</td>
             <td class="without-bg">{{ item.address }}</td>
-            <td class="without-bg" :title="item.reasonForAdding">
-              {{ item.reasonForAdding | trimReasonForAdding }}
+            <td class="without-bg comment-cell" :title="item.reasonForAdding">
+              <expanded-text :text="item.reasonForAdding" />
             </td>
             <td class="without-bg phone-cell" v-if="isAdmin">
               {{ item.phone }}
@@ -50,10 +52,9 @@
 </template>
 
 <script>
+import ExpandedText from "./ExpandedText";
 import Popup from "Common/PopUp";
 import { mapState, mapActions, mapGetters } from "vuex";
-
-const maxQuantityChars = 100;
 
 export default {
   data: () => ({
@@ -61,7 +62,8 @@ export default {
     searchText: ""
   }),
   components: {
-    Popup
+    Popup,
+    ExpandedText
   },
   computed: {
     ...mapState("blackList", ["listData"]),
@@ -81,11 +83,6 @@ export default {
   filters: {
     formatName(item) {
       return `${item.surname} ${item.name} ${item.middleName}`;
-    },
-    trimReasonForAdding(str) {
-      return str.length > maxQuantityChars
-        ? `${str.slice(0, maxQuantityChars)}...`
-        : str;
     }
   },
   methods: {
@@ -128,15 +125,17 @@ export default {
     max-width: 1670px;
     width: 100%;
     overflow-x: auto;
+
     table {
       width: 100%;
       border-collapse: collapse;
       text-align: left;
     }
+
     th {
       @include fontRubik(16px, $gray-color1, 500);
       line-height: 16px;
-      padding: 15px 19px;
+      padding: 14px;
       background: $gray-color5;
       border: 1px solid $gray-color5;
       &.without-bg {
@@ -145,20 +144,19 @@ export default {
         border: none;
       }
     }
+
     tr {
       border-bottom: 2px solid $gray-color7;
     }
+
     td {
       background: $gray-color6;
       text-align: left;
-      padding: 14px 24px;
+      padding: 14px;
       @include fontRubik(14px, $white-color1, 300);
       line-height: 16px;
       &.accent-cell {
         background: $gray-color5;
-        &_with-tooltip {
-          // cursor: pointer;
-        }
       }
       &.without-bg {
         max-width: 400px;
@@ -168,6 +166,7 @@ export default {
       }
     }
   }
+
   &__button {
     width: 38px;
     height: 38px;
@@ -182,11 +181,27 @@ export default {
     bottom: 30px;
   }
 }
+
 .stub-text {
   text-align: center;
   @include fontRubik(25px, $white-color1);
 }
+
 .phone-cell {
   white-space: nowrap;
+}
+
+.place-of-birth {
+  max-width: 200px;
+}
+
+.categories-of-violations {
+  max-width: 180px;
+}
+
+.comment-cell {
+  @media screen and (max-width: 768px) {
+    padding: 14px 10px 14px 0px !important;
+  }
 }
 </style>
