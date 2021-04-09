@@ -90,6 +90,16 @@ export default {
   },
   methods: {
     ...mapActions("blackList", ["loadBlackList"])
+  },
+  watch: {
+    showPopup(val) {
+      const html = document.querySelector("html");
+      if (val) {
+        html.classList.add("stop");
+      } else {
+        html.classList.remove("stop");
+      }
+    }
   }
 };
 </script>
