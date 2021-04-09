@@ -104,7 +104,7 @@ export default {
   display: grid;
   padding: 0 71px;
   grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: auto;
+  grid-template-rows: 1fr;
   background-color: $black-color2;
   user-select: none;
 
