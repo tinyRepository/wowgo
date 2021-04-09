@@ -50,7 +50,6 @@ export default {
 .expand-button {
   display: initial;
   margin-top: 3px;
-  line-height: 20px;
   color: $brown-color1;
   position: relative;
   cursor: pointer;
@@ -58,7 +57,6 @@ export default {
 
   @media screen and (max-width: 768px) {
     font-size: 12px;
-    line-height: 14px;
   }
 
   &::after {
