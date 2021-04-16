@@ -122,6 +122,12 @@ export default {
       justify-self: center;
     }
   }
+
+  @media screen and (max-width: 768px) {
+    grid-template-rows: repeat(1, 1fr);
+    padding: 10px 0;
+  }
+
   & > * {
     align-self: center;
   }
@@ -130,14 +136,27 @@ export default {
     background: url("~@/assets/svg/logo.svg") no-repeat;
     width: 126px;
     height: 29px;
+
+    @media screen and (max-width: 768px) {
+      background: url("~@/assets/svg/logo_mobile.svg") no-repeat;
+      background-size: contain;
+      width: 41px;
+      height: 41px;
+    }
   }
+
   &__logo-link {
     @media screen and (max-width: 1279px) {
       justify-content: center;
       display: flex;
       zoom: 0.7;
     }
+
+    @media screen and (max-width: 768px) {
+      zoom: 1;
+    }
   }
+
   &__main {
     grid-column: 3 / 4;
     text-align: center;
