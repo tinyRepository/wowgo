@@ -1,5 +1,11 @@
 <template>
-  <div class="black-list" :class="{ 'black-list_pinned': searchText }">
+  <div
+    class="black-list"
+    :class="{
+      'black-list_pinned': searchText,
+      'black-list_default': showPopup
+    }"
+  >
     <Popup v-if="showPopup" @close="showPopup = false" />
     <div class="mobile-description">
       <div class="mobile-description__quote">get out of here</div>
@@ -58,7 +64,11 @@
         </tbody>
       </table>
       <div v-else class="stub-text">Ничего не найдено...</div>
-      <button class="black-list__button" @click="showPopup = true"></button>
+      <button
+        class="black-list__button"
+        v-if="checkUser"
+        @click="showPopup = true"
+      ></button>
     </div>
   </div>
 </template>
@@ -81,7 +91,7 @@ export default {
   },
   computed: {
     ...mapState("blackList", ["listData"]),
-    ...mapGetters("userData", ["isAdmin"]),
+    ...mapGetters("userData", ["isAdmin", "checkUser"]),
     formattedListData() {
       const filterdList = this.listData.filter(item => {
         return item.fullName
@@ -135,9 +145,15 @@ export default {
     margin: auto;
     transition: $transition/2 transform;
     transform: translate3d(0, calc(50vh - 190px), 0);
+    min-height: calc(100vh - calc(50vh - 130px));
 
     &_pinned {
       transform: translate3d(0, 0, 0);
+    }
+
+    &_default {
+      transition: none;
+      transform: none;
     }
 
     &__search {
@@ -162,7 +178,9 @@ export default {
     overflow-x: auto;
 
     @media screen and (max-width: 768px) {
-      display: none;
+      & > table {
+        display: none;
+      }
     }
 
     table {
@@ -218,12 +236,20 @@ export default {
     background: $brown-color1 url("~@/assets/svg/plus.svg") no-repeat center;
     position: fixed;
     bottom: 30px;
+
+    @media screen and (max-width: 768px) {
+      left: 20px;
+      bottom: 0;
+    }
   }
 }
 
 .stub-text {
   text-align: center;
   @include fontRubik(25px, $white-color1);
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 }
 
 .phone-cell {
