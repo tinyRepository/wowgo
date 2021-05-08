@@ -2,9 +2,9 @@
   <div class="accordion">
     <template v-if="searchText">
       <accordion-item
-        v-for="item in listData"
+        v-for="(item, index) in listData"
         :isSingleElement="isSingleElement"
-        :key="`${item.fullName}${item.dateOfBirth}`"
+        :key="index"
         :item="item"
       />
       <div class="accordion__stub-text" v-if="!listData.length">
