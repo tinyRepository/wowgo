@@ -125,7 +125,7 @@ export default {
       categoriesOfViolations: null
     },
     selectboxOptions: [
-      { value: "Воровство", id: "theft" },
+      { value: "Кража", id: "theft" },
       { value: "Оскорбление", id: "insultingCitizens" },
       { value: "Порча имущества", id: "destructionOfProperty" },
       { value: "Курение", id: "smoking" },

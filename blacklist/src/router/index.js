@@ -76,8 +76,7 @@ const routes = [
   {
     path: "/black-list",
     name: "blackList",
-    component: BlackList,
-    beforeEnter: handleUnauthorisedRedirect
+    component: BlackList
   },
   {
     path: "/support",

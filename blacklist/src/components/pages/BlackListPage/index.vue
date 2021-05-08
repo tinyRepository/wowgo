@@ -1,11 +1,29 @@
 <template>
-  <div class="black-list">
+  <div
+    class="black-list"
+    :class="{
+      'black-list_pinned': searchText,
+      'black-list_default': showPopup
+    }"
+  >
     <Popup v-if="showPopup" @close="showPopup = false" />
-    <search-el
-      v-model="searchText"
-      placeholder="Поиск по ФИО"
-      class="black-list__search"
-    />
+    <div class="mobile-description">
+      <div class="mobile-description__quote">get out of here</div>
+      <h1 class="mobile-description__title">GUEST SCAN</h1>
+    </div>
+    <div class="search-wrapper">
+      <search-el
+        v-model="searchText"
+        placeholder="Поиск по ФИО"
+        class="black-list__search"
+      />
+
+      <accordion-el
+        :listData="formattedListData"
+        :searchText="searchText"
+        class="black-list__accordion"
+      />
+    </div>
     <div class="black-list__table">
       <table v-if="formattedListData.length">
         <thead>
@@ -46,15 +64,20 @@
         </tbody>
       </table>
       <div v-else class="stub-text">Ничего не найдено...</div>
-      <button class="black-list__button" @click="showPopup = true"></button>
+      <button
+        class="black-list__button"
+        v-if="checkUser"
+        @click="showPopup = true"
+      ></button>
     </div>
   </div>
 </template>
 
 <script>
-import ExpandedText from "./ExpandedText";
-import Popup from "Common/PopUp";
 import { mapState, mapActions, mapGetters } from "vuex";
+import ExpandedText from "./ExpandedText";
+import AccordionEl from "./AccordionEl";
+import Popup from "Common/PopUp";
 
 export default {
   data: () => ({
@@ -63,11 +86,12 @@ export default {
   }),
   components: {
     Popup,
+    AccordionEl,
     ExpandedText
   },
   computed: {
     ...mapState("blackList", ["listData"]),
-    ...mapGetters("userData", ["isAdmin"]),
+    ...mapGetters("userData", ["isAdmin", "checkUser"]),
     formattedListData() {
       const filterdList = this.listData.filter(item => {
         return item.fullName
@@ -113,11 +137,49 @@ export default {
     margin-bottom: 83px;
   }
 
+  &__accordion {
+    display: none;
+  }
+
   @media screen and (max-width: 768px) {
-    margin: 85px auto 110px;
+    margin: auto;
+    transition: $transition/2 transform;
+    transform: translate3d(0, calc(50vh - 190px), 0);
+    min-height: calc(100vh - calc(50vh - 130px));
+
+    &_pinned {
+      transform: translate3d(0, 0, 0);
+    }
+
+    &_default {
+      transition: none;
+      transform: none;
+    }
 
     &__search {
-      margin-bottom: 43px;
+      max-width: 740px !important;
+      margin: 5px 19px 26px;
+      padding: 0 19px;
+      width: 100%;
+
+      /deep/ {
+        input {
+          max-width: inherit;
+          background-size: 20px;
+          background-position: right 6px top 10px;
+          font-size: 12px;
+          padding: 11px 35px 11px 10px;
+        }
+
+        .search-clear {
+          right: 30px;
+        }
+      }
+    }
+
+    &__accordion {
+      display: flex;
+      margin-bottom: 50px;
     }
   }
 
@@ -125,6 +187,12 @@ export default {
     max-width: 1670px;
     width: 100%;
     overflow-x: auto;
+
+    @media screen and (max-width: 768px) {
+      & > table {
+        display: none;
+      }
+    }
 
     table {
       width: 100%;
@@ -179,12 +247,20 @@ export default {
     background: $brown-color1 url("~@/assets/svg/plus.svg") no-repeat center;
     position: fixed;
     bottom: 30px;
+
+    @media screen and (max-width: 768px) {
+      left: 20px;
+      bottom: 0;
+    }
   }
 }
 
 .stub-text {
   text-align: center;
   @include fontRubik(25px, $white-color1);
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 }
 
 .phone-cell {
@@ -203,5 +279,36 @@ export default {
   @media screen and (max-width: 768px) {
     padding: 14px 10px 14px 0px !important;
   }
+}
+
+.mobile-description {
+  text-align: center;
+  margin-top: 111px;
+
+  @media screen and (min-width: 769px) {
+    display: none;
+  }
+
+  &__quote {
+    @include fontRubik(12px, $brown-color1);
+    line-height: 9px;
+    letter-spacing: 0.7px;
+  }
+
+  &__title {
+    @include fontRubik(30px, $white-color2, 500);
+    line-height: 36px;
+    letter-spacing: 0.7px;
+    margin-bottom: 3px;
+    margin-top: 0;
+  }
+}
+
+.search-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 </style>
