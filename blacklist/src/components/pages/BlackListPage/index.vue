@@ -1,11 +1,19 @@
 <template>
   <div class="black-list">
     <Popup v-if="showPopup" @close="showPopup = false" />
-    <search-el
-      v-model="searchText"
-      placeholder="Поиск по ФИО"
-      class="black-list__search"
-    />
+    <div class="mobile-description">
+      <div class="mobile-description__quote">get out of here</div>
+      <h1 class="mobile-description__title">GUEST SCAN</h1>
+    </div>
+    <div class="search-wrapper">
+      <search-el
+        v-model="searchText"
+        placeholder="Поиск по ФИО"
+        class="black-list__search"
+      />
+
+      <accordion-el :listData="formattedListData" :searchText="searchText" />
+    </div>
     <div class="black-list__table">
       <table v-if="formattedListData.length">
         <thead>
@@ -52,9 +60,10 @@
 </template>
 
 <script>
-import ExpandedText from "./ExpandedText";
-import Popup from "Common/PopUp";
 import { mapState, mapActions, mapGetters } from "vuex";
+import ExpandedText from "./ExpandedText";
+import AccordionEl from "./AccordionEl";
+import Popup from "Common/PopUp";
 
 export default {
   data: () => ({
@@ -63,6 +72,7 @@ export default {
   }),
   components: {
     Popup,
+    AccordionEl,
     ExpandedText
   },
   computed: {
@@ -114,10 +124,18 @@ export default {
   }
 
   @media screen and (max-width: 768px) {
-    margin: 85px auto 110px;
+    margin: auto;
+    justify-content: center;
 
     &__search {
-      margin-bottom: 43px;
+      max-width: 700px;
+      margin: 5px 19px 26px;
+      width: -webkit-fill-available !important;
+      background-size: 20px !important;
+      background-position: right 6px top 10px !important;
+      font-size: 12px !important;
+      max-width: 700px !important;
+      padding: 11px 35px 11px 10px !important;
     }
   }
 
@@ -125,6 +143,10 @@ export default {
     max-width: 1670px;
     width: 100%;
     overflow-x: auto;
+
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
 
     table {
       width: 100%;
@@ -203,5 +225,37 @@ export default {
   @media screen and (max-width: 768px) {
     padding: 14px 10px 14px 0px !important;
   }
+}
+
+.mobile-description {
+  text-align: center;
+  margin-top: 111px;
+
+  @media screen and (min-width: 769px) {
+    display: none;
+  }
+
+  &__quote {
+    @include fontRubik(8px, $brown-color1);
+    line-height: 9px;
+    letter-spacing: 0.7px;
+    margin-bottom: -2px;
+  }
+
+  &__title {
+    @include fontRubik(30px, $white-color2);
+    line-height: 36px;
+    letter-spacing: 0.7px;
+    margin-bottom: 3px;
+    margin-top: 0;
+  }
+}
+
+.search-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 </style>
