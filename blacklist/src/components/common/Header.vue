@@ -22,6 +22,12 @@
     <button-el class="header__button" v-if="checkUser" @click="logoutUser"
       >Выйти</button-el
     >
+    <button-el
+      class="header__button"
+      v-if="showEntryButton"
+      @click="goToLoginPage"
+      >Войти</button-el
+    >
     <div
       class="header__menu"
       :class="{ header__menu_opened: showMenu }"
@@ -50,6 +56,7 @@
       </template>
 
       <template v-else>
+        <router-link to="/black-list" class="header__link">Список</router-link>
         <router-link to="/registration" class="header__link"
           >Регистрация</router-link
         >
@@ -68,7 +75,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("userData", ["checkUser"])
+    ...mapGetters("userData", ["checkUser"]),
+    showEntryButton() {
+      return !this.checkUser && this.$route.name !== "login";
+    }
   },
   methods: {
     ...mapActions("userData", ["logoutUser"]),
@@ -81,6 +91,9 @@ export default {
       } else {
         html.classList.remove("stop");
       }
+    },
+    goToLoginPage() {
+      this.$router.push("/login");
     }
   },
   watch: {
@@ -113,7 +126,7 @@ export default {
   }
 
   @media screen and (max-width: 1279px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(2, 1fr);
     height: auto;
     padding: 20px 0 0;
@@ -150,6 +163,7 @@ export default {
       justify-content: center;
       display: flex;
       zoom: 0.7;
+      grid-column: 3;
     }
 
     @media screen and (max-width: 768px) {
@@ -177,7 +191,9 @@ export default {
     grid-column: 5 / 6;
     justify-self: end;
     @media screen and (max-width: 1279px) {
-      display: none;
+      padding: 5px 10px;
+      margin-right: 12px;
+      font-size: 12px;
     }
   }
   &__link {
@@ -202,7 +218,7 @@ export default {
     &__menu {
       cursor: pointer;
       position: absolute;
-      right: 15px;
+      left: 15px;
       z-index: 101;
 
       & > span {

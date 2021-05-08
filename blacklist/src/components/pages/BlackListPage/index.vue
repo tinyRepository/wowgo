@@ -152,7 +152,7 @@ export default {
     }
 
     &__accordion {
-      display: block;
+      display: flex;
     }
   }
 

@@ -65,6 +65,7 @@ export default {
     overflow: hidden;
     cursor: pointer;
 
+    width: calc(100% - 35px);
     position: relative;
     padding: 11px 14px 5px;
     margin: 5px 19px 10px;

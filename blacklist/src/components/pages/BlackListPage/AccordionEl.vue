@@ -2,9 +2,9 @@
   <div class="accordion">
     <template v-if="searchText">
       <accordion-item
-        v-for="(item, index) in listData"
+        v-for="item in listData"
         :isSingleElement="isSingleElement"
-        :key="index"
+        :key="`${item.fullName}${item.dateOfBirth}`"
         :item="item"
       />
       <div class="accordion__stub-text" v-if="!listData.length">
@@ -37,6 +37,9 @@ export default {
 <style lang="scss" scoped>
 .accordion {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   &__stub-text {
     @include fontRubik(15px, $white-color1);
