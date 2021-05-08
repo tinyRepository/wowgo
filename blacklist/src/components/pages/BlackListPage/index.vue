@@ -260,7 +260,7 @@ export default {
   }
 
   &__title {
-    @include fontRubik(30px, $white-color2);
+    @include fontRubik(30px, $white-color2, 500);
     line-height: 36px;
     letter-spacing: 0.7px;
     margin-bottom: 3px;

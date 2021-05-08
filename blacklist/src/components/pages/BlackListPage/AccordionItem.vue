@@ -86,7 +86,7 @@ export default {
 
   &__label {
     margin: 7px 0 3px;
-    @include fontRubik(10px, $white-color2, 500);
+    @include fontRubik(12px, $white-color2, 500);
     line-height: 12px;
     letter-spacing: 0.3px;
   }
@@ -101,8 +101,8 @@ export default {
   }
 
   &__data-item {
-    @include fontRubik(10px, $white-color2, 300);
-    line-height: 12px;
+    @include fontRubik(12px, $white-color2, 300);
+    line-height: 14px;
     margin-bottom: 6px;
     letter-spacing: -0.1px;
   }

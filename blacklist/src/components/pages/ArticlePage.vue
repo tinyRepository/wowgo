@@ -246,6 +246,13 @@ export default {
     cursor: pointer;
     @include removeBtnDefaults();
     background: url("~@/assets/svg/pencil.svg") no-repeat center;
+
+    @media screen and (max-width: 768px) {
+      right: 15px;
+      top: 14px;
+      width: 17px;
+      height: 17px;
+    }
   }
 
   &__read-time {
