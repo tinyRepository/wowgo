@@ -1,5 +1,5 @@
 <template>
-  <div class="black-list">
+  <div class="black-list" :class="{ 'black-list_pinned': searchText }">
     <Popup v-if="showPopup" @close="showPopup = false" />
     <div class="mobile-description">
       <div class="mobile-description__quote">get out of here</div>
@@ -12,7 +12,11 @@
         class="black-list__search"
       />
 
-      <accordion-el :listData="formattedListData" :searchText="searchText" />
+      <accordion-el
+        :listData="formattedListData"
+        :searchText="searchText"
+        class="black-list__accordion"
+      />
     </div>
     <div class="black-list__table">
       <table v-if="formattedListData.length">
@@ -123,9 +127,18 @@ export default {
     margin-bottom: 83px;
   }
 
+  &__accordion {
+    display: none;
+  }
+
   @media screen and (max-width: 768px) {
     margin: auto;
-    justify-content: center;
+    transition: $transition/2 transform;
+    transform: translate3d(0, calc(50vh - 190px), 0);
+
+    &_pinned {
+      transform: translate3d(0, 0, 0);
+    }
 
     &__search {
       max-width: 700px;
@@ -136,6 +149,10 @@ export default {
       font-size: 12px !important;
       max-width: 700px !important;
       padding: 11px 35px 11px 10px !important;
+    }
+
+    &__accordion {
+      display: block;
     }
   }
 

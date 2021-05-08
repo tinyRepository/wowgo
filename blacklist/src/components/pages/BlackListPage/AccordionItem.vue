@@ -12,27 +12,48 @@
       {{ item.fullName }}
     </div>
     <div class="accordion__label">Сведения:</div>
-    <div class="accordion__warning">
+    <div class="accordion__warning" v-if="!checkUser">
       Чтобы увидеть все данные войдите в систему
     </div>
     <div class="accordion__data-item">Статус: Гость</div>
-    <div class="accordion__data-item">Дата рождения: скрыто</div>
-    <div class="accordion__data-item">Город рождения: скрыто</div>
-    <div class="accordion__data-item">Нарушение: скрыто</div>
-    <div class="accordion__data-item">Комментарий: скрыто</div>
+    <div class="accordion__data-item">
+      Дата рождения: {{ formatData(item.dateOfBirth) }}
+    </div>
+    <div class="accordion__data-item">
+      Город рождения: {{ formatData(item.placeOfBirth) }}
+    </div>
+    <div class="accordion__data-item">
+      Нарушение: {{ formatData(item.categoriesOfViolations) }}
+    </div>
+    <div class="accordion__data-item">
+      Комментарий: {{ formatData(item.reasonForAdding) }}
+    </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
       isOpened: false
     };
   },
+
   props: {
     item: Object,
     isSingleElement: Boolean
+  },
+
+  methods: {
+    formatData(val) {
+      return this.checkUser ? val : "скрыто";
+    }
+  },
+
+  computed: {
+    ...mapGetters("userData", ["checkUser"])
   }
 };
 </script>
@@ -64,7 +85,7 @@ export default {
 
   &__label {
     margin: 7px 0 3px;
-    @include fontRubik(10px, $white-color2);
+    @include fontRubik(10px, $white-color2, 500);
     line-height: 12px;
     letter-spacing: 0.3px;
   }
@@ -79,7 +100,7 @@ export default {
   }
 
   &__data-item {
-    @include fontRubik(10px, $white-color2);
+    @include fontRubik(10px, $white-color2, 300);
     line-height: 12px;
     margin-bottom: 6px;
     letter-spacing: -0.1px;
