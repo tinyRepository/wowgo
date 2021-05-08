@@ -134,6 +134,7 @@ export default {
 
     @media screen and (max-width: 1279px) {
       margin-bottom: 18px;
+      margin-top: 50px;
 
       &.search {
         max-width: 250px;
@@ -143,6 +144,9 @@ export default {
         font-size: 11px;
         letter-spacing: 0.5px;
       }
+    }
+    @media screen and (max-width: 768px) {
+      margin-top: 20px;
     }
   }
 
@@ -312,8 +316,12 @@ export default {
     top: 200px;
 
     @media screen and (max-width: 1279px) {
-      top: 120px;
+      top: 180px;
       font-size: 13px;
+    }
+
+    @media screen and (max-width: 768px) {
+      top: 152px;
     }
   }
 }

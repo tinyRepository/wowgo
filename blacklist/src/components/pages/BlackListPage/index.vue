@@ -157,18 +157,29 @@ export default {
     }
 
     &__search {
-      max-width: 700px;
+      max-width: 740px !important;
       margin: 5px 19px 26px;
-      width: -webkit-fill-available !important;
-      background-size: 20px !important;
-      background-position: right 6px top 10px !important;
-      font-size: 12px !important;
-      max-width: 700px !important;
-      padding: 11px 35px 11px 10px !important;
+      padding: 0 19px;
+      width: 100%;
+
+      /deep/ {
+        input {
+          max-width: inherit;
+          background-size: 20px;
+          background-position: right 6px top 10px;
+          font-size: 12px;
+          padding: 11px 35px 11px 10px;
+        }
+
+        .search-clear {
+          right: 30px;
+        }
+      }
     }
 
     &__accordion {
       display: flex;
+      margin-bottom: 50px;
     }
   }
 
@@ -279,10 +290,9 @@ export default {
   }
 
   &__quote {
-    @include fontRubik(8px, $brown-color1);
+    @include fontRubik(12px, $brown-color1);
     line-height: 9px;
     letter-spacing: 0.7px;
-    margin-bottom: -2px;
   }
 
   &__title {
