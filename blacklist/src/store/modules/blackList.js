@@ -16,9 +16,6 @@ const actions = {
       .push(dataForSending)
       .then(() => {
         dispatch("loadBlackList");
-        setTimeout(() => {
-          alert("Успешно добавлен!");
-        }, 300);
       })
       .catch(() => {
         alert("Ошибка!");
