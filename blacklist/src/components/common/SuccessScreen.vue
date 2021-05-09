@@ -8,8 +8,8 @@
             Нежелательный гость успешно добавлен
           </h1>
           <p class="success-screen__description">
-            Данная платформа никогда не будет платной, но её поддержание и
-            развитие стоит денег.
+            Данная платформа бесплатная, но&nbsp;её&nbsp;поддержание и развитие
+            стоит денег.
           </p>
           <p class="success-screen__description">
             Если вы хотите чтобы проект жил - мы добавили возможность
@@ -27,8 +27,11 @@
               Пожертовать
             </button-el>
           </div>
-          <checkbox-el id="checkbox" v-model="checked"
-            >Больше не показывать данное сообщение</checkbox-el
+          <checkbox-el
+            id="checkbox"
+            v-model="checked"
+            class="success-screen__checkbox"
+            >Больше не показывать это сообщение</checkbox-el
           >
         </div>
         <div class="success-screen__villain" />
@@ -77,11 +80,24 @@ export default {
     line-height: 16px;
     margin-top: 36px;
     margin-bottom: 23px;
+
+    @media screen and (max-width: 768px) {
+      letter-spacing: 0.3px;
+      margin-bottom: 18px;
+      line-height: 16px;
+      font-size: 12px;
+      margin-top: 0;
+    }
   }
 
   &__description {
     @include fontRubik(16px, $white-color2, 300);
     max-width: 370px;
+
+    @media screen and (max-width: 768px) {
+      font-size: 12px;
+      line-height: 13px;
+    }
   }
 
   &__villain {
@@ -91,6 +107,10 @@ export default {
     margin-left: auto;
     margin-right: 12px;
     margin-top: -5px;
+
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
   }
 
   &__overlay {
@@ -109,6 +129,11 @@ export default {
     max-height: 363px;
     margin: auto;
     z-index: 1;
+
+    @media screen and (max-width: 768px) {
+      padding: 31px 21px;
+      max-width: 310px;
+    }
   }
 
   &__button {
@@ -124,11 +149,33 @@ export default {
     &_red {
       background: $red-color2 !important;
     }
+
+    @media screen and (max-width: 768px) {
+      font-size: 12px;
+      line-height: 16px;
+      padding: 8px 20px !important;
+    }
   }
 
   &__buttons {
     margin-top: 49px;
     margin-bottom: 22px;
+
+    @media screen and (max-width: 768px) {
+      margin-top: 24px;
+      margin-bottom: 16px;
+    }
+  }
+
+  &__checkbox {
+    @media screen and (max-width: 768px) {
+      /deep/ .checkbox-text {
+        font-size: 10px;
+        margin-top: 2px;
+        margin-left: 8px;
+        letter-spacing: -0.1px;
+      }
+    }
   }
 }
 </style>
