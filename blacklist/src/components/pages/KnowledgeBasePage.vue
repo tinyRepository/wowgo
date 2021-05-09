@@ -235,7 +235,7 @@ export default {
     @media screen and (max-width: 1279px) {
       padding: 8px 15px;
       background: $gray-color11;
-      max-width: 270px;
+      max-width: 630px;
       height: auto;
       margin: 0 auto 12px !important;
       display: flex;
