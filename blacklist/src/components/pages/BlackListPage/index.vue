@@ -3,10 +3,15 @@
     class="black-list"
     :class="{
       'black-list_pinned': searchText,
-      'black-list_default': showPopup
+      'black-list_default': showPopup || showSuccessPopup
     }"
   >
-    <Popup v-if="showPopup" @close="showPopup = false" />
+    <Popup
+      v-if="showPopup"
+      @close="showPopup = false"
+      @showSuccessPopup="showSuccessPopup = true"
+    />
+    <success-screen v-if="showSuccessPopup" @close="showSuccessPopup = false" />
     <div class="mobile-description">
       <div class="mobile-description__quote">get out of here</div>
       <h1 class="mobile-description__title">GUEST SCAN</h1>
@@ -76,18 +81,21 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import ExpandedText from "./ExpandedText";
+import SuccessScreen from "Common/SuccessScreen";
 import AccordionEl from "./AccordionEl";
 import Popup from "Common/PopUp";
 
 export default {
   data: () => ({
     showPopup: false,
+    showSuccessPopup: false,
     searchText: ""
   }),
   components: {
     Popup,
     AccordionEl,
-    ExpandedText
+    ExpandedText,
+    SuccessScreen
   },
   computed: {
     ...mapState("blackList", ["listData"]),

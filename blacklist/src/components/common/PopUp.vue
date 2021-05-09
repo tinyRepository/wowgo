@@ -193,9 +193,17 @@ export default {
   methods: {
     ...mapActions("blackList", ["addItemToList"]),
     addItem() {
-      this.addItemToList(this.dataForSending).finally(() => {
-        this.$emit("close");
-      });
+      this.addItemToList(this.dataForSending)
+        .then(() => {
+          if (localStorage.getItem("hidePopup")) {
+            alert("Успешно добавлен!");
+          } else {
+            this.$emit("showSuccessPopup");
+          }
+        })
+        .finally(() => {
+          this.$emit("close");
+        });
     },
     tryToSendForm() {
       this.validateForm().then(() => {

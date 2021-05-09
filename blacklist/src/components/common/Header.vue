@@ -23,7 +23,7 @@
       >Выйти</button-el
     >
     <button-el
-      class="header__button"
+      class="header__button header__button_login"
       v-if="showEntryButton"
       @click="goToLoginPage"
       >Войти</button-el
@@ -127,9 +127,9 @@ export default {
 
   @media screen and (max-width: 1279px) {
     grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: repeat(1, 1fr);
     height: auto;
-    padding: 20px 0 0;
+    padding: 10px 0;
 
     & > * {
       justify-self: center;
@@ -151,9 +151,15 @@ export default {
     width: 126px;
     height: 29px;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1279px) {
       background: url("~@/assets/svg/logo_mobile.svg") no-repeat;
       background-size: contain;
+
+      width: 56px;
+      height: 56px;
+    }
+
+    @media screen and (max-width: 768px) {
       width: 41px;
       height: 41px;
     }
@@ -188,15 +194,24 @@ export default {
       display: none;
     }
   }
+
   &__button {
     grid-column: 5 / 6;
     justify-self: end;
+
     @media screen and (max-width: 1279px) {
-      padding: 5px 10px;
+      padding: 5px 10px !important;
       margin-right: 12px;
       font-size: 12px;
     }
+
+    &_login {
+      @media screen and (min-width: 1280px) {
+        display: none;
+      }
+    }
   }
+
   &__link {
     cursor: pointer;
     display: initial;
