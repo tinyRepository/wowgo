@@ -22,6 +22,7 @@ import SelectBox from "Uikit/SelectBox";
 import SpinnerEl from "Common/SpinnerEl";
 import TextareaEl from "Uikit/TextareaEl";
 import BaseSwitch from "Uikit/BaseSwitch";
+import CheckBoxEl from "Uikit/CheckBoxEl";
 
 Vue.config.productionTip = false;
 
@@ -32,6 +33,7 @@ Vue.component("select-box", SelectBox);
 Vue.component("spinner-el", SpinnerEl);
 Vue.component("textarea-el", TextareaEl);
 Vue.component("base-switch", BaseSwitch);
+Vue.component("checkbox-el", CheckBoxEl);
 
 const VueInputMask = require("vue-inputmask").default;
 Vue.prototype.wip = () => alert("Функционал в разработке"); // eslint-disable-line
