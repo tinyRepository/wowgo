@@ -29,9 +29,6 @@ export default {
     isLoginPage() {
       return this.$route.meta.isLoginPage;
     }
-  },
-  methods: {
-    tryToSendForm() {}
   }
 };
 </script>

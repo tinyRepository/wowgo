@@ -70,7 +70,7 @@ export default {
         return null;
       }
       const keys = Object.keys(this.validationObj.$params);
-      const invalidKey = keys.find(k => !this.validationObj[k]);
+      const invalidKey = keys.find(key => !this.validationObj[key]);
       if (!invalidKey) {
         return null;
       }

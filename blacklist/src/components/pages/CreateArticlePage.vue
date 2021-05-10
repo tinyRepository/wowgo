@@ -137,7 +137,9 @@ export default {
       };
     },
     isNewSection() {
-      return this.sections.every(s => s.title !== this.form.section.title);
+      return this.sections.every(
+        section => section.title !== this.form.section.title
+      );
     },
     previewSrc() {
       return this.form.image || this.form.imageUrl;

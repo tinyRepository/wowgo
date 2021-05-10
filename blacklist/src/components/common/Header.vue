@@ -84,7 +84,10 @@ export default {
     ...mapActions("userData", ["logoutUser"]),
     toggleMenu() {
       this.showMenu = !this.showMenu;
+      this.disableScroll();
+    },
 
+    disableScroll() {
       const html = document.querySelector("html");
       if (this.showMenu) {
         html.classList.add("stop");
@@ -92,6 +95,7 @@ export default {
         html.classList.remove("stop");
       }
     },
+
     goToLoginPage() {
       this.$router.push("/login");
     }

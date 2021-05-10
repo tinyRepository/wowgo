@@ -69,8 +69,8 @@ export default {
     ...mapGetters("userData", ["isAdmin"]),
     ...mapState("articles", ["articles"]),
     notFound() {
-      return this.selectedItems.some(s =>
-        s.title.toLowerCase().includes(this.searchText.toLowerCase())
+      return this.selectedItems.some(item =>
+        item.title.toLowerCase().includes(this.searchText.toLowerCase())
       );
     },
     sectionType() {
@@ -109,8 +109,8 @@ export default {
         this.selectedItems = this.articles;
         return;
       }
-      this.selectedItems = this.articles.filter(a => {
-        return a.section.title === title;
+      this.selectedItems = this.articles.filter(article => {
+        return article.section.title === title;
       });
     }
   }
