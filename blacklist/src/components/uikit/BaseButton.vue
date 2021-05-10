@@ -6,7 +6,7 @@
     v-on="$listeners"
     :type="type"
   >
-    <slot></slot>
+    <slot />
   </button>
 </template>
 
@@ -16,13 +16,16 @@ export default {
     disabled: {
       type: Boolean
     },
+
     type: {
       type: String,
       default: "button"
     },
+
     gray: {
       type: Boolean
     },
+
     red: {
       type: Boolean
     }

@@ -19,23 +19,23 @@
         <router-link to="/support" class="header__link">Поддержать</router-link>
       </template>
     </div>
-    <button-el class="header__button" v-if="checkUser" @click="logoutUser"
-      >Выйти</button-el
+    <base-button class="header__button" v-if="checkUser" @click="logoutUser"
+      >Выйти</base-button
     >
-    <button-el
-      class="header__button header__button_login"
+    <base-button
       v-if="showEntryButton"
+      class="header__button header__button_login"
       @click="goToLoginPage"
-      >Войти</button-el
+      >Войти</base-button
     >
     <div
       class="header__menu"
       :class="{ header__menu_opened: showMenu }"
       @click="toggleMenu"
     >
-      <span></span>
-      <span></span>
-      <span></span>
+      <span />
+      <span />
+      <span />
     </div>
 
     <div class="menu-overlay" :class="{ 'menu-overlay_opened': showMenu }">
@@ -47,11 +47,11 @@
         >
         <router-link to="/support" class="header__link">Поддержать</router-link>
 
-        <button-el
-          class="menu-overlay__button"
+        <base-button
           v-if="checkUser"
+          class="menu-overlay__button"
           @click="logoutUser"
-          >Выйти</button-el
+          >Выйти</base-button
         >
       </template>
 
@@ -68,34 +68,21 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+
 export default {
   data() {
     return {
       showMenu: false
     };
   },
+
   computed: {
     ...mapGetters("userData", ["checkUser"]),
     showEntryButton() {
       return !this.checkUser && this.$route.name !== "login";
     }
   },
-  methods: {
-    ...mapActions("userData", ["logoutUser"]),
-    toggleMenu() {
-      this.showMenu = !this.showMenu;
 
-      const html = document.querySelector("html");
-      if (this.showMenu) {
-        html.classList.add("stop");
-      } else {
-        html.classList.remove("stop");
-      }
-    },
-    goToLoginPage() {
-      this.$router.push("/login");
-    }
-  },
   watch: {
     $route: {
       handler() {
@@ -105,6 +92,27 @@ export default {
         html.classList.remove("stop");
       },
       immediate: true
+    }
+  },
+
+  methods: {
+    ...mapActions("userData", ["logoutUser"]),
+    toggleMenu() {
+      this.showMenu = !this.showMenu;
+      this.disableScroll();
+    },
+
+    disableScroll() {
+      const html = document.querySelector("html");
+      if (this.showMenu) {
+        html.classList.add("stop");
+      } else {
+        html.classList.remove("stop");
+      }
+    },
+
+    goToLoginPage() {
+      this.$router.push("/login");
     }
   }
 };

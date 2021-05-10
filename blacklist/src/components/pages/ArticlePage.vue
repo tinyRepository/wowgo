@@ -6,9 +6,9 @@
     />
     <div class="article">
       <button
+        v-if="isAdmin"
         class="article__edit-article"
         @click="goToEditArticlePage"
-        v-if="isAdmin"
       />
       <button class="article__print" @click="print" />
 
@@ -19,10 +19,10 @@
           <div class="article__read-time">{{ beautifyReadTime }}</div>
         </div>
         <h1 class="article__title">{{ article.title }}</h1>
-        <p class="article__description" v-html="article.description"></p>
+        <p v-html="article.description" class="article__description" />
         <div
-          class="article__image-overlay"
           v-if="zoomed"
+          class="article__image-overlay"
           @click="zoomed = false"
         />
         <img
@@ -40,6 +40,7 @@
 import firebase from "firebase/app";
 import { mapActions, mapGetters } from "vuex";
 import { getUnitsDeclension } from "@/utils/helpers";
+import { averageReadingSpeed } from "@/utils/config";
 import KnowledgeBaseMenu from "Common/KnowledgeBaseMenu";
 
 const defaultSection = "Все статьи";
@@ -48,44 +49,54 @@ export default {
   components: {
     KnowledgeBaseMenu
   },
+
   data() {
     return {
       article: {},
       zoomed: false
     };
   },
+
   computed: {
     ...mapGetters("userData", ["isAdmin"]),
     articleId() {
       return this.$route.params.id;
     },
+
+    countOfChars() {
+      return this.article.description && this.article.description.length;
+    },
+
     readTime() {
-      const countOfChars =
-        this.article.description && this.article.description.length;
-      const averageReadingSpeed = 23.5;
-      const time = countOfChars / averageReadingSpeed / 60;
+      const time = this.countOfChars / averageReadingSpeed / 60;
       return Math.ceil(time);
     },
+
     beautifyReadTime() {
       return `Время чтения ${this.readTime} ${this.getTimeDeclension}`;
     },
+
     getTimeDeclension() {
       return getUnitsDeclension(this.readTime, ["минута", "минуты", "минут"]);
     }
   },
+
   created() {
     Promise.all([this.loadSections(), this.getArticleById()]);
     window.addEventListener("scroll", this.handleScroll);
   },
+
   destroyed() {
     window.removeEventListener("scroll", this.handleScroll);
   },
+
   methods: {
     ...mapActions("articles", ["loadSections"]),
     ...mapActions("common", ["setLoading"]),
     zoomImage() {
       this.zoomed = !this.zoomed;
     },
+
     async getArticleById() {
       this.setLoading(true);
 
@@ -103,6 +114,7 @@ export default {
           this.setLoading(false);
         });
     },
+
     selectActiveSection(section) {
       if (section === defaultSection) {
         this.$router.push("/knowledge-base");
@@ -110,14 +122,17 @@ export default {
       }
       this.$router.push(`/knowledge-base?sectionType=${section}`);
     },
+
     handleScroll(event) {
       if (event) {
         this.zoomed = false;
       }
     },
+
     print() {
       window.print();
     },
+
     goToEditArticlePage() {
       this.$router.push(`/create-article/${this.articleId}`);
     }

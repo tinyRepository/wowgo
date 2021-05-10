@@ -7,10 +7,10 @@
       >{{ label }}</label
     >
     <textarea
+      :id="textareaId"
+      ref="textarea"
       :name="name"
       class="textarea"
-      ref="textarea"
-      :id="textareaId"
       :class="{ 'is-danger': showError }"
       :placeholder="placeholder"
       :value="value"
@@ -29,15 +29,15 @@ const errorsTexts = {
 
 export default {
   inheritAttrs: false,
-  data: () => ({
-    userIsTyping: false
-  }),
+
   props: {
     validationObj: Object,
+
     customErrorsTexts: {
       type: Object,
       default: () => ({})
     },
+
     name: String,
     placeholder: String,
     value: [String, Number],
@@ -46,33 +46,20 @@ export default {
     label: String,
     whiteLabel: Boolean
   },
-  methods: {
-    onBlur(e) {
-      this.$emit("blur", e);
-      this.userIsTyping = false;
-    },
-    onInput(e) {
-      this.$emit("input", e.target.value);
-      this.userIsTyping = true;
-    },
-    textareaResize() {
-      this.$refs.textarea.style.minHeight = `${this.$refs.textarea.scrollHeight}px`;
-    },
-    resetTextareaSize() {
-      this.$refs.textarea.style.minHeight = "0px";
-    },
-    updateTextareaState() {
-      this.resetTextareaSize();
-      this.textareaResize();
-    }
+
+  data() {
+    return {
+      userIsTyping: false
+    };
   },
+
   computed: {
     errorText() {
       if (!this.validationObj) {
         return null;
       }
       const keys = Object.keys(this.validationObj.$params);
-      const invalidKey = keys.find(k => !this.validationObj[k]);
+      const invalidKey = keys.find(key => !this.validationObj[key]);
       if (!invalidKey) {
         return null;
       }
@@ -82,10 +69,12 @@ export default {
         "Ошибка!"
       );
     },
+
     showError() {
       return !this.userIsTyping && this.errorText && this.validationObj.$dirty;
     }
   },
+
   watch: {
     value: {
       handler() {
@@ -94,6 +83,31 @@ export default {
         });
       },
       immediate: true
+    }
+  },
+
+  methods: {
+    onBlur(e) {
+      this.$emit("blur", e);
+      this.userIsTyping = false;
+    },
+
+    onInput(e) {
+      this.$emit("input", e.target.value);
+      this.userIsTyping = true;
+    },
+
+    updateTextareaState() {
+      this.resetTextareaSize();
+      this.textareaResize();
+    },
+
+    textareaResize() {
+      this.$refs.textarea.style.minHeight = `${this.$refs.textarea.scrollHeight}px`;
+    },
+
+    resetTextareaSize() {
+      this.$refs.textarea.style.minHeight = "0px";
     }
   }
 };

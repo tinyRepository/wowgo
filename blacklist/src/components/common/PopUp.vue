@@ -11,34 +11,34 @@
             class="popup__form"
           >
             <div class="popup__form-row">
-              <input-el
+              <base-input
+                v-model="$v.form.surname.$model"
+                :validationObj="$v.form.surname"
                 class="popup__form-input"
                 type="text"
                 name="surname"
-                v-model="$v.form.surname.$model"
-                :validationObj="$v.form.surname"
                 inputId="surname"
                 whiteLabel
                 placeholder="Введите фамилию"
                 label="Фамилия"
               />
-              <input-el
+              <base-input
+                v-model="$v.form.name.$model"
+                :validationObj="$v.form.name"
                 class="popup__form-input"
                 type="text"
                 name="name"
-                v-model="$v.form.name.$model"
-                :validationObj="$v.form.name"
                 inputId="name"
                 whiteLabel
                 placeholder="Введите имя"
                 label="Имя"
               />
-              <input-el
+              <base-input
+                v-model="$v.form.middleName.$model"
+                :validationObj="$v.form.middleName"
                 class="popup__form-input"
                 type="text"
                 name="middleName"
-                v-model="$v.form.middleName.$model"
-                :validationObj="$v.form.middleName"
                 inputId="middleName"
                 whiteLabel
                 placeholder="Введите отчество"
@@ -46,31 +46,31 @@
               />
             </div>
             <div class="popup__form-row">
-              <input-el
+              <base-input
+                v-model="$v.form.placeOfBirth.$model"
+                :validationObj="$v.form.placeOfBirth"
                 class="popup__form-input"
                 type="text"
                 name="placeOfBirth"
-                v-model="$v.form.placeOfBirth.$model"
-                :validationObj="$v.form.placeOfBirth"
                 inputId="placeOfBirth"
                 whiteLabel
                 placeholder="Введите место рождения"
                 label="Место рождения"
               />
               <select-box
-                whiteLabel
-                label="Выбирете категорию нарушения"
                 v-model="$v.form.categoriesOfViolations.$model"
                 :validationObj="$v.form.categoriesOfViolations"
+                whiteLabel
+                label="Выбирете категорию нарушения"
                 :options="selectboxOptions"
-              ></select-box>
-              <input-el
+              />
+              <base-input
+                v-model="$v.form.dateOfBirth.$model"
+                :validationObj="$v.form.dateOfBirth"
                 class="popup__form-input"
                 type="text"
                 name="dateOfBirth"
                 mask="99/99/9999"
-                v-model="$v.form.dateOfBirth.$model"
-                :validationObj="$v.form.dateOfBirth"
                 inputId="dateOfBirth"
                 whiteLabel
                 placeholder="Введите дату рождения"
@@ -79,9 +79,9 @@
             </div>
 
             <textarea-el
-              whiteLabel
               v-model.trim="$v.form.reasonForAdding.$model"
               :validationObj="$v.form.reasonForAdding"
+              whiteLabel
               label="Причина внесения в список человека"
               class="popup__form-textarea"
               placeholder="Опишите подробно причину почему Вы хотите
@@ -91,12 +91,16 @@
           </form>
         </div>
         <div class="popup__footer">
-          <button-el gray class="popup__footer-button" @click="$emit('close')">
+          <base-button
+            gray
+            class="popup__footer-button"
+            @click="$emit('close')"
+          >
             Отменить
-          </button-el>
-          <button-el class="popup__footer-button" @click="tryToSendForm">
+          </base-button>
+          <base-button class="popup__footer-button" @click="tryToSendForm">
             Сохранить
-          </button-el>
+          </base-button>
         </div>
       </div>
     </div>
@@ -114,28 +118,88 @@ const dateIsFilled = val => !val.includes("_");
 
 export default {
   mixins: [validateFormMixin],
-  data: () => ({
-    form: {
-      name: "",
-      surname: "",
-      middleName: "",
-      dateOfBirth: "",
-      placeOfBirth: "",
-      reasonForAdding: "",
-      categoriesOfViolations: null
+
+  data() {
+    return {
+      form: {
+        name: "",
+        surname: "",
+        middleName: "",
+        dateOfBirth: "",
+        placeOfBirth: "",
+        reasonForAdding: "",
+        categoriesOfViolations: null
+      },
+      selectboxOptions: [
+        { value: "Кража", id: "theft" },
+        { value: "Оскорбление", id: "insultingCitizens" },
+        { value: "Порча имущества", id: "destructionOfProperty" },
+        { value: "Курение", id: "smoking" },
+        { value: "Распитие алкоголя", id: "drinkingAlcohol" },
+        {
+          value: "Потребление наркотических веществ",
+          id: "consumptionOfDrugs"
+        },
+        { value: "Разбой", id: "murder" },
+        { value: "Неоплата услуг", id: "nonPaymentOfServices" },
+        { value: "Другое", id: "other" }
+      ]
+    };
+  },
+
+  computed: {
+    ...mapState("userData", ["userInfo"]),
+    dataForSending() {
+      const { name, surname, middleName } = this.form;
+      return {
+        fullName: this.fullName,
+        phone: this.userInfo.phone,
+        address: this.userInfo.address,
+        dateOfBirth: this.form.dateOfBirth,
+        placeOfBirth: this.form.placeOfBirth,
+        nameOfHotel: this.userInfo.nameOfObject,
+        dateAdded: format(new Date(), dateFormat),
+        reasonForAdding: this.form.reasonForAdding,
+        name: name[0].toUpperCase() + name.slice(1).toLowerCase(),
+        categoriesOfViolations: this.form.categoriesOfViolations.value,
+        surname: surname[0].toUpperCase() + surname.slice(1).toLowerCase(),
+        middleName:
+          middleName[0].toUpperCase() + middleName.slice(1).toLowerCase()
+      };
     },
-    selectboxOptions: [
-      { value: "Кража", id: "theft" },
-      { value: "Оскорбление", id: "insultingCitizens" },
-      { value: "Порча имущества", id: "destructionOfProperty" },
-      { value: "Курение", id: "smoking" },
-      { value: "Распитие алкоголя", id: "drinkingAlcohol" },
-      { value: "Потребление наркотических веществ", id: "consumptionOfDrugs" },
-      { value: "Разбой", id: "murder" },
-      { value: "Неоплата услуг", id: "nonPaymentOfServices" },
-      { value: "Другое", id: "other" }
-    ]
-  }),
+
+    fullName() {
+      const { name, surname, middleName } = this.form;
+      return `${surname[0].toUpperCase() +
+        surname.slice(1).toLowerCase()} ${name[0].toUpperCase() +
+        name.slice(1).toLowerCase()} ${middleName[0].toUpperCase() +
+        middleName.slice(1).toLowerCase()}`;
+    }
+  },
+
+  methods: {
+    ...mapActions("blackList", ["addItemToList"]),
+    addItem() {
+      this.addItemToList(this.dataForSending)
+        .then(() => {
+          if (localStorage.getItem("hidePopup")) {
+            alert("Успешно добавлен!");
+          } else {
+            this.$emit("showSuccessPopup");
+          }
+        })
+        .finally(() => {
+          this.$emit("close");
+        });
+    },
+
+    tryToSendForm() {
+      this.validateForm().then(() => {
+        this.addItem();
+      });
+    }
+  },
+
   validations: {
     form: {
       name: {
@@ -160,55 +224,6 @@ export default {
       categoriesOfViolations: {
         required
       }
-    }
-  },
-  computed: {
-    ...mapState("userData", ["userInfo"]),
-    dataForSending() {
-      const { name, surname, middleName } = this.form;
-      return {
-        fullName: this.fullName,
-        phone: this.userInfo.phone,
-        address: this.userInfo.address,
-        dateOfBirth: this.form.dateOfBirth,
-        placeOfBirth: this.form.placeOfBirth,
-        nameOfHotel: this.userInfo.nameOfObject,
-        dateAdded: format(new Date(), dateFormat),
-        reasonForAdding: this.form.reasonForAdding,
-        name: name[0].toUpperCase() + name.slice(1).toLowerCase(),
-        categoriesOfViolations: this.form.categoriesOfViolations.value,
-        surname: surname[0].toUpperCase() + surname.slice(1).toLowerCase(),
-        middleName:
-          middleName[0].toUpperCase() + middleName.slice(1).toLowerCase()
-      };
-    },
-    fullName() {
-      const { name, surname, middleName } = this.form;
-      return `${surname[0].toUpperCase() +
-        surname.slice(1).toLowerCase()} ${name[0].toUpperCase() +
-        name.slice(1).toLowerCase()} ${middleName[0].toUpperCase() +
-        middleName.slice(1).toLowerCase()}`;
-    }
-  },
-  methods: {
-    ...mapActions("blackList", ["addItemToList"]),
-    addItem() {
-      this.addItemToList(this.dataForSending)
-        .then(() => {
-          if (localStorage.getItem("hidePopup")) {
-            alert("Успешно добавлен!");
-          } else {
-            this.$emit("showSuccessPopup");
-          }
-        })
-        .finally(() => {
-          this.$emit("close");
-        });
-    },
-    tryToSendForm() {
-      this.validateForm().then(() => {
-        this.addItem();
-      });
     }
   }
 };

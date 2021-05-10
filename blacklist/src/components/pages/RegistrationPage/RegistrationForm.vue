@@ -8,7 +8,7 @@
       @submit.stop.prevent="tryToSendForm"
       class="registration-form"
     >
-      <!-- <input-el
+      <!-- <base-input
         class="registration-form__input"
         type="text"
         name="loginINN"
@@ -16,102 +16,103 @@
         placeholder="Введите ИНН"
         label="ИНН"
       /> -->
-      <input-el
+      <base-input
+        v-model="$v.form.name.$model"
+        :validationObj="$v.form.name"
         class="registration-form__input"
         type="text"
         name="name"
-        v-model="$v.form.name.$model"
-        :validationObj="$v.form.name"
         inputId="login__first-name"
         placeholder="Введите имя"
         label="Имя"
         tabindex="1"
       />
-      <input-el
+      <base-input
+        v-model="$v.form.nameOfObject.$model"
+        :validationObj="$v.form.nameOfObject"
         class="registration-form__input"
         type="text"
         name="nameOfObject"
-        v-model="$v.form.nameOfObject.$model"
-        :validationObj="$v.form.nameOfObject"
         inputId="login__name-of-object"
         placeholder="Введите название объекта"
         label="Название объекта"
         tabindex="5"
       />
-      <input-el
+      <base-input
+        v-model="$v.form.surname.$model"
+        :validationObj="$v.form.surname"
         class="registration-form__input"
         type="text"
         name="surname"
-        v-model="$v.form.surname.$model"
-        :validationObj="$v.form.surname"
         inputId="login__surname"
         placeholder="Введите фамилию"
         label="Фамилия"
         tabindex="2"
       />
-      <input-el
+      <base-input
+        v-model="$v.form.address.$model"
+        :validationObj="$v.form.address"
         class="registration-form__input"
         type="text"
         name="legalAddress"
         inputId="login__legal-address"
-        v-model="$v.form.address.$model"
-        :validationObj="$v.form.address"
         placeholder="Введите адрес"
         label="Адрес"
         tabindex="6"
       />
-      <input-el
+      <base-input
+        v-model="$v.form.middleName.$model"
+        :validationObj="$v.form.middleName"
         class="registration-form__input"
         type="text"
         name="middleName"
-        v-model="$v.form.middleName.$model"
-        :validationObj="$v.form.middleName"
         inputId="login__middle-name"
         placeholder="Введите отчество"
         label="Отчество"
         tabindex="3"
       />
-      <input-el
+      <base-input
+        v-model="$v.form.email.$model"
+        :validationObj="$v.form.email"
         class="registration-form__input"
         type="text"
         name="email"
-        v-model="$v.form.email.$model"
-        :validationObj="$v.form.email"
         inputId="login__email"
         placeholder="Введите электронную почта объекта"
         label="Электронная почта объекта"
         tabindex="7"
       />
-      <input-el
+      <base-input
+        v-model="$v.form.phone.$model"
+        :validationObj="$v.form.phone"
         class="registration-form__input"
         type="text"
         name="phone"
         mask="+7 (999) 999-99-99"
-        v-model="$v.form.phone.$model"
-        :validationObj="$v.form.phone"
         inputId="login__phone"
         placeholder="Введите телефон для связи"
         label="Телефон для связи"
         tabindex="4"
       />
-      <input-el
+      <base-input
+        v-model="$v.form.password.$model"
+        :validationObj="$v.form.password"
         class="registration-form__input"
         type="password"
         name="password"
-        v-model="$v.form.password.$model"
-        :validationObj="$v.form.password"
         inputId="login__password"
         placeholder="Введите пароль"
         label="Пароль"
         tabindex="8"
       />
       <div class="registration-form__bottom">
-        <button-el
+        <base-button
           type="submit"
           :disabled="loading"
           class="registration-form__button"
-          >Зарегистрироваться</button-el
         >
+          Зарегистрироваться
+        </base-button>
         <div class="registration-form__notice">
           Нажимая на кнопку «Зарегистрироваться» вы соглашаетесь с
           <router-link to="/terms-of-use" class="registration-form__link"
@@ -133,18 +134,26 @@ const phoneIsFilled = val => !val.includes("_");
 
 export default {
   mixins: [validateFormMixin],
-  data: () => ({
-    form: {
-      name: "",
-      phone: "",
-      email: "",
-      surname: "",
-      address: "",
-      password: "",
-      middleName: "",
-      nameOfObject: ""
-    }
-  }),
+
+  data() {
+    return {
+      form: {
+        name: "",
+        phone: "",
+        email: "",
+        surname: "",
+        address: "",
+        password: "",
+        middleName: "",
+        nameOfObject: ""
+      }
+    };
+  },
+
+  computed: {
+    ...mapGetters("common", ["loading"])
+  },
+
   validations: {
     form: {
       name: {
@@ -176,9 +185,7 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapGetters("common", ["loading"])
-  },
+
   methods: {
     ...mapActions("userData", ["registerUser"]),
     tryToSendForm() {

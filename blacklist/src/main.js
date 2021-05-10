@@ -15,22 +15,22 @@ import "firebase/messaging";
 import "firebase/storage";
 
 // Declare uikit globally
-import InputEl from "Uikit/InputEl";
-import ButtonEl from "Uikit/ButtonEl";
 import SearchEl from "Common/SearchEl";
 import SelectBox from "Uikit/SelectBox";
-import SpinnerEl from "Common/SpinnerEl";
+import BaseInput from "Uikit/BaseInput";
+import TheSpinner from "Common/TheSpinner";
+import BaseButton from "Uikit/BaseButton";
 import TextareaEl from "Uikit/TextareaEl";
 import BaseSwitch from "Uikit/BaseSwitch";
 import CheckBoxEl from "Uikit/CheckBoxEl";
 
 Vue.config.productionTip = false;
 
-Vue.component("input-el", InputEl);
 Vue.component("search-el", SearchEl);
-Vue.component("button-el", ButtonEl);
 Vue.component("select-box", SelectBox);
-Vue.component("spinner-el", SpinnerEl);
+Vue.component("base-input", BaseInput);
+Vue.component("the-spinner", TheSpinner);
+Vue.component("base-button", BaseButton);
 Vue.component("textarea-el", TextareaEl);
 Vue.component("base-switch", BaseSwitch);
 Vue.component("checkbox-el", CheckBoxEl);
@@ -48,7 +48,7 @@ new Vue({
   store,
   render: h => h(App),
   created() {
-    var firebaseConfig = {
+    const firebaseConfig = {
       apiKey: "AIzaSyD9CaVFgo3YvJ9Nh6pgUMUIXJJ__HE7LnU",
       authDomain: "black-list-5cf3a.firebaseapp.com",
       databaseURL: "https://black-list-5cf3a.firebaseio.com",

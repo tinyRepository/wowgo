@@ -6,7 +6,7 @@
       'black-list_default': showPopup || showSuccessPopup
     }"
   >
-    <Popup
+    <pop-up
       v-if="showPopup"
       @close="showPopup = false"
       @showSuccessPopup="showSuccessPopup = true"
@@ -24,8 +24,8 @@
       />
 
       <accordion-el
-        :listData="formattedListData"
-        :searchText="searchText"
+        :list-data="formattedListData"
+        :search-text="searchText"
         class="black-list__accordion"
       />
     </div>
@@ -62,7 +62,7 @@
             <td class="without-bg comment-cell" :title="item.reasonForAdding">
               <expanded-text :text="item.reasonForAdding" />
             </td>
-            <td class="without-bg phone-cell" v-if="isAdmin">
+            <td v-if="isAdmin" class="without-bg phone-cell">
               {{ item.phone }}
             </td>
           </tr>
@@ -70,10 +70,10 @@
       </table>
       <div v-else class="stub-text">Ничего не найдено...</div>
       <button
-        class="black-list__button"
         v-if="checkUser"
+        class="black-list__button"
         @click="showPopup = true"
-      ></button>
+      />
     </div>
   </div>
 </template>
@@ -83,20 +83,30 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import ExpandedText from "./ExpandedText";
 import SuccessScreen from "Common/SuccessScreen";
 import AccordionEl from "./AccordionEl";
-import Popup from "Common/PopUp";
+import PopUp from "Common/PopUp";
 
 export default {
-  data: () => ({
-    showPopup: false,
-    showSuccessPopup: false,
-    searchText: ""
-  }),
   components: {
-    Popup,
+    PopUp,
     AccordionEl,
     ExpandedText,
     SuccessScreen
   },
+
+  filters: {
+    formatName(item) {
+      return `${item.surname} ${item.name} ${item.middleName}`;
+    }
+  },
+
+  data() {
+    return {
+      showPopup: false,
+      showSuccessPopup: false,
+      searchText: ""
+    };
+  },
+
   computed: {
     ...mapState("blackList", ["listData"]),
     ...mapGetters("userData", ["isAdmin", "checkUser"]),
@@ -109,17 +119,7 @@ export default {
       return this.searchText ? filterdList : this.listData;
     }
   },
-  created() {
-    this.loadBlackList();
-  },
-  filters: {
-    formatName(item) {
-      return `${item.surname} ${item.name} ${item.middleName}`;
-    }
-  },
-  methods: {
-    ...mapActions("blackList", ["loadBlackList"])
-  },
+
   watch: {
     showPopup(val) {
       const html = document.querySelector("html");
@@ -129,6 +129,14 @@ export default {
         html.classList.remove("stop");
       }
     }
+  },
+
+  created() {
+    this.loadBlackList();
+  },
+
+  methods: {
+    ...mapActions("blackList", ["loadBlackList"])
   }
 };
 </script>

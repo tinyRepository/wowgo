@@ -29,12 +29,14 @@ export default {
   props: {
     activeSection: String
   },
+
   computed: {
     ...mapState("articles", ["sections"]),
     sectionsMenu() {
       return [defaultSection, ...this.sections];
     }
   },
+
   methods: {
     selectActiveSection(title) {
       this.$emit("selectActiveSection", title);
@@ -74,7 +76,6 @@ export default {
       font-size: 11px;
       letter-spacing: 0;
       line-height: 19px;
-      // margin-bottom: 5px;
 
       &_active {
         background: $brown-color1;

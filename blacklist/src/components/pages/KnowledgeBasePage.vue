@@ -12,7 +12,7 @@
 
     <div class="knowledge-base__content">
       <knowledge-base-menu
-        :activeSection="activeSection"
+        :active-section="activeSection"
         @selectActiveSection="selectActiveSection"
         class="knowledge-base__menu"
       />
@@ -44,7 +44,7 @@
         v-if="isAdmin"
         :to="{ name: 'create-article' }"
         class="knowledge-base__button"
-      ></router-link>
+      />
     </div>
   </div>
 </template>
@@ -58,6 +58,7 @@ const defaultSection = { title: "Все статьи" };
 
 export default {
   components: { SkeletonImage, KnowledgeBaseMenu },
+
   data() {
     return {
       searchText: "",
@@ -65,27 +66,21 @@ export default {
       selectedItems: []
     };
   },
+
   computed: {
     ...mapGetters("userData", ["isAdmin"]),
     ...mapState("articles", ["articles"]),
     notFound() {
-      return this.selectedItems.some(s =>
-        s.title.toLowerCase().includes(this.searchText.toLowerCase())
+      return this.selectedItems.some(item =>
+        item.title.toLowerCase().includes(this.searchText.toLowerCase())
       );
     },
+
     sectionType() {
       return this.$route.query.sectionType;
     }
   },
-  created() {
-    this.loadArticles().then(() => {
-      this.selectedItems = [...this.articles];
 
-      if (this.sectionType) {
-        this.selectActiveSection(this.sectionType);
-      }
-    });
-  },
   watch: {
     searchText(val) {
       if (val) {
@@ -99,6 +94,17 @@ export default {
       }
     }
   },
+
+  created() {
+    this.loadArticles().then(() => {
+      this.selectedItems = [...this.articles];
+
+      if (this.sectionType) {
+        this.selectActiveSection(this.sectionType);
+      }
+    });
+  },
+
   methods: {
     ...mapActions("articles", ["loadArticles"]),
     selectActiveSection(title) {
@@ -109,8 +115,8 @@ export default {
         this.selectedItems = this.articles;
         return;
       }
-      this.selectedItems = this.articles.filter(a => {
-        return a.section.title === title;
+      this.selectedItems = this.articles.filter(article => {
+        return article.section.title === title;
       });
     }
   }

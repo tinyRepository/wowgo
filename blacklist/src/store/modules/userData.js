@@ -4,22 +4,18 @@ import * as types from "../mutation-types";
 
 import User from "../user_help";
 
-// initial state
 const state = {
   user: null,
   userInfo: null
 };
 
-// getters
 const getters = {
-  // Return user (for get id)
   user(state) {
     return state.user;
   },
   isAdmin(state) {
     return state.userInfo && state.userInfo.admin;
   },
-  // Check User (for logged)
   checkUser(state) {
     return state.user !== null;
   }
@@ -47,9 +43,7 @@ function writeUserData(
     });
 }
 
-// actions
 const actions = {
-  // Registration page
   async registerUser(
     { commit },
     { email, password, name, surname, middleName, nameOfObject, address, phone }
@@ -78,7 +72,6 @@ const actions = {
       throw error;
     }
   },
-  // Login page
   async loginUser({ commit, dispatch }, { email, password }) {
     commit(`common/${types.CLEAR_ERROR}`, { root: true });
     commit(`common/${types.SET_LOADING}`, true, { root: true });
@@ -95,7 +88,6 @@ const actions = {
       throw error;
     }
   },
-  // Get additional user info
   async getUserInfo({ commit }, userId) {
     const user = await firebase
       .database()
@@ -103,13 +95,10 @@ const actions = {
       .once("value");
     commit(types.SET_USER_INFO, user.val());
   },
-  // Logged
   loggedUser({ commit }, payload) {
-    // Send mutation new uid used helped Class
     localStorage.setItem("authUser", payload.uid);
     commit(types.SET_USER, new User(payload.uid));
   },
-  // Logout
   logoutUser({ commit }) {
     firebase.auth().signOut();
     // Send mutation null
@@ -120,7 +109,6 @@ const actions = {
   }
 };
 
-// mutations
 const mutations = {
   [types.SET_USER](s, payload) {
     s.user = payload;

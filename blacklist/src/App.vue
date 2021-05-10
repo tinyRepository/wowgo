@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Header class="main-header" />
-    <spinner-el v-if="loading" />
+    <the-header class="main-header" />
+    <the-spinner v-if="loading" />
     <transition name="fade" mode="out-in">
       <router-view class="content-block" />
     </transition>
@@ -9,25 +9,28 @@
 </template>
 
 <script>
-import Header from "Common/Header";
+import TheHeader from "Common/TheHeader";
 import { mapGetters } from "vuex";
 
 export default {
+  components: {
+    TheHeader
+  },
+
   computed: {
     ...mapGetters("common", ["loading"])
   },
+
   watch: {
     loading(val) {
       const html = document.querySelector("html");
+
       if (val) {
         html.classList.add("stop");
       } else {
         html.classList.remove("stop");
       }
     }
-  },
-  components: {
-    Header
   }
 };
 </script>
