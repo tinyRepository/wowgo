@@ -6,7 +6,7 @@
       @submit.stop.prevent="tryToSendForm"
       class="authorization__form"
     >
-      <input-el
+      <base-input
         v-model="$v.form.email.$model"
         :validationObj="$v.form.email"
         class="authorization__input"
@@ -16,7 +16,7 @@
         placeholder="Введите email"
         label="Email"
       />
-      <input-el
+      <base-input
         v-model="$v.form.password.$model"
         :validationObj="$v.form.password"
         class="authorization__input"
@@ -27,7 +27,9 @@
         label="Пароль"
       />
       <div class="authorization__submit-status">{{ beautifyErrorMessage }}</div>
-      <button-el type="submit" class="authorization__button">Войти</button-el>
+      <base-button type="submit" class="authorization__button">
+        Войти
+      </base-button>
       <div class="authorization__remeber">
         <!-- TODO implement -->
         <!-- <base-switch class="authorization__switcher"
@@ -52,29 +54,22 @@ import { passwordMinLength } from "@/utils/config";
 
 export default {
   mixins: [validateFormMixin],
-  data: () => ({
-    form: {
-      email: "",
-      password: ""
-    },
-    submitStatus: null
-  }),
-  validations: {
-    form: {
-      email: {
-        email,
-        required
+
+  data() {
+    return {
+      form: {
+        email: "",
+        password: ""
       },
-      password: {
-        required,
-        minLength: minLength(passwordMinLength)
-      }
-    }
+      submitStatus: null
+    };
   },
+
   computed: {
     status() {
       return this.submitStatus && this.submitStatus.code;
     },
+
     beautifyErrorMessage() {
       switch (this.status) {
         case "auth/user-not-found":
@@ -88,6 +83,7 @@ export default {
       }
     }
   },
+
   methods: {
     ...mapActions("userData", ["loginUser"]),
     tryToSendForm() {
@@ -97,6 +93,19 @@ export default {
           this.submitStatus = err;
         });
       });
+    }
+  },
+
+  validations: {
+    form: {
+      email: {
+        email,
+        required
+      },
+      password: {
+        required,
+        minLength: minLength(passwordMinLength)
+      }
     }
   }
 };

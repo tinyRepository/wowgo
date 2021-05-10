@@ -26,6 +26,7 @@ export default {
       type: String,
       required: true
     },
+
     value: {
       type: [Boolean, Array],
       required: true,

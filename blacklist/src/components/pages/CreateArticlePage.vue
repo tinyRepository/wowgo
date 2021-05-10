@@ -3,24 +3,24 @@
     <form novalidate @submit.stop.prevent class="create-article__form">
       <h1 class="create-article__title">Создание статьи</h1>
 
-      <input-el
+      <base-input
+        v-model="$v.form.title.$model"
+        :validationObj="$v.form.title"
         class="create-article__form-input"
         type="text"
         name="title"
-        v-model="$v.form.title.$model"
-        :validationObj="$v.form.title"
         inputId="title"
         whiteLabel
         placeholder="Введите заголовок"
         label="Заголовок"
       />
 
-      <input-el
+      <base-input
+        v-model="$v.form.shortDescription.$model"
+        :validationObj="$v.form.shortDescription"
         class="create-article__form-input"
         type="text"
         name="shortDescription"
-        v-model="$v.form.shortDescription.$model"
-        :validationObj="$v.form.shortDescription"
         inputId="shortDescription"
         whiteLabel
         placeholder="Введите краткое описание"
@@ -28,11 +28,11 @@
       />
 
       <select-box
+        v-model="$v.form.section.$model"
+        :validationObj="$v.form.section"
         whiteLabel
         class="create-article__select-box"
         label="Выбирете тип статьи"
-        v-model="$v.form.section.$model"
-        :validationObj="$v.form.section"
         selectFirstByDefault
         :options="sections"
         trackBy="title"
@@ -44,11 +44,11 @@
       </select-box>
 
       <textarea-el
+        v-model="$v.form.description.$model"
+        :validationObj="$v.form.description"
         class="create-article__form-input"
         type="text"
         name="description"
-        v-model="$v.form.description.$model"
-        :validationObj="$v.form.description"
         inputId="description"
         whiteLabel
         placeholder="Введите описание"
@@ -64,9 +64,9 @@
           Загрузить изображение
         </label>
         <input
+          ref="image"
           type="file"
           accept="image/*"
-          ref="image"
           id="uploadImage"
           class="create-article__upload-image"
           @change="handleFileUpload"
@@ -78,9 +78,9 @@
 
       <img class="create-article__preview" :src="previewSrc" />
 
-      <button-el class="create-article__button" @click="tryToSendForm">
+      <base-button class="create-article__button" @click="tryToSendForm">
         Сохранить
-      </button-el>
+      </base-button>
     </form>
   </div>
 </template>
@@ -96,13 +96,7 @@ import validateFormMixin from "@/mixins/validateForm";
 
 export default {
   mixins: [validateFormMixin],
-  mounted() {
-    this.fetchArticleData();
 
-    if (!this.isAdmin) {
-      this.$router.replace({ name: "knowledge-base" });
-    }
-  },
   data() {
     return {
       form: {
@@ -117,6 +111,7 @@ export default {
       fileIsUpload: false
     };
   },
+
   computed: {
     ...mapState("articles", ["sections"]),
     ...mapGetters("userData", ["isAdmin"]),
@@ -124,9 +119,11 @@ export default {
       const { $invalid, $dirty } = this.$v.form.image;
       return $invalid && $dirty;
     },
+
     articleId() {
       return this.$route.params.id;
     },
+
     dataForSending() {
       return {
         title: this.form.title,
@@ -137,38 +134,31 @@ export default {
         section: this.form.section
       };
     },
+
     isNewSection() {
       return this.sections.every(
         section => section.title !== this.form.section.title
       );
     },
+
     previewSrc() {
       const { image, imageUrl } = this.form;
       return image || imageUrl;
     },
+
     alertText() {
       return this.editMode ? `обновлена` : `создана`;
     }
   },
-  validations: {
-    form: {
-      title: {
-        required
-      },
-      shortDescription: {
-        required
-      },
-      description: {
-        required
-      },
-      image: {
-        required
-      },
-      section: {
-        required
-      }
+
+  mounted() {
+    this.fetchArticleData();
+
+    if (!this.isAdmin) {
+      this.$router.replace({ name: "knowledge-base" });
     }
   },
+
   methods: {
     ...mapActions("common", ["setLoading"]),
     ...mapActions("articles", ["addArticle", "loadSections"]),
@@ -178,6 +168,7 @@ export default {
       };
       this.form.section = tag;
     },
+
     uploadImage() {
       const file = this.$refs.image.files[0];
 
@@ -193,6 +184,7 @@ export default {
         })
         .catch(console.error);
     },
+
     handleFileUpload(event) {
       const input = event.target;
 
@@ -205,12 +197,14 @@ export default {
         this.fileIsUpload = true;
       }
     },
+
     async addSection() {
       return await firebase
         .database()
         .ref("sections")
         .push(this.form.section);
     },
+
     editArticle() {
       const actions = [];
 
@@ -233,6 +227,7 @@ export default {
         });
       });
     },
+
     async updateArticle() {
       await firebase
         .database()
@@ -245,6 +240,7 @@ export default {
           section: this.form.section
         });
     },
+
     async getArticleById() {
       await firebase
         .database()
@@ -256,6 +252,7 @@ export default {
           this.editMode = true;
         });
     },
+
     tryToSendForm() {
       this.validateForm().then(() => {
         this.setLoading(true);
@@ -265,9 +262,11 @@ export default {
         });
       });
     },
+
     goToKnowledgeBasePage() {
       this.$router.push({ name: "knowledge-base" });
     },
+
     fetchArticleData() {
       const actions = [this.loadSections()];
 
@@ -281,6 +280,26 @@ export default {
         .finally(() => {
           this.setLoading(false);
         });
+    }
+  },
+
+  validations: {
+    form: {
+      title: {
+        required
+      },
+      shortDescription: {
+        required
+      },
+      description: {
+        required
+      },
+      image: {
+        required
+      },
+      section: {
+        required
+      }
     }
   }
 };

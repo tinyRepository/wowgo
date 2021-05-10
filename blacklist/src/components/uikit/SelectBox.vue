@@ -9,12 +9,12 @@
       {{ label }}
     </label>
     <multiselect
+      :id="selectId"
       :searchable="searchable"
       :taggable="taggable"
       :track-by="trackBy"
       :label="optionLabel"
       :class="{ 'is-danger': showError }"
-      :id="selectId"
       :value="value"
       @input="onChange"
       @tag="$emit('tag', $event)"
@@ -36,21 +36,26 @@ export default {
   components: {
     Multiselect
   },
+
   props: {
     validationObj: Object,
     whiteLabel: Boolean,
+
     trackBy: {
       type: String,
       default: "value"
     },
+
     optionLabel: {
       type: String,
       default: "value"
     },
+
     searchable: {
       type: Boolean,
       default: false
     },
+
     taggable: Boolean,
     value: [Object, String],
     options: Array,
@@ -58,6 +63,7 @@ export default {
     label: String,
     selectFirstByDefault: Boolean
   },
+
   computed: {
     errorText() {
       if (!this.validationObj) {
@@ -68,10 +74,12 @@ export default {
       }
       return "Заполните поле";
     },
+
     showError() {
       return this.errorText && this.validationObj.$dirty;
     }
   },
+
   methods: {
     onChange(val) {
       this.$emit("input", val);

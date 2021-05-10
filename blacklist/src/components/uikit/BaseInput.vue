@@ -8,9 +8,9 @@
       {{ label }}
     </label>
     <input
+      :id="inputId"
       v-mask="mask"
       :class="{ 'is-danger': showError }"
-      :id="inputId"
       class="form__input"
       :value="value"
       @input="onInput"
@@ -37,16 +37,15 @@ const errorsTexts = {
 import { passwordMinLength } from "@/utils/config";
 
 export default {
-  data: () => ({
-    userIsTyping: false
-  }),
   inheritAttrs: false,
+
   props: {
-    validationObj: Object,
     customErrorsTexts: {
       type: Object,
       default: () => ({})
     },
+
+    validationObj: Object,
     mask: String,
     value: [String, Number],
     inputId: String,
@@ -54,16 +53,13 @@ export default {
     label: String,
     whiteLabel: Boolean
   },
-  methods: {
-    onBlur(e) {
-      this.$emit("blur", e);
-      this.userIsTyping = false;
-    },
-    onInput(e) {
-      this.$emit("input", e.target.value);
-      this.userIsTyping = true;
-    }
+
+  data() {
+    return {
+      userIsTyping: false
+    };
   },
+
   computed: {
     errorText() {
       if (!this.validationObj) {
@@ -80,8 +76,21 @@ export default {
         "Ошибка!"
       );
     },
+
     showError() {
       return !this.userIsTyping && this.errorText && this.validationObj.$dirty;
+    }
+  },
+
+  methods: {
+    onBlur(e) {
+      this.$emit("blur", e);
+      this.userIsTyping = false;
+    },
+
+    onInput(e) {
+      this.$emit("input", e.target.value);
+      this.userIsTyping = true;
     }
   }
 };

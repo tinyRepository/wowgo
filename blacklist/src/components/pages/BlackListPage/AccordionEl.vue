@@ -3,8 +3,8 @@
     <template v-if="searchText">
       <accordion-item
         v-for="(item, index) in listData"
-        :isSingleElement="isSingleElement"
         :key="index"
+        :is-single-element="isSingleElement"
         :item="item"
       />
       <div class="accordion__stub-text" v-if="!listData.length">
@@ -21,9 +21,17 @@ export default {
   components: {
     AccordionItem
   },
+
   props: {
-    listData: Array,
-    searchText: String
+    listData: {
+      type: Array,
+      default: () => []
+    },
+
+    searchText: {
+      type: String,
+      default: ""
+    }
   },
 
   computed: {

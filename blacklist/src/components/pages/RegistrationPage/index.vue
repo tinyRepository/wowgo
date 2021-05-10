@@ -17,15 +17,18 @@
 <script>
 import RegistrationForm from "./RegistrationForm";
 import AuthorizationForm from "./AuthorizationForm";
+
 export default {
   components: {
     RegistrationForm,
     AuthorizationForm
   },
+
   computed: {
     isRegistrationPage() {
       return this.$route.meta.isRegistrationPage;
     },
+
     isLoginPage() {
       return this.$route.meta.isLoginPage;
     }

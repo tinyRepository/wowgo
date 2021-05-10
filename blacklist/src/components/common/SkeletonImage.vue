@@ -9,16 +9,17 @@
 
 <script>
 export default {
+  props: {
+    src: {
+      type: String,
+      required: true
+    }
+  },
+
   data() {
     return {
       isLoaded: false
     };
-  },
-  props: {
-    src: {
-      type: String,
-      require: true
-    }
   }
 };
 </script>

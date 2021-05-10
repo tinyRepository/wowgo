@@ -11,21 +11,24 @@
       <span class="switch__slider" />
     </label>
     <div class="switch__label">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  name: "BaseSwitch",
+  inheritAttrs: false,
+
   model: {
     event: "change"
   },
-  inheritAttrs: false,
-  name: "BaseSwitch",
+
   props: {
     value: Boolean
   },
+
   computed: {
     listeners() {
       return {
@@ -34,6 +37,7 @@ export default {
       };
     }
   },
+
   methods: {
     onChange() {
       this.$emit("change", !this.value);

@@ -18,29 +18,34 @@
 const maxQuantityChars = 40;
 
 export default {
-  data() {
-    return {
-      expanded: true
-    };
-  },
   props: {
     text: {
       type: String,
       default: ""
     }
   },
+
+  data() {
+    return {
+      expanded: true
+    };
+  },
+
   computed: {
     isLotOfContent() {
       return this.text.length > maxQuantityChars;
     },
+
     hideText() {
       return this.expanded && this.isLotOfContent;
     },
+
     formattedText() {
       return this.hideText
         ? `${this.text.substring(0, maxQuantityChars)}...`
         : this.text;
     },
+
     buttonText() {
       return this.expanded ? "Показать полностью" : "Скрыть";
     }

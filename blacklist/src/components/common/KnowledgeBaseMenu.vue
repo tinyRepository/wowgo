@@ -29,12 +29,14 @@ export default {
   props: {
     activeSection: String
   },
+
   computed: {
     ...mapState("articles", ["sections"]),
     sectionsMenu() {
       return [defaultSection, ...this.sections];
     }
   },
+
   methods: {
     selectActiveSection(title) {
       this.$emit("selectActiveSection", title);

@@ -12,7 +12,7 @@
 
     <div class="knowledge-base__content">
       <knowledge-base-menu
-        :activeSection="activeSection"
+        :active-section="activeSection"
         @selectActiveSection="selectActiveSection"
         class="knowledge-base__menu"
       />
@@ -44,7 +44,7 @@
         v-if="isAdmin"
         :to="{ name: 'create-article' }"
         class="knowledge-base__button"
-      ></router-link>
+      />
     </div>
   </div>
 </template>
@@ -58,6 +58,7 @@ const defaultSection = { title: "Все статьи" };
 
 export default {
   components: { SkeletonImage, KnowledgeBaseMenu },
+
   data() {
     return {
       searchText: "",
@@ -65,6 +66,7 @@ export default {
       selectedItems: []
     };
   },
+
   computed: {
     ...mapGetters("userData", ["isAdmin"]),
     ...mapState("articles", ["articles"]),
@@ -73,19 +75,12 @@ export default {
         item.title.toLowerCase().includes(this.searchText.toLowerCase())
       );
     },
+
     sectionType() {
       return this.$route.query.sectionType;
     }
   },
-  created() {
-    this.loadArticles().then(() => {
-      this.selectedItems = [...this.articles];
 
-      if (this.sectionType) {
-        this.selectActiveSection(this.sectionType);
-      }
-    });
-  },
   watch: {
     searchText(val) {
       if (val) {
@@ -99,6 +94,17 @@ export default {
       }
     }
   },
+
+  created() {
+    this.loadArticles().then(() => {
+      this.selectedItems = [...this.articles];
+
+      if (this.sectionType) {
+        this.selectActiveSection(this.sectionType);
+      }
+    });
+  },
+
   methods: {
     ...mapActions("articles", ["loadArticles"]),
     selectActiveSection(title) {

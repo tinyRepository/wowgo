@@ -2,39 +2,44 @@
   <div class="search-wrapper">
     <input
       ref="field"
+      v-model="searchText"
       type="text"
       class="search"
-      v-model="searchText"
       :placeholder="placeholder"
       :class="{ search_filled: searchText }"
     />
-    <div class="search-clear" v-if="searchText" @click="clearText"></div>
+    <div class="search-clear" v-if="searchText" @click="clearText" />
   </div>
 </template>
 
 <script>
 export default {
   inheritAttrs: false,
+
   props: {
     value: {
       type: String,
       default: ""
     },
+
     placeholder: {
       type: String,
       default: "Поиск"
     }
   },
+
   computed: {
     searchText: {
       get() {
         return this.value;
       },
+
       set(value) {
         this.$emit("input", value);
       }
     }
   },
+
   methods: {
     clearText() {
       this.searchText = "";

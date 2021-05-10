@@ -24,10 +24,6 @@
   </div>
 </template>
 
-<script>
-export default {};
-</script>
-
 <style lang="scss" scoped>
 .rules {
   max-width: 1605px;

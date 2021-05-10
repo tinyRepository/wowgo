@@ -17,15 +17,15 @@
           </p>
 
           <div class="success-screen__buttons">
-            <button-el class="success-screen__button" @click="close"
-              >Закрыть</button-el
-            >
-            <button-el
+            <base-button class="success-screen__button" @click="close">
+              Закрыть
+            </base-button>
+            <base-button
               class="success-screen__button success-screen__button_red"
               @click="goToDonatePage"
             >
               Пожертовать
-            </button-el>
+            </base-button>
           </div>
           <checkbox-el
             id="checkbox"
@@ -42,16 +42,19 @@
 
 <script>
 import { donateUrl } from "@/utils/config";
+
 export default {
   data() {
     return {
       checked: false
     };
   },
+
   methods: {
     goToDonatePage() {
       window.open(donateUrl);
     },
+
     close() {
       this.$emit("close");
 

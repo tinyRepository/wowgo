@@ -35,15 +35,21 @@
 import { mapGetters } from "vuex";
 
 export default {
+  props: {
+    item: {
+      type: Object,
+      default: () => {}
+    },
+
+    isSingleElement: {
+      type: Boolean
+    }
+  },
+
   data() {
     return {
       isOpened: false
     };
-  },
-
-  props: {
-    item: Object,
-    isSingleElement: Boolean
   },
 
   methods: {
