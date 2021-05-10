@@ -40,6 +40,7 @@
 import firebase from "firebase/app";
 import { mapActions, mapGetters } from "vuex";
 import { getUnitsDeclension } from "@/utils/helpers";
+import { averageReadingSpeed } from "@/utils/config";
 import KnowledgeBaseMenu from "Common/KnowledgeBaseMenu";
 
 const defaultSection = "Все статьи";
@@ -62,7 +63,6 @@ export default {
     readTime() {
       const countOfChars =
         this.article.description && this.article.description.length;
-      const averageReadingSpeed = 23.5;
       const time = countOfChars / averageReadingSpeed / 60;
       return Math.ceil(time);
     },

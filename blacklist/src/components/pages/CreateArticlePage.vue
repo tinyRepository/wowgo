@@ -193,7 +193,7 @@ export default {
       const input = event.target;
 
       if (input.files && input.files[0]) {
-        var reader = new FileReader();
+        const reader = new FileReader();
         reader.onload = e => {
           this.form.image = e.target.result;
         };
