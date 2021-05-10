@@ -121,7 +121,8 @@ export default {
     ...mapState("articles", ["sections"]),
     ...mapGetters("userData", ["isAdmin"]),
     fileIsEmpty() {
-      return this.$v.form.image.$invalid && this.$v.form.image.$dirty;
+      const { $invalid, $dirty } = this.$v.form.image;
+      return $invalid && $dirty;
     },
     articleId() {
       return this.$route.params.id;
@@ -142,7 +143,8 @@ export default {
       );
     },
     previewSrc() {
-      return this.form.image || this.form.imageUrl;
+      const { image, imageUrl } = this.form;
+      return image || imageUrl;
     },
     alertText() {
       return this.editMode ? `обновлена` : `создана`;

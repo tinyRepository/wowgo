@@ -72,9 +72,11 @@ export default {
     }
   },
   computed: {
+    status() {
+      return this.submitStatus && this.submitStatus.code;
+    },
     beautifyErrorMessage() {
-      const status = this.submitStatus && this.submitStatus.code;
-      switch (status) {
+      switch (this.status) {
         case "auth/user-not-found":
           return "Пользователя не существует. Возможно, он был удален.";
         case "auth/wrong-password":

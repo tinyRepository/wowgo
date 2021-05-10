@@ -99,13 +99,6 @@ export default {
     border: 1px solid $gray-color3;
     -moz-appearance: textfield;
     outline: none;
-    &::placeholder {
-      // color: $grey-color1;
-    }
-    &:-webkit-autofill {
-      // -webkit-box-shadow: 0 0 0 30px $grey-color6 inset !important;
-      // border-color: $grey-color6 !important;
-    }
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
       -webkit-appearance: none;

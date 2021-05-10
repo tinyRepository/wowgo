@@ -33,9 +33,11 @@ export default {
     isLotOfContent() {
       return this.text.length > maxQuantityChars;
     },
+    hideText() {
+      return this.expanded && this.isLotOfContent;
+    },
     formattedText() {
-      const hideText = this.expanded && this.isLotOfContent;
-      return hideText
+      return this.hideText
         ? `${this.text.substring(0, maxQuantityChars)}...`
         : this.text;
     },

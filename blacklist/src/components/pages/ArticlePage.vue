@@ -60,10 +60,11 @@ export default {
     articleId() {
       return this.$route.params.id;
     },
+    countOfChars() {
+      return this.article.description && this.article.description.length;
+    },
     readTime() {
-      const countOfChars =
-        this.article.description && this.article.description.length;
-      const time = countOfChars / averageReadingSpeed / 60;
+      const time = this.countOfChars / averageReadingSpeed / 60;
       return Math.ceil(time);
     },
     beautifyReadTime() {
