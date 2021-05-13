@@ -222,6 +222,25 @@ export default {
       margin: 10px 0;
       max-width: 100%;
     }
+
+    & > blockquote {
+      font-style: italic;
+      line-height: 25px;
+      border-left: 3px solid #000;
+      margin: 10px 0;
+      padding-left: 20px;
+    }
+
+    & > strong {
+      font-weight: bold;
+    }
+
+    & > h3.formatted {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 300;
+      display: inline-block;
+    }
   }
 
   &__wrapper {

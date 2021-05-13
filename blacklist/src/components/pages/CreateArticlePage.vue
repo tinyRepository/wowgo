@@ -49,10 +49,11 @@
         class="create-article__form-input"
         type="text"
         name="description"
-        inputId="description"
+        textareaId="description"
         whiteLabel
         placeholder="Введите описание"
         label="Описание"
+        withTooltip
       />
 
       <div class="create-article__upload">
