@@ -228,7 +228,7 @@ export default {
       line-height: 25px;
       border-left: 3px solid #000;
       margin: 10px 0;
-      padding-left: 20px;
+      padding-left: 10px;
     }
 
     & > strong {
