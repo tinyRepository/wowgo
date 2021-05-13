@@ -16,19 +16,35 @@
       :value="value"
       @input="onInput"
       @blur="onBlur"
+      @mouseup="getSelectionWithinTextarea($event)"
     >
     </textarea>
+
+    <transition name="fade" mode="out-in">
+      <tooltip-el
+        v-if="withTooltip && showTooltip"
+        @formatText="formatText"
+        class="tooltip"
+      />
+    </transition>
+
     <span v-show="showError" class="error-text">{{ errorText }}</span>
   </div>
 </template>
 
 <script>
+import TooltipEl from "Common/TooltipEl";
+
 const errorsTexts = {
   required: "Заполните поле"
 };
 
 export default {
   inheritAttrs: false,
+
+  components: {
+    TooltipEl
+  },
 
   props: {
     validationObj: Object,
@@ -44,12 +60,14 @@ export default {
     textareaId: String,
     error: Boolean,
     label: String,
-    whiteLabel: Boolean
+    whiteLabel: Boolean,
+    withTooltip: Boolean
   },
 
   data() {
     return {
-      userIsTyping: false
+      userIsTyping: false,
+      showTooltip: false
     };
   },
 
@@ -108,6 +126,32 @@ export default {
 
     resetTextareaSize() {
       this.$refs.textarea.style.minHeight = "0px";
+    },
+
+    getSelectionWithinTextarea(e) {
+      const selectionText = e.target.value.substring(
+        e.target.selectionStart,
+        e.target.selectionEnd
+      );
+
+      this.showTooltip = selectionText;
+    },
+
+    formatText(tagStart, tagEnd) {
+      const textarea = document.getElementById(this.textareaId);
+
+      const len = textarea.value.length;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const selected = textarea.value.substring(start, end);
+
+      const replace = `${tagStart}` + selected + `${tagEnd}`;
+      textarea.value =
+        textarea.value.substring(0, start) +
+        replace +
+        textarea.value.substring(end, len);
+
+      this.$emit("input", textarea.value);
     }
   }
 };
@@ -156,5 +200,12 @@ export default {
   left: 0;
   right: 0;
   bottom: -21px;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: -55px;
+  left: calc(50% - 110px);
+  margin: 10px auto;
 }
 </style>
