@@ -8,6 +8,9 @@
         <router-link to="/registration" class="header__link"
           >Регистрация</router-link
         >
+        <router-link to="/knowledge-base" class="header__link"
+          >База знаний</router-link
+        >
         <router-link to="/login" class="header__link">Вход</router-link>
       </template>
       <template v-else>
@@ -57,6 +60,9 @@
 
       <template v-else>
         <router-link to="/black-list" class="header__link">Список</router-link>
+        <router-link to="/knowledge-base" class="header__link"
+          >База знаний</router-link
+        >
         <router-link to="/registration" class="header__link"
           >Регистрация</router-link
         >
@@ -187,12 +193,10 @@ export default {
   }
 
   &__main {
-    grid-column: 3 / 4;
+    grid-column: 2 / 5;
     text-align: center;
 
     &_logged {
-      grid-column: 2 / 5;
-
       @media screen and (max-width: 1000px) {
         display: flex;
         flex-direction: column;
