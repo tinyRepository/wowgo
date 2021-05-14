@@ -64,7 +64,11 @@ export default {
     },
 
     countOfChars() {
-      return this.article.description && this.article.description.length;
+      const { description } = this.article;
+      const descriptionWithoutTags =
+        description && description.replace(/<\/?[^>]+(>|$)/g, "");
+
+      return descriptionWithoutTags && descriptionWithoutTags.length;
     },
 
     readTime() {
@@ -214,11 +218,16 @@ export default {
     white-space: break-spaces;
     line-height: 20px;
 
+    & > p {
+      margin: 0;
+      word-break: break-all;
+    }
+
     & > a {
       color: $brown-color1;
     }
 
-    & > img {
+    & img {
       margin: 10px 0;
       max-width: 100%;
     }

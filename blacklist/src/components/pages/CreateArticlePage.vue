@@ -43,18 +43,17 @@
       >
       </select-box>
 
-      <textarea-el
-        v-model="$v.form.description.$model"
-        :validationObj="$v.form.description"
-        class="create-article__form-input"
-        type="text"
-        name="description"
-        textareaId="description"
-        whiteLabel
-        placeholder="Введите описание"
-        label="Описание"
-        withTooltip
-      />
+      <div class="create-article__editor">
+        <div class="quill-editor-label">
+          Введите описание
+        </div>
+        <quill-editor
+          v-model="form.description"
+          class="quill-editor"
+          :showError="$v.form.description.$invalid"
+          @update-description="updateDescription"
+        />
+      </div>
 
       <div class="create-article__upload">
         <label
@@ -94,9 +93,14 @@ import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { dateFormatWithMonth } from "@/utils/config";
 import validateFormMixin from "@/mixins/validateForm";
+import QuillEditor from "../common/QuillEditor.vue";
 
 export default {
   mixins: [validateFormMixin],
+
+  components: {
+    QuillEditor
+  },
 
   data() {
     return {
@@ -281,6 +285,10 @@ export default {
         .finally(() => {
           this.setLoading(false);
         });
+    },
+
+    updateDescription(html) {
+      this.form.description = html;
     }
   },
 
@@ -329,7 +337,7 @@ export default {
 
   &__select-box {
     margin-bottom: 60px;
-    max-width: 500px;
+    max-width: 1000px;
     width: 100%;
   }
 
@@ -354,7 +362,7 @@ export default {
   }
 
   &__form-input {
-    max-width: 500px;
+    max-width: 1000px;
     width: 100%;
 
     & > textarea {
@@ -396,5 +404,37 @@ export default {
     @include fontRubik(12px, $red-color1, 300);
     text-align: center;
   }
+
+  &__editor {
+    position: relative;
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+.quill-editor {
+  border-radius: 5px;
+  max-width: 1000px;
+  margin: 0 0 60px;
+
+  /deep/ {
+    .ql-toolbar {
+      border: none;
+      border-bottom: 1px solid $gray-color4;
+    }
+
+    .ql-container {
+      border: none;
+    }
+  }
+}
+
+.quill-editor-label {
+  @include fontSans(15px, $white-color1, bold);
+  line-height: 20px;
+  letter-spacing: -0.4px;
+  position: absolute;
+  left: 0px;
+  top: -35px;
 }
 </style>
