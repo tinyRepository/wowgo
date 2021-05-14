@@ -7,6 +7,10 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import smoothscroll from "smoothscroll-polyfill";
+import VueQuillEditor from "vue-quill-editor";
+
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
 
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -40,6 +44,7 @@ Vue.prototype.wip = () => alert("Функционал в разработке");
 
 Vue.use(VueInputMask);
 Vue.use(Vuelidate);
+Vue.use(VueQuillEditor);
 
 smoothscroll.polyfill();
 
