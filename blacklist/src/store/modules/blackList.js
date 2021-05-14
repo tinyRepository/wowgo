@@ -24,6 +24,7 @@ const actions = {
         commit(`common/${types.SET_LOADING}`, false, { root: true });
       });
   },
+
   async loadBlackList({ commit }) {
     commit(`common/${types.SET_LOADING}`, true, { root: true });
     return await firebase
@@ -31,17 +32,36 @@ const actions = {
       .ref("black-list")
       .once("value")
       .then(snapshot => {
-        commit(types.SET_BLACK_LIST, Object.values(snapshot.val()));
+        commit(
+          types.SET_BLACK_LIST,
+          snapshot.val(),
+          Object.keys(snapshot.val())
+        );
       })
       .finally(() => {
         commit(`common/${types.SET_LOADING}`, false, { root: true });
+      });
+  },
+  // eslint-disable-next-line
+  async deleteUserFromBlackList({ commit, dispatch }, key) {
+    return await firebase
+      .database()
+      .ref("black-list")
+      .child(key)
+      .remove()
+      .then(() => {
+        dispatch("loadBlackList");
       });
   }
 };
 
 const mutations = {
   [types.SET_BLACK_LIST](s, payload) {
-    s.listData = payload;
+    for (let prop in payload) {
+      payload[prop].id = prop;
+    }
+
+    s.listData = Object.values(payload);
   }
 };
 

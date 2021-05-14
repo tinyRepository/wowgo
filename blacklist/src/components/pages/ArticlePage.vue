@@ -229,7 +229,7 @@ export default {
 
     & > p {
       margin: 0;
-      word-break: break-all;
+      word-break: break-word;
     }
 
     & > a {
@@ -338,7 +338,8 @@ export default {
   }
 
   &__image {
-    max-width: 540px;
+    max-width: 600px;
+    border-radius: 5px;
     width: 100%;
     cursor: zoom-in;
     will-change: transform;

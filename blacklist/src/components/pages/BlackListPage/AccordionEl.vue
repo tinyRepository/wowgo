@@ -2,8 +2,8 @@
   <div class="accordion">
     <template v-if="searchText">
       <accordion-item
-        v-for="(item, index) in listData"
-        :key="index"
+        v-for="item in listData"
+        :key="item.id"
         :is-single-element="isSingleElement"
         :item="item"
       />

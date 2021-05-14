@@ -31,6 +31,7 @@ const actions = {
         commit(types.SET_SECTIONS, Object.values(snapshot.val()));
       });
   },
+
   // eslint-disable-next-line
   async deleteArticle({ commit }, key) {
     return await firebase

@@ -46,7 +46,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in formattedListData" :key="index">
+          <tr v-for="(item, index) in formattedListData" :key="item.id">
             <td class="accent-cell">{{ index + 1 }}</td>
             <td class="accent-cell accent-cell_with-tooltip">
               {{ item | formatName }}
@@ -62,8 +62,13 @@
             <td class="without-bg comment-cell" :title="item.reasonForAdding">
               <expanded-text :text="item.reasonForAdding" />
             </td>
-            <td v-if="isAdmin" class="without-bg phone-cell">
+            <td
+              v-if="isAdmin"
+              class="without-bg phone-cell"
+              @click="removeUser(item.id)"
+            >
               {{ item.phone }}
+              <div class="remove-item" />
             </td>
           </tr>
         </tbody>
@@ -136,7 +141,17 @@ export default {
   },
 
   methods: {
-    ...mapActions("blackList", ["loadBlackList"])
+    ...mapActions("blackList", ["loadBlackList", "deleteUserFromBlackList"]),
+
+    removeUser(id) {
+      if (this.isAdmin) {
+        const removeItem = confirm("Вы уверены, что хотите удалить гостя?");
+
+        if (removeItem) {
+          this.deleteUserFromBlackList(id);
+        }
+      }
+    }
   }
 };
 </script>
@@ -231,6 +246,7 @@ export default {
 
     tr {
       border-bottom: 2px solid $gray-color7;
+      position: relative;
     }
 
     td {
@@ -239,9 +255,11 @@ export default {
       padding: 14px;
       @include fontRubik(14px, $white-color1, 300);
       line-height: 16px;
+
       &.accent-cell {
         background: $gray-color5;
       }
+
       &.without-bg {
         max-width: 400px;
         background: transparent;
@@ -280,7 +298,14 @@ export default {
 }
 
 .phone-cell {
+  position: relative;
   white-space: nowrap;
+
+  &:hover {
+    & > .remove-item {
+      display: block;
+    }
+  }
 }
 
 .place-of-birth {
@@ -326,5 +351,21 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.remove-item {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  background-size: contain;
+  background: url("~@/assets/svg/trash.svg") no-repeat center;
+  display: none;
+
+  @media screen and (max-width: 768px) {
+    display: none !important;
+  }
 }
 </style>
