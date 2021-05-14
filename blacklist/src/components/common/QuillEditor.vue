@@ -14,7 +14,7 @@
 export default {
   props: {
     value: String,
-    showError: Boolean
+    validationObj: Object
   },
 
   computed: {
@@ -26,6 +26,11 @@ export default {
       set(value) {
         this.onEditorChange(value);
       }
+    },
+
+    showError() {
+      const { $invalid, $dirty } = this.validationObj;
+      return $invalid && $dirty;
     }
   },
 

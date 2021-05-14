@@ -5,11 +5,10 @@
       @selectActiveSection="selectActiveSection"
     />
     <div class="article">
-      <button
-        v-if="isAdmin"
-        class="article__edit-article"
-        @click="goToEditArticlePage"
-      />
+      <template v-if="isAdmin">
+        <button @click="removeArticle" class="article__remove"></button>
+        <button class="article__edit-article" @click="goToEditArticlePage" />
+      </template>
       <button class="article__print" @click="print" />
 
       <div class="article__wrapper">
@@ -95,7 +94,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("articles", ["loadSections"]),
+    ...mapActions("articles", ["loadSections", "deleteArticle"]),
     ...mapActions("common", ["setLoading"]),
     zoomImage() {
       this.zoomed = !this.zoomed;
@@ -139,6 +138,16 @@ export default {
 
     goToEditArticlePage() {
       this.$router.push(`/create-article/${this.articleId}`);
+    },
+
+    removeArticle() {
+      const removeArticle = confirm("Вы уверены, что хотите удалить статью?");
+
+      if (removeArticle) {
+        this.deleteArticle(this.articleId).then(() => {
+          this.$router.replace({ name: "knowledge-base" });
+        });
+      }
     }
   }
 };
@@ -295,6 +304,22 @@ export default {
       top: 14px;
       width: 17px;
       height: 17px;
+    }
+  }
+
+  &__remove {
+    position: absolute;
+    right: 120px;
+    top: 23px;
+    width: 30px;
+    height: 30px;
+    @include removeBtnDefaults();
+    background-size: contain;
+    background: url("~@/assets/svg/trash.svg") no-repeat center;
+
+    @media screen and (max-width: 768px) {
+      top: 6px;
+      right: 50px;
     }
   }
 

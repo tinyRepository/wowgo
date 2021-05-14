@@ -50,7 +50,7 @@
         <quill-editor
           v-model="form.description"
           class="quill-editor"
-          :showError="$v.form.description.$invalid"
+          :validationObj="$v.form.description"
           @update-description="updateDescription"
         />
       </div>

@@ -32,6 +32,14 @@ const actions = {
       });
   },
 
+  async deleteArticle(key) {
+    return await firebase
+      .database()
+      .ref("articles")
+      .child(key)
+      .remove();
+  },
+
   async loadArticles({ commit, dispatch }) {
     commit(`common/${types.SET_LOADING}`, true, { root: true });
 
