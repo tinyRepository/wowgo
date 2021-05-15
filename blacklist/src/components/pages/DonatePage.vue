@@ -44,6 +44,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   min-height: calc(100vh - #{$header-height});
+  padding-bottom: 60px;
 
   @media screen and (max-width: 1600px) {
     justify-content: center;

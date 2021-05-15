@@ -127,6 +127,7 @@ export default {
 .knowledge-base {
   max-width: 1920px;
   margin: 115px auto 50px;
+  padding-bottom: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -160,6 +160,7 @@ export default {
   grid-template-columns: 3fr 9fr 3fr;
   grid-template-rows: auto;
   margin-top: 115px;
+  padding-bottom: 60px;
 
   @media screen and (max-width: 1279px) {
     grid-template-columns: 12fr;

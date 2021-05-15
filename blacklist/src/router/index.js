@@ -2,12 +2,15 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "@/store";
 import RulesPage from "Pages/RulesPage";
+import AboutPage from "Pages/AboutPage";
+import CookiePage from "Pages/CookiePage";
 import DonatePage from "Pages/DonatePage";
 import TermsOfUse from "Pages/TermsOfUse";
 import BlackList from "Pages/BlackListPage";
 import ArticlePage from "Pages/ArticlePage";
 import NotFoundPage from "Pages/NotFoundPage";
 import Registration from "Pages/RegistrationPage";
+import PrivacyPolicyPage from "Pages/PrivacyPolicyPage";
 import KnowledgeBasePage from "Pages/KnowledgeBasePage";
 import CreateArticlePage from "Pages/CreateArticlePage";
 import SuccessRegistration from "Pages/SuccessRegistration";
@@ -105,6 +108,21 @@ const routes = [
     name: "create-article",
     component: CreateArticlePage,
     beforeEnter: handleUnauthorisedRedirect
+  },
+  {
+    path: "/about",
+    name: "about-page",
+    component: AboutPage
+  },
+  {
+    path: "/cookie",
+    name: "cookie-page",
+    component: CookiePage
+  },
+  {
+    path: "/privacy-policy",
+    name: "privacy-policy",
+    component: PrivacyPolicyPage
   },
   {
     path: "/404",

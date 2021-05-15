@@ -218,6 +218,7 @@ export default {
     max-width: 1670px;
     width: 100%;
     overflow-x: auto;
+    margin-bottom: 29px;
 
     @media screen and (max-width: 768px) {
       & > table {
@@ -232,7 +233,7 @@ export default {
     }
 
     th {
-      @include fontRubik(16px, $gray-color1, 500);
+      @include fontRubik(16px, $gray-color1);
       line-height: 16px;
       padding: 14px;
       background: $gray-color5;
