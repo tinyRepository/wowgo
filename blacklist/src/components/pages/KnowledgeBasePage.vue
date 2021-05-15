@@ -22,7 +22,13 @@
           v-for="article in selectedItems"
           :key="article.id"
           class="knowledge-base__article"
-          :to="`/knowledge-base/${article.id}`"
+          :to="{
+            name: 'article',
+            params: {
+              id: article.id,
+              title: article.translitTitle
+            }
+          }"
         >
           <skeleton-image
             :src="article.imageUrl"

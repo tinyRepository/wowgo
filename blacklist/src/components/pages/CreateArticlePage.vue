@@ -4,7 +4,7 @@
       <h1 class="create-article__title">Создание статьи</h1>
 
       <base-input
-        v-model="$v.form.title.$model"
+        v-model.trim="$v.form.title.$model"
         :validationObj="$v.form.title"
         class="create-article__form-input"
         type="text"
@@ -92,6 +92,7 @@ import { required } from "vuelidate/lib/validators";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { dateFormatWithMonth } from "@/utils/config";
+import { translitText } from "@/utils/helpers";
 import validateFormMixin from "@/mixins/validateForm";
 import QuillEditor from "../common/QuillEditor.vue";
 
@@ -136,7 +137,8 @@ export default {
         description: this.form.description,
         createdDate: format(new Date(), dateFormatWithMonth, { locale: ru }),
         imageUrl: this.form.imageUrl,
-        section: this.form.section
+        section: this.form.section,
+        translitTitle: this.translitTitle
       };
     },
 
@@ -153,6 +155,10 @@ export default {
 
     alertText() {
       return this.editMode ? `обновлена` : `создана`;
+    },
+
+    translitTitle() {
+      return translitText(this.form.title);
     }
   },
 
