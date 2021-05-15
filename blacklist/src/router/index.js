@@ -96,13 +96,15 @@ const routes = [
     component: KnowledgeBasePage
   },
   {
-    path: "/knowledge-base/:id",
+    path: "/knowledge-base/:title",
     name: "article",
+    props: true,
     component: ArticlePage
   },
   {
-    path: "/create-article/:id?",
+    path: "/create-article/:title?",
     name: "create-article",
+    props: true,
     component: CreateArticlePage,
     beforeEnter: handleUnauthorisedRedirect
   },

@@ -62,6 +62,10 @@ export default {
       return this.$route.params.id;
     },
 
+    articleTranslitTitle() {
+      return this.$route.params.title;
+    },
+
     countOfChars() {
       const { description } = this.article;
       const descriptionWithoutTags =
@@ -137,7 +141,13 @@ export default {
     },
 
     goToEditArticlePage() {
-      this.$router.push(`/create-article/${this.articleId}`);
+      this.$router.push({
+        name: "create-article",
+        params: {
+          id: this.articleId,
+          title: this.articleTranslitTitle
+        }
+      });
     },
 
     removeArticle() {

@@ -21,3 +21,48 @@ export function getUnitsDeclension(val, titles) {
       : cases[number % 10 < 5 ? number % 10 : 5]
   ];
 }
+
+export function translitText(str) {
+  const keys = {
+    а: "a",
+    б: "b",
+    в: "v",
+    г: "g",
+    д: "d",
+    е: "e",
+    ё: "e",
+    ж: "j",
+    з: "z",
+    и: "i",
+    к: "k",
+    л: "l",
+    м: "m",
+    н: "n",
+    о: "o",
+    п: "p",
+    р: "r",
+    с: "s",
+    т: "t",
+    у: "u",
+    ф: "f",
+    х: "h",
+    ц: "c",
+    ч: "ch",
+    ш: "sh",
+    ь: "",
+    ы: "y",
+    э: "e",
+    ю: "u",
+    я: "ya",
+    щ: "shch",
+    ъ: "",
+    " ": "-",
+    ".": "-"
+  };
+
+  return str
+    .toLowerCase()
+    .split("")
+    .map(char => (typeof keys[char] === "undefined" ? char : keys[char]))
+    .join("");
+}
