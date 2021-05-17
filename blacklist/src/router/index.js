@@ -81,8 +81,7 @@ const routes = [
   {
     path: "/support",
     name: "support",
-    component: DonatePage,
-    beforeEnter: handleUnauthorisedRedirect
+    component: DonatePage
   },
   {
     path: "/rules",
