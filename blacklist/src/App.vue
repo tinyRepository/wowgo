@@ -3,7 +3,9 @@
     <the-header class="main-header" />
     <the-spinner v-if="loading" />
     <transition name="fade" mode="out-in">
-      <router-view class="content-block" />
+      <main id="maincontent">
+        <router-view class="content-block" />
+      </main>
     </transition>
   </div>
 </template>

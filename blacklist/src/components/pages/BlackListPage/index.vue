@@ -76,6 +76,7 @@
       <div v-else class="stub-text">Ничего не найдено...</div>
       <button
         v-if="checkUser"
+        aria-label="Add user to list"
         class="black-list__button"
         @click="showPopup = true"
       />
@@ -232,7 +233,7 @@ export default {
     }
 
     th {
-      @include fontRubik(16px, $gray-color1, 500);
+      @include fontRubik(16px, $white-color4, 300);
       line-height: 16px;
       padding: 14px;
       background: $gray-color5;
