@@ -397,5 +397,13 @@ module.exports = {
       .set("Components", path.resolve(__dirname, "src/components"))
       .set("Pages", path.resolve(__dirname, "src/components/pages"))
       .set("Common", path.resolve(__dirname, "src/components/common"));
+  },
+  configureWebpack: {
+    optimization: {
+      splitChunks: {
+        minSize: 10000,
+        maxSize: 250000
+      }
+    }
   }
 };
