@@ -1,16 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "@/store";
-import RulesPage from "Pages/RulesPage";
-import DonatePage from "Pages/DonatePage";
-import TermsOfUse from "Pages/TermsOfUse";
-import BlackList from "Pages/BlackListPage";
-import ArticlePage from "Pages/ArticlePage";
-import NotFoundPage from "Pages/NotFoundPage";
-import Registration from "Pages/RegistrationPage";
-import KnowledgeBasePage from "Pages/KnowledgeBasePage";
-import CreateArticlePage from "Pages/CreateArticlePage";
-import SuccessRegistration from "Pages/SuccessRegistration";
 
 Vue.use(VueRouter);
 function handleAuthoriseHomePage(to, from, next) {
@@ -44,14 +34,14 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: BlackList,
+    component: () => import("Pages/BlackListPage"),
     beforeEnter: handleAuthoriseHomePage,
     meta: { title: "Список" }
   },
   {
     path: "/registration",
     name: "registration",
-    component: Registration,
+    component: () => import("Pages/RegistrationPage"),
     beforeEnter: handleAuthorisedRedirect,
     meta: {
       isRegistrationPage: true,
@@ -62,7 +52,7 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: Registration,
+    component: () => import("Pages/RegistrationPage"),
     beforeEnter: handleAuthorisedRedirect,
     meta: {
       isRegistrationPage: false,
@@ -74,58 +64,58 @@ const routes = [
     path: "/success-registration",
     name: "successRegistration",
     beforeEnter: handleUnauthorisedRedirect,
-    component: SuccessRegistration,
+    component: () => import("Pages/SuccessRegistration"),
     meta: { title: "Успешная регистрация" }
   },
   {
     path: "/black-list",
     name: "blackList",
-    component: BlackList,
+    component: () => import("Pages/BlackListPage"),
     meta: { title: "Список" }
   },
   {
     path: "/support",
     name: "support",
-    component: DonatePage,
+    component: () => import("Pages/DonatePage"),
     meta: { title: "Поддержка" }
   },
   {
     path: "/rules",
     name: "rules",
-    component: RulesPage,
+    component: () => import("Pages/RulesPage"),
     beforeEnter: handleUnauthorisedRedirect,
     meta: { title: "Правила" }
   },
   {
     path: "/knowledge-base",
     name: "knowledge-base",
-    component: KnowledgeBasePage,
+    component: () => import("Pages/KnowledgeBasePage"),
     meta: { title: "База знаний" }
   },
   {
     path: "/knowledge-base/:title",
     name: "article",
     props: true,
-    component: ArticlePage
+    component: () => import("Pages/ArticlePage")
   },
   {
     path: "/create-article/:title?",
     name: "create-article",
     props: true,
-    component: CreateArticlePage,
+    component: () => import("Pages/CreateArticlePage"),
     beforeEnter: handleUnauthorisedRedirect,
     meta: { title: "Создание статьи" }
   },
   {
     path: "/404",
     name: "404",
-    component: NotFoundPage,
+    component: () => import("Pages/NotFoundPage"),
     meta: { title: "Страница не найдена" }
   },
   {
     path: "/terms-of-use",
     name: "termOfUse",
-    component: TermsOfUse,
+    component: () => import("Pages/TermsOfUse"),
     meta: { title: "Условия использования" }
   },
   {
