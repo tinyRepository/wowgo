@@ -45,7 +45,8 @@ const routes = [
     path: "/",
     name: "home",
     component: BlackList,
-    beforeEnter: handleAuthoriseHomePage
+    beforeEnter: handleAuthoriseHomePage,
+    meta: { title: "Список" }
   },
   {
     path: "/registration",
@@ -54,7 +55,8 @@ const routes = [
     beforeEnter: handleAuthorisedRedirect,
     meta: {
       isRegistrationPage: true,
-      isLoginPage: false
+      isLoginPage: false,
+      title: "Регистрация"
     }
   },
   {
@@ -64,35 +66,41 @@ const routes = [
     beforeEnter: handleAuthorisedRedirect,
     meta: {
       isRegistrationPage: false,
-      isLoginPage: true
+      isLoginPage: true,
+      title: "Вход"
     }
   },
   {
     path: "/success-registration",
     name: "successRegistration",
     beforeEnter: handleUnauthorisedRedirect,
-    component: SuccessRegistration
+    component: SuccessRegistration,
+    meta: { title: "Успешная регистрация" }
   },
   {
     path: "/black-list",
     name: "blackList",
-    component: BlackList
+    component: BlackList,
+    meta: { title: "Список" }
   },
   {
     path: "/support",
     name: "support",
-    component: DonatePage
+    component: DonatePage,
+    meta: { title: "Поддержка" }
   },
   {
     path: "/rules",
     name: "rules",
     component: RulesPage,
-    beforeEnter: handleUnauthorisedRedirect
+    beforeEnter: handleUnauthorisedRedirect,
+    meta: { title: "Правила" }
   },
   {
     path: "/knowledge-base",
     name: "knowledge-base",
-    component: KnowledgeBasePage
+    component: KnowledgeBasePage,
+    meta: { title: "База знаний" }
   },
   {
     path: "/knowledge-base/:title",
@@ -105,17 +113,20 @@ const routes = [
     name: "create-article",
     props: true,
     component: CreateArticlePage,
-    beforeEnter: handleUnauthorisedRedirect
+    beforeEnter: handleUnauthorisedRedirect,
+    meta: { title: "Создание статьи" }
   },
   {
     path: "/404",
     name: "404",
-    component: NotFoundPage
+    component: NotFoundPage,
+    meta: { title: "Страница не найдена" }
   },
   {
     path: "/terms-of-use",
     name: "termOfUse",
-    component: TermsOfUse
+    component: TermsOfUse,
+    meta: { title: "Условия использования" }
   },
   {
     path: "*",

@@ -15,12 +15,24 @@ import TheHeader from "Common/TheHeader";
 import { mapGetters } from "vuex";
 
 export default {
+  metaInfo() {
+    return {
+      title: this.metaTitle || "Wowgo",
+      titleTemplate: "%s | Чёрный список"
+    };
+  },
+
   components: {
     TheHeader
   },
 
   computed: {
-    ...mapGetters("common", ["loading"])
+    ...mapGetters("common", ["loading"]),
+
+    metaTitle() {
+      const { title } = this.$route.meta;
+      return title;
+    }
   },
 
   watch: {

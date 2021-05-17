@@ -135,6 +135,12 @@ const phoneIsFilled = val => !val.includes("_");
 export default {
   mixins: [validateFormMixin],
 
+  metaInfo() {
+    return {
+      title: "Регистрация"
+    };
+  },
+
   data() {
     return {
       form: {

@@ -89,7 +89,7 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import ExpandedText from "./ExpandedText";
 import SuccessScreen from "Common/SuccessScreen";
 import AccordionEl from "./AccordionEl";
-import PopUp from "Common/PopUp";
+const PopUp = () => import("Common/PopUp");
 
 export default {
   components: {

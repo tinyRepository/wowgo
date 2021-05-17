@@ -45,6 +45,12 @@ import KnowledgeBaseMenu from "Common/KnowledgeBaseMenu";
 const defaultSection = "Все статьи";
 
 export default {
+  metaInfo() {
+    return {
+      title: this.article.title
+    };
+  },
+
   components: {
     KnowledgeBaseMenu
   },

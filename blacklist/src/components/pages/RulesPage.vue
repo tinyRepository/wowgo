@@ -24,6 +24,16 @@
   </div>
 </template>
 
+<script>
+export default {
+  metaInfo() {
+    return {
+      title: "Правила"
+    };
+  }
+};
+</script>
+
 <style lang="scss" scoped>
 .rules {
   max-width: 1605px;
