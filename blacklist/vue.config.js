@@ -1,4 +1,5 @@
 const path = require("path");
+const PrerenderSPAPlugin = require("prerender-spa-plugin");
 
 module.exports = {
   runtimeCompiler: true,
@@ -403,6 +404,24 @@ module.exports = {
       splitChunks: {
         maxSize: 250000
       }
-    }
+    },
+    plugins: [
+      new PrerenderSPAPlugin({
+        headless: true,
+        staticDir: path.join(__dirname, "dist"),
+        routes: [
+          "/",
+          "/success-registration",
+          "/knowledge-base",
+          "/terms-of-use",
+          "/registration",
+          "/black-list",
+          "/support",
+          "/login",
+          "/rules",
+          "/404"
+        ]
+      })
+    ]
   }
 };
