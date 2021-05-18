@@ -1,14 +1,10 @@
 <template>
-  <div class="expanded-text">
+  <div class="expanded-text" ref="expandedText">
     <div>
       {{ formattedText }}
     </div>
 
-    <div
-      v-if="isLotOfContent"
-      class="expand-button"
-      @click="expanded = !expanded"
-    >
+    <div v-if="isLotOfContent" class="expand-button" @click="expandText">
       {{ buttonText }}
     </div>
   </div>
@@ -27,8 +23,14 @@ export default {
 
   data() {
     return {
-      expanded: true
+      expanded: false,
+      baseHeight: 0
     };
+  },
+
+  mounted() {
+    this.baseHeight = this.$refs.expandedText.scrollHeight;
+    this.setBaseHeight();
   },
 
   computed: {
@@ -37,7 +39,7 @@ export default {
     },
 
     hideText() {
-      return this.expanded && this.isLotOfContent;
+      return !this.expanded && this.isLotOfContent;
     },
 
     formattedText() {
@@ -47,7 +49,33 @@ export default {
     },
 
     buttonText() {
-      return this.expanded ? "Показать полностью" : "Скрыть";
+      return !this.expanded ? "Показать полностью" : "Скрыть";
+    }
+  },
+
+  methods: {
+    updateTextHeight() {
+      if (!this.expanded) {
+        this.setBaseHeight();
+      } else {
+        this.setMaxHeight();
+      }
+    },
+
+    setBaseHeight() {
+      this.$refs.expandedText.style.height = `${this.baseHeight}px`;
+    },
+
+    setMaxHeight() {
+      this.$refs.expandedText.style.height = `${this.$refs.expandedText.scrollHeight}px`;
+    },
+
+    expandText() {
+      this.expanded = !this.expanded;
+
+      this.$nextTick(() => {
+        this.updateTextHeight();
+      });
     }
   }
 };
@@ -75,5 +103,9 @@ export default {
     border-bottom: 1px dashed $brown-color2;
     width: 100%;
   }
+}
+
+.expanded-text {
+  transition: height $transition/2;
 }
 </style>

@@ -38,17 +38,18 @@
             <th>Дата рождения</th>
             <th class="place-of-birth">Город рождения</th>
             <th class="categories-of-violations">Нарушение</th>
-            <th>Дата добавления в список</th>
-            <th class="without-bg">Название гостиницы</th>
-            <th class="without-bg">Местоположение</th>
-            <th class="without-bg comment-cell">Комментарий</th>
-            <th class="without-bg" v-if="isAdmin">Телефон гостиницы</th>
+            <th>Гостиница</th>
+            <th v-if="isAdmin">Телефон гостиницы</th>
+            <th>Местоположение</th>
+            <th class="comment-cell">Комментарий</th>
+            <th>Дата добавления</th>
+            <th v-if="isAdmin">Управление</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item, index) in formattedListData" :key="item.id">
-            <td class="accent-cell">{{ index + 1 }}</td>
-            <td class="accent-cell accent-cell_with-tooltip">
+            <td>{{ index + 1 }}</td>
+            <td class="accent-cell_with-tooltip">
               {{ item | formatName }}
             </td>
             <td>{{ item.dateOfBirth }}</td>
@@ -56,19 +57,17 @@
             <td class="categories-of-violations">
               {{ item.categoriesOfViolations }}
             </td>
-            <td>{{ item.dateAdded }}</td>
             <td class="without-bg">{{ item.nameOfHotel }}</td>
+            <td v-if="isAdmin" class="without-bg phone-cell">
+              {{ item.phone }}
+            </td>
             <td class="without-bg">{{ item.address }}</td>
             <td class="without-bg comment-cell" :title="item.reasonForAdding">
               <expanded-text :text="item.reasonForAdding" />
             </td>
-            <td
-              v-if="isAdmin"
-              class="without-bg phone-cell"
-              @click="removeUser(item.id)"
-            >
-              {{ item.phone }}
-              <div class="remove-item" />
+            <td>{{ item.dateAdded }}</td>
+            <td v-if="isAdmin">
+              <div class="remove-item" @click="removeUser(item.id)" />
             </td>
           </tr>
         </tbody>
@@ -166,7 +165,7 @@ export default {
   min-height: calc(100vh - #{$header-height});
 
   &__search {
-    margin-bottom: 83px;
+    margin-bottom: 40px;
   }
 
   &__accordion {
@@ -216,11 +215,17 @@ export default {
   }
 
   &__table {
-    max-width: 1670px;
+    max-width: 1758px;
+    border-radius: 10px;
     width: 100%;
     overflow-x: auto;
+    margin-bottom: 50px;
+    border: 1px solid $gray-color13;
 
     @media screen and (max-width: 768px) {
+      margin: 0;
+      border: none;
+
       & > table {
         display: none;
       }
@@ -235,9 +240,12 @@ export default {
     th {
       @include fontRubik(16px, $white-color4, 300);
       line-height: 16px;
-      padding: 14px;
+      padding: 23px 15px;
+      white-space: pre;
+      min-height: 62px;
       background: $gray-color5;
-      border: 1px solid $gray-color5;
+      border-bottom: 1px solid $gray-color7;
+
       &.without-bg {
         max-width: 400px;
         background: transparent;
@@ -246,24 +254,31 @@ export default {
     }
 
     tr {
-      border-bottom: 2px solid $gray-color7;
       position: relative;
+      height: 62px;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid $gray-color7;
+      }
+
+      &:nth-child(even) {
+        background: $black-color5;
+      }
     }
 
     td {
-      background: $gray-color6;
       text-align: left;
-      padding: 14px;
+      padding: 6px 15px;
       @include fontRubik(14px, $white-color1, 300);
       line-height: 16px;
+      min-height: 62px;
 
-      &.accent-cell {
-        background: $gray-color5;
+      &:first-child {
+        text-align: center;
       }
 
       &.without-bg {
         max-width: 400px;
-        background: transparent;
         border: none;
         cursor: default;
       }
@@ -282,6 +297,10 @@ export default {
     background: $brown-color1 url("~@/assets/svg/plus.svg") no-repeat center;
     position: fixed;
     bottom: 30px;
+
+    @media screen and (min-width: 1870px) {
+      margin-left: -50px;
+    }
 
     @media screen and (max-width: 768px) {
       left: 20px;
@@ -318,6 +337,8 @@ export default {
 }
 
 .comment-cell {
+  max-width: 300px !important;
+
   @media screen and (max-width: 768px) {
     padding: 14px 10px 14px 0px !important;
   }
@@ -355,15 +376,12 @@ export default {
 }
 
 .remove-item {
-  position: absolute;
-  right: 10px;
-  top: 5px;
-  width: 20px;
-  height: 20px;
+  width: 21px;
+  height: 21px;
   cursor: pointer;
   background-size: contain;
+  margin: auto;
   background: url("~@/assets/svg/trash.svg") no-repeat center;
-  display: none;
 
   @media screen and (max-width: 768px) {
     display: none !important;
