@@ -29,7 +29,10 @@
         class="black-list__accordion"
       />
     </div>
-    <div class="black-list__table">
+    <div
+      class="black-list__table"
+      :class="{ 'black-list__table_without-border': !formattedListData.length }"
+    >
       <table v-if="formattedListData.length">
         <thead>
           <tr>
@@ -283,6 +286,10 @@ export default {
         cursor: default;
       }
     }
+
+    &_without-border {
+      border-color: transparent;
+    }
   }
 
   &__button {
@@ -311,7 +318,7 @@ export default {
 
 .stub-text {
   text-align: center;
-  @include fontRubik(25px, $white-color1);
+  @include fontRubik(25px, $white-color1, 300);
   @media screen and (max-width: 768px) {
     display: none;
   }
