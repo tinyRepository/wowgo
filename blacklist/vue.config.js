@@ -402,12 +402,13 @@ module.exports = {
   configureWebpack: {
     optimization: {
       splitChunks: {
-        maxSize: 250000
+        maxSize: 450000
       }
     },
     plugins: [
       new PrerenderSPAPlugin({
         headless: true,
+        onlyProduction: true,
         staticDir: path.join(__dirname, "dist"),
         routes: [
           "/",
