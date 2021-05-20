@@ -219,7 +219,7 @@ export default {
   &__title {
     @include fontRubik(36px, $white-color2);
     line-height: 44px;
-    word-break: break-all;
+    word-break: break-word;
     letter-spacing: 0.7px;
     margin-top: 1px;
     margin-bottom: -1px;

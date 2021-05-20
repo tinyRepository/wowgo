@@ -429,6 +429,10 @@ export default {
       border-bottom: 1px solid $gray-color4;
     }
 
+    .ql-editor {
+      max-height: calc(100vh - 150px);
+    }
+
     .ql-container {
       border: none;
     }

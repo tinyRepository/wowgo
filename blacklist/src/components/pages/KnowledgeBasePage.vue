@@ -281,7 +281,8 @@ export default {
   }
 
   &__article-title {
-    @include fontRubik(26px, $white-color2);
+    @include fontRubik(24px, $white-color2);
+    word-break: break-word;
     margin-bottom: 7px;
     line-height: 20px;
     text-shadow: 0px 1px 1px rgba(33, 34, 38, 0.8);
