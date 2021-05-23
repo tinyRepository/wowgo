@@ -271,7 +271,7 @@ export default {
   }
 
   &__article-content {
-    word-break: break-all;
+    word-break: break-word;
     position: relative;
     z-index: 2;
 
@@ -297,7 +297,7 @@ export default {
 
   &__article-description {
     @include fontRubik(14px, $white-color2, 300);
-    word-break: break-all;
+    word-break: break-word;
     line-height: 20px;
 
     @media screen and (max-width: 1279px) {
