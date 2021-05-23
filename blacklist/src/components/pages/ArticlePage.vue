@@ -257,6 +257,14 @@ export default {
       max-width: 100%;
     }
 
+    & > h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      margin: 0;
+    }
+
     & > blockquote {
       font-style: italic;
       line-height: 25px;
