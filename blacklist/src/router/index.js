@@ -2,12 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "@/store";
 import RulesPage from "Pages/RulesPage";
-import AboutPage from "Pages/AboutPage";
-import CookiePage from "Pages/CookiePage";
 import DonatePage from "Pages/DonatePage";
 import TermsOfUse from "Pages/TermsOfUse";
 import BlackList from "Pages/BlackListPage";
 import ArticlePage from "Pages/ArticlePage";
+import ContactsPage from "Pages/ContactsPage";
 import NotFoundPage from "Pages/NotFoundPage";
 import Registration from "Pages/RegistrationPage";
 import PrivacyPolicyPage from "Pages/PrivacyPolicyPage";
@@ -112,19 +111,14 @@ const routes = [
     beforeEnter: handleUnauthorisedRedirect
   },
   {
-    path: "/about",
-    name: "about-page",
-    component: AboutPage
-  },
-  {
-    path: "/cookie",
-    name: "cookie-page",
-    component: CookiePage
-  },
-  {
     path: "/privacy-policy",
     name: "privacy-policy",
     component: PrivacyPolicyPage
+  },
+  {
+    path: "/contacts",
+    name: "contacts",
+    component: ContactsPage
   },
   {
     path: "/404",

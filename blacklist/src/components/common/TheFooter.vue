@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.footer">
+  <footer :class="$style.footer">
     <ul :class="$style.list">
       <li v-for="link in links" :key="link.text" :class="$style.listItem">
         <router-link
@@ -18,7 +18,7 @@
         >
       </li>
     </ul>
-  </div>
+  </footer>
 </template>
 
 <script>
@@ -26,14 +26,13 @@ export default {
   data() {
     return {
       links: [
-        { text: "О нас", href: "/about" },
         { text: "Условия использования", href: "/rules" },
         { text: "Политика конфиденциальности", href: "/privacy-policy" },
         {
           text: "Сообщество",
           externalHref: "https://t.me/joinchat/U3w9KzSYwFZRGTnF"
         },
-        { text: "Настройки cookie", href: "/cookie" }
+        { text: "Контакты", href: "/contacts" }
       ]
     };
   }
