@@ -115,7 +115,7 @@
         </base-button>
         <div class="registration-form__notice">
           Нажимая на кнопку «Зарегистрироваться» вы соглашаетесь с
-          <router-link to="/terms-of-use" class="registration-form__link"
+          <router-link to="privacy-policy" class="registration-form__link"
             >правилами обработки персональных данных.</router-link
           >
         </div>

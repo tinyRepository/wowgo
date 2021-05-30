@@ -109,11 +109,13 @@ const routes = [
   {
     path: "/privacy-policy",
     name: "privacy-policy",
+    meta: { title: "Политика обработки персональных данных " },
     component: () => import("Pages/PrivacyPolicyPage")
   },
   {
     path: "/contacts",
     name: "contacts",
+    meta: { title: "Контакты" },
     component: () => import("Pages/ContactsPage")
   },
   {
@@ -121,12 +123,6 @@ const routes = [
     name: "404",
     component: () => import("Pages/NotFoundPage"),
     meta: { title: "Страница не найдена" }
-  },
-  {
-    path: "/terms-of-use",
-    name: "termOfUse",
-    component: () => import("Pages/TermsOfUse"),
-    meta: { title: "Условия использования" }
   },
   {
     path: "*",
