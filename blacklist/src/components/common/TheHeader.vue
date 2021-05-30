@@ -9,10 +9,10 @@
         <router-link to="/registration" class="header__link"
           >Регистрация</router-link
         >
+        <router-link to="/login" class="header__link">Вход</router-link>
         <router-link to="/knowledge-base" class="header__link"
           >База знаний</router-link
         >
-        <router-link to="/login" class="header__link">Вход</router-link>
       </template>
       <template v-else>
         <router-link to="/black-list" class="header__link">Список</router-link>

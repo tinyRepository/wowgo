@@ -7,11 +7,13 @@
         <router-view class="content-block" />
       </main>
     </transition>
+    <the-footer class="main-footer" />
   </div>
 </template>
 
 <script>
 import TheHeader from "Common/TheHeader";
+import TheFooter from "Common/TheFooter";
 import { mapGetters } from "vuex";
 
 export default {
@@ -23,7 +25,8 @@ export default {
   },
 
   components: {
-    TheHeader
+    TheHeader,
+    TheFooter
   },
 
   computed: {
@@ -58,21 +61,29 @@ export default {
   z-index: 100;
   background-color: $black-color2;
 }
+
+.main-footer {
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
+
 .content-block {
   margin-top: 70px;
   max-width: 1920px;
   margin: 70px auto 0;
 }
+
 .fade-enter {
   opacity: 0;
 }
 
 .fade-enter-active {
-  transition: opacity $transition/2 ease;
+  transition: opacity $transition/3 ease;
 }
 
 .fade-leave-active {
-  transition: opacity $transition/2 ease;
+  transition: opacity $transition/3 ease;
   opacity: 0;
 }
 

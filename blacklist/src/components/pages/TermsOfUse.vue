@@ -64,7 +64,7 @@
 <style lang="scss" scoped>
 .terms-of-use {
   padding: 60px;
-  @include fontRubik(22px, $white-color1);
+  @include fontRubik(22px, $white-color1, 300);
 
   @media screen and (max-width: 768px) {
     margin-top: 70px;

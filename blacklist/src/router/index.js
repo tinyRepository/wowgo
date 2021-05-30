@@ -107,6 +107,16 @@ const routes = [
     meta: { title: "Создание статьи" }
   },
   {
+    path: "/privacy-policy",
+    name: "privacy-policy",
+    component: () => import("Pages/PrivacyPolicyPage")
+  },
+  {
+    path: "/contacts",
+    name: "contacts",
+    component: () => import("Pages/ContactsPage")
+  },
+  {
     path: "/404",
     name: "404",
     component: () => import("Pages/NotFoundPage"),

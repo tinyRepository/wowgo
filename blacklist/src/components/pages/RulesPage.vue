@@ -39,7 +39,7 @@ export default {
   max-width: 1605px;
   min-height: calc(100vh - #{$header-height});
   display: flex;
-  padding: 151px 20px 20px;
+  padding: 100px 20px 60px;
   justify-content: space-between;
 
   @media screen and (max-width: 1500px) {
