@@ -5,7 +5,11 @@
       <div :class="$style.subTitle">Служба поддержки</div>
       <p :class="$style.text">
         Если у Вас есть какие-либо вопросы относящиеся к работе нашей системы,
-        пишите на почту hi@wowgo.tk и мы обязательно ответим.
+        пишите на почту
+        <a href="mailto:hi@wowgo.tk" :class="$style.link">
+          hi@wowgo.tk
+        </a>
+        и мы обязательно ответим.
       </p>
       <div :class="$style.subTitle">Социальные сети</div>
       <p :class="$style.text">
@@ -54,6 +58,11 @@ export default {};
   box-shadow: 0px 12px 12px rgba(50, 50, 71, 0.08),
     0px 16px 24px rgba(50, 50, 71, 0.08);
   border-radius: 10px;
+
+  @media screen and (max-width: 768px) {
+    padding: 15px 20px;
+    margin: 85px auto 0;
+  }
 }
 
 .title {
@@ -62,12 +71,21 @@ export default {};
   line-height: 1.2;
   margin-top: 24px;
   margin-bottom: 50px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 26px;
+  }
 }
 
 .subTitle {
   margin-bottom: 25px;
   @include fontVerdana(24px, $white-color2, bold);
   line-height: 22px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 18px;
+    margin-bottom: 18px;
+  }
 }
 
 .text {
@@ -86,5 +104,10 @@ export default {};
   line-height: 1.5;
   max-width: 670px;
   margin-bottom: 20px;
+}
+
+.link {
+  color: $brown-color1;
+  text-decoration: none;
 }
 </style>
