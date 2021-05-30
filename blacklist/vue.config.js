@@ -1,4 +1,5 @@
 const path = require("path");
+const PrerenderSPAPlugin = require("prerender-spa-plugin");
 
 module.exports = {
   runtimeCompiler: true,
@@ -397,5 +398,31 @@ module.exports = {
       .set("Components", path.resolve(__dirname, "src/components"))
       .set("Pages", path.resolve(__dirname, "src/components/pages"))
       .set("Common", path.resolve(__dirname, "src/components/common"));
+  },
+  configureWebpack: {
+    optimization: {
+      splitChunks: {
+        maxSize: 450000
+      }
+    },
+    plugins: [
+      new PrerenderSPAPlugin({
+        headless: true,
+        onlyProduction: true,
+        staticDir: path.join(__dirname, "dist"),
+        routes: [
+          "/",
+          "/success-registration",
+          "/knowledge-base",
+          "/terms-of-use",
+          "/registration",
+          "/black-list",
+          "/support",
+          "/login",
+          "/rules",
+          "/404"
+        ]
+      })
+    ]
   }
 };

@@ -45,6 +45,12 @@ import KnowledgeBaseMenu from "Common/KnowledgeBaseMenu";
 const defaultSection = "Все статьи";
 
 export default {
+  metaInfo() {
+    return {
+      title: this.article.title
+    };
+  },
+
   components: {
     KnowledgeBaseMenu
   },
@@ -214,7 +220,7 @@ export default {
   &__title {
     @include fontRubik(36px, $white-color2);
     line-height: 44px;
-    word-break: break-all;
+    word-break: break-word;
     letter-spacing: 0.7px;
     margin-top: 1px;
     margin-bottom: -1px;
@@ -250,6 +256,14 @@ export default {
     & img {
       margin: 10px 0;
       max-width: 100%;
+    }
+
+    & > h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      margin: 0;
     }
 
     & > blockquote {

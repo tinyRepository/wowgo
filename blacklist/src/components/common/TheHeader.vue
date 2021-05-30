@@ -1,6 +1,7 @@
 <template>
   <header class="header" :class="{ header_logged: checkUser }">
     <router-link to="/registration" class="header__logo-link">
+      <span class="header__logo-text">Logo</span>
       <div class="header__logo" />
     </router-link>
     <div class="header__main" :class="{ header__main_logged: checkUser }">
@@ -190,6 +191,10 @@ export default {
     @media screen and (max-width: 768px) {
       zoom: 1;
     }
+  }
+
+  &__logo-text {
+    display: none;
   }
 
   &__main {

@@ -272,7 +272,7 @@ export default {
   }
 
   &__article-content {
-    word-break: break-all;
+    word-break: break-word;
     position: relative;
     z-index: 2;
 
@@ -282,7 +282,8 @@ export default {
   }
 
   &__article-title {
-    @include fontRubik(26px, $white-color2);
+    @include fontRubik(24px, $white-color2);
+    word-break: break-word;
     margin-bottom: 7px;
     line-height: 20px;
     text-shadow: 0px 1px 1px rgba(33, 34, 38, 0.8);
@@ -297,7 +298,7 @@ export default {
 
   &__article-description {
     @include fontRubik(14px, $white-color2, 300);
-    word-break: break-all;
+    word-break: break-word;
     line-height: 20px;
 
     @media screen and (max-width: 1279px) {

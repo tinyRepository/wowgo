@@ -3,7 +3,9 @@
     <the-header class="main-header" />
     <the-spinner v-if="loading" />
     <transition name="fade" mode="out-in">
-      <router-view class="content-block" />
+      <main id="maincontent">
+        <router-view class="content-block" />
+      </main>
     </transition>
     <the-footer class="main-footer" />
   </div>
@@ -15,13 +17,25 @@ import TheFooter from "Common/TheFooter";
 import { mapGetters } from "vuex";
 
 export default {
+  metaInfo() {
+    return {
+      title: this.metaTitle || "Wowgo",
+      titleTemplate: "%s | Чёрный список"
+    };
+  },
+
   components: {
     TheHeader,
     TheFooter
   },
 
   computed: {
-    ...mapGetters("common", ["loading"])
+    ...mapGetters("common", ["loading"]),
+
+    metaTitle() {
+      const { title } = this.$route.meta;
+      return title;
+    }
   },
 
   watch: {

@@ -8,6 +8,7 @@ import router from "./router";
 import store from "./store";
 import smoothscroll from "smoothscroll-polyfill";
 import VueQuillEditor from "vue-quill-editor";
+import Meta from "vue-meta";
 
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
@@ -42,9 +43,10 @@ Vue.component("checkbox-el", CheckBoxEl);
 const VueInputMask = require("vue-inputmask").default;
 Vue.prototype.wip = () => alert("Функционал в разработке"); // eslint-disable-line
 
+Vue.use(VueQuillEditor);
 Vue.use(VueInputMask);
 Vue.use(Vuelidate);
-Vue.use(VueQuillEditor);
+Vue.use(Meta);
 
 smoothscroll.polyfill();
 
