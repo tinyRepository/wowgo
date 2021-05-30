@@ -42,7 +42,6 @@ export default {
 .footer {
   position: fixed;
   background-color: $black-color2;
-  z-index: 1;
   width: 100%;
   bottom: 0;
   left: 0;

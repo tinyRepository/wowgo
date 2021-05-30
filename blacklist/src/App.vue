@@ -63,6 +63,8 @@ export default {
 }
 
 .main-footer {
+  z-index: 100;
+
   @media screen and (max-width: 768px) {
     display: none;
   }
