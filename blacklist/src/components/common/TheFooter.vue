@@ -26,7 +26,6 @@ export default {
   data() {
     return {
       links: [
-        { text: "Условия использования", href: "/rules" },
         { text: "Политика конфиденциальности", href: "/privacy-policy" },
         {
           text: "Сообщество",
