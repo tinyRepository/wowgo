@@ -218,8 +218,8 @@ export default {
   }
 
   &__title {
-    @include fontRubik(36px, $white-color2);
-    line-height: 44px;
+    @include fontVerdana(24px, $white-color2, bold);
+    line-height: 1.2;
     word-break: break-word;
     letter-spacing: 0.7px;
     margin-top: 1px;
@@ -247,6 +247,8 @@ export default {
     & > p {
       margin: 0;
       word-break: break-word;
+      @include fontVerdana(16px, $white-color2);
+      line-height: 1.5;
     }
 
     & > a {
@@ -264,6 +266,11 @@ export default {
     h4,
     h5 {
       margin: 0;
+    }
+
+    & > h3 {
+      @include fontVerdana(22px, $white-color2, bold);
+      line-height: 1.2;
     }
 
     & > blockquote {
