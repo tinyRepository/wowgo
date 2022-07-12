@@ -6,8 +6,8 @@
       <p :class="$style.text">
         Если у Вас есть какие-либо вопросы относящиеся к работе нашей системы,
         пишите на почту
-        <a href="mailto:hi@wowgo.tk" :class="$style.link">
-          hi@wowgo.tk
+        <a href="mailto:wowgohotels@yandex.ru" :class="$style.link">
+          wowgohotels@yandex.ru
         </a>
         и мы обязательно ответим.
       </p>

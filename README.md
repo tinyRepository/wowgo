@@ -1,6 +1,7 @@
 # wowgo
+
 wowgo black list
 
 vue + firebase
 
-Demo - https://wowgo.tk/
+Demo - https://guestscan.ru/

@@ -301,7 +301,7 @@
             <li>
               Все предложения или вопросы по поводу настоящей Политики следует
               сообщать в Службу поддержки по электронной почте
-              <a href="mailto:hi@wowgo.tk" :class="$style.link">hi@wowgo.tk</a>.
+              <a href="mailto:wowgohotels@yandex.ru" :class="$style.link">wowgohotels@yandex.ru</a>.
             </li>
           </ol>
         </li>
