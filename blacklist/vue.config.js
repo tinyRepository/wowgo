@@ -407,7 +407,6 @@ module.exports = {
     },
     plugins: [
       new PrerenderSPAPlugin({
-        headless: true,
         onlyProduction: true,
         staticDir: path.join(__dirname, "dist"),
         routes: [

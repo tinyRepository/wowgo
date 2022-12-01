@@ -81,11 +81,11 @@ export default {
 }
 
 .fade-enter-active {
-  transition: opacity $transition/3 ease;
+  transition: opacity calc($transition / 3) ease;
 }
 
 .fade-leave-active {
-  transition: opacity $transition/3 ease;
+  transition: opacity calc($transition / 3) ease;
   opacity: 0;
 }
 

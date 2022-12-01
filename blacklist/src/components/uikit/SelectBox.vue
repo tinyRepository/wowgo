@@ -140,7 +140,7 @@ export default {
     border: 1px solid $gray-color3;
   }
   &__element {
-    transition: background-color $transition/2;
+    transition: background-color calc($transition / 2);
     &:hover {
       background: $brown-color1;
     }

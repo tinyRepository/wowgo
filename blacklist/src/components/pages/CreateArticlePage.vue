@@ -423,7 +423,7 @@ export default {
   max-width: 1000px;
   margin: 0 0 60px;
 
-  /deep/ {
+  ::v-deep {
     .ql-toolbar {
       border: none;
       border-bottom: 1px solid $gray-color4;

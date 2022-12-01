@@ -261,7 +261,7 @@ export default {
         background: $white-color1;
         border-radius: 3px;
         display: block;
-        transition: transform $transition/2;
+        transition: transform calc($transition / 2);
         transform-origin: 23px 1px;
       }
 

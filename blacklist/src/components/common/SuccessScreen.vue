@@ -172,7 +172,7 @@ export default {
 
   &__checkbox {
     @media screen and (max-width: 768px) {
-      /deep/ .checkbox-text {
+      ::v-deep .checkbox-text {
         font-size: 10px;
         margin-top: 2px;
         margin-left: 8px;

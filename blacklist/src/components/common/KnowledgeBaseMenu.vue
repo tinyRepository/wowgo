@@ -67,7 +67,7 @@ export default {
     letter-spacing: 1px;
     line-height: 18px;
     margin-bottom: 19px;
-    transition: color, $transition/2;
+    transition: color, calc($transition / 2);
 
     @media screen and (max-width: 1279px) {
       padding: 3px 9px;

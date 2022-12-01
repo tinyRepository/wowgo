@@ -106,6 +106,6 @@ export default {
 }
 
 .expanded-text {
-  transition: height $transition/2;
+  transition: height calc($transition / 2);
 }
 </style>

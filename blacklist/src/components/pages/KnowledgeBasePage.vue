@@ -318,7 +318,7 @@ export default {
     @media screen and (max-width: 1279px) {
       max-height: 89px;
 
-      /deep/ .skeleton-image {
+      ::v-deep .skeleton-image {
         border-radius: 10px;
       }
     }

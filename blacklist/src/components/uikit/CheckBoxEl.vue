@@ -79,7 +79,7 @@ export default {
     height: 10px;
     background: $brown-color1;
     border-radius: 2px;
-    transition: $transition/2 transform;
+    transition: calc($transition / 2) transform;
     transform: scale(0);
   }
 }

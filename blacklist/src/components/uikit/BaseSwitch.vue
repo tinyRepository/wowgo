@@ -70,7 +70,7 @@ $slider-size: $height - $padding * 2;
     right: 0;
     bottom: 0;
     background-color: $white-color1;
-    transition: background-color $transition/2;
+    transition: background-color calc($transition / 2);
     box-shadow: 0px 0px 4px rgba(50, 50, 71, 0.08),
       0px 4px 8px rgba(50, 50, 71, 0.06);
     &::before {
@@ -82,7 +82,8 @@ $slider-size: $height - $padding * 2;
       left: $padding;
       bottom: $padding;
       background-color: $gray-color4;
-      transition: transform $transition/2, background-color $transition/2;
+      transition: transform calc($transition / 2),
+        background-color calc($transition / 2);
     }
   }
   &__input:not(:disabled) + &__slider {

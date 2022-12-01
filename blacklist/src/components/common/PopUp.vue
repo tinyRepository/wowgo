@@ -303,7 +303,7 @@ export default {
     }
   }
   &__form-textarea {
-    /deep/ .textarea {
+    ::v-deep .textarea {
       height: 148px;
     }
   }

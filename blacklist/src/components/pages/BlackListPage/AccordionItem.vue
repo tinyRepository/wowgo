@@ -120,7 +120,7 @@ export default {
     right: 5px;
     background: url("~@/assets/svg/arrow_top.svg") no-repeat;
     background-size: contain;
-    transition: $transition/2 transform;
+    transition: calc($transition / 2) transform;
     width: 24px;
     height: 24px;
 

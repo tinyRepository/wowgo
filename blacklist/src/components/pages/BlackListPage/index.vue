@@ -177,7 +177,7 @@ export default {
 
   @media screen and (max-width: 768px) {
     margin: auto;
-    transition: $transition/2 transform;
+    transition: calc($transition / 2) transform;
     transform: translate3d(0, calc(50vh - 190px), 0);
     min-height: calc(100vh - calc(50vh - 130px));
 
@@ -196,7 +196,7 @@ export default {
       padding: 0 19px;
       width: 100%;
 
-      /deep/ {
+      ::v-deep {
         input {
           max-width: inherit;
           background-size: 20px;

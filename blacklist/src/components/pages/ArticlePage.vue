@@ -375,7 +375,7 @@ export default {
     width: 100%;
     cursor: zoom-in;
     will-change: transform;
-    transition: transform $transition/2;
+    transition: transform calc($transition / 2);
 
     &_zoomed {
       z-index: 100;
