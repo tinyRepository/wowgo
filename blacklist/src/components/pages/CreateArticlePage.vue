@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import firebase from "firebase/app";
+import firebase from "firebase/compat/app";
 import { mapActions, mapGetters, mapState } from "vuex";
 import { required } from "vuelidate/lib/validators";
 import { format } from "date-fns";

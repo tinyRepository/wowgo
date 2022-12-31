@@ -1,5 +1,5 @@
 const path = require("path");
-const PrerenderSPAPlugin = require("prerender-spa-plugin");
+const PrerenderSPAPlugin = require("prerender-spa-plugin-next");
 
 module.exports = {
   runtimeCompiler: true,
@@ -7,9 +7,7 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        data: `
-          @import "@/styles/global.scss";
-        `
+        additionalData: `@import "@/styles/global.scss";`
       }
     }
   },
@@ -400,11 +398,6 @@ module.exports = {
       .set("Common", path.resolve(__dirname, "src/components/common"));
   },
   configureWebpack: {
-    optimization: {
-      splitChunks: {
-        maxSize: 450000
-      }
-    },
     plugins: [
       new PrerenderSPAPlugin({
         onlyProduction: true,

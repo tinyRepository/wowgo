@@ -1,5 +1,5 @@
 import router from "@/router";
-import firebase from "firebase/app";
+import firebase from "firebase/compat/app";
 import * as types from "../mutation-types";
 
 import User from "../user_help";
