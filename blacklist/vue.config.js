@@ -1,4 +1,5 @@
 const path = require("path");
+const zlib = require("zlib");
 const PrerenderSPAPlugin = require("prerender-spa-plugin-next");
 
 module.exports = {
@@ -8,6 +9,27 @@ module.exports = {
     loaderOptions: {
       sass: {
         additionalData: `@import "@/styles/global.scss";`
+      }
+    }
+  },
+  pluginOptions: {
+    compression: {
+      brotli: {
+        filename: "[file].br[query]",
+        algorithm: "brotliCompress",
+        include: /\.(js|css|html|svg|json)(\?.*)?$/i,
+        compressionOptions: {
+          params: {
+            [zlib.constants.BROTLI_PARAM_QUALITY]: 11
+          }
+        },
+        minRatio: 0.8
+      },
+      gzip: {
+        filename: "[file].gz[query]",
+        algorithm: "gzip",
+        include: /\.(js|css|html|svg|json)(\?.*)?$/i,
+        minRatio: 0.8
       }
     }
   },
