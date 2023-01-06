@@ -24,58 +24,47 @@
       />
 
       <accordion-el
+        v-if="isMobile"
         :list-data="formattedListData"
         :search-text="searchText"
         class="black-list__accordion"
       />
     </div>
+
     <div
+      v-if="!isMobile"
       class="black-list__table"
-      :class="{ 'black-list__table_without-border': !formattedListData.length }"
+      :class="{
+        'black-list__table_without-border': !formattedListData.length,
+        'admin-table': isAdmin
+      }"
     >
-      <table v-if="formattedListData.length">
-        <thead>
-          <tr>
-            <th>№</th>
-            <th>ФИО</th>
-            <th>Дата рождения</th>
-            <th class="place-of-birth">Город рождения</th>
-            <th class="categories-of-violations">Нарушение</th>
-            <th>Гостиница</th>
-            <th v-if="isAdmin">Телефон гостиницы</th>
-            <th>Местоположение</th>
-            <th class="comment-cell">Комментарий</th>
-            <th>Дата добавления</th>
-            <th v-if="isAdmin">Управление</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in formattedListData" :key="item.id">
-            <td>{{ index + 1 }}</td>
-            <td class="accent-cell_with-tooltip">
-              {{ item | formatName }}
-            </td>
-            <td>{{ item.dateOfBirth }}</td>
-            <td class="place-of-birth">{{ item.placeOfBirth }}</td>
-            <td class="categories-of-violations">
-              {{ item.categoriesOfViolations }}
-            </td>
-            <td class="without-bg">{{ item.nameOfHotel }}</td>
-            <td v-if="isAdmin" class="without-bg phone-cell">
-              {{ item.phone }}
-            </td>
-            <td class="without-bg">{{ item.address }}</td>
-            <td class="without-bg comment-cell" :title="item.reasonForAdding">
-              <expanded-text :text="item.reasonForAdding" />
-            </td>
-            <td>{{ item.dateAdded }}</td>
-            <td v-if="isAdmin">
-              <div class="remove-item" @click="removeUser(item.id)" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div v-else class="stub-text">Ничего не найдено...</div>
+      <vue-virtual-table
+        v-if="formattedListData.length"
+        :config="tableConfig"
+        :minWidth="isAdmin ? 1715 : 1420"
+        :itemHeight="62"
+        alignItems="center"
+        justifyContent="start"
+        :data="formattedListData"
+        :hoverHighlight="false"
+      >
+        <template slot-scope="item" slot="name">
+          {{ item.row | formatName }}
+        </template>
+
+        <template slot-scope="item" slot="reasonForAdding">
+          <expanded-text :text="item.row.reasonForAdding" />
+        </template>
+
+        <template slot-scope="item" slot="management">
+          <div class="remove-item" @click="removeUser(item.row.id)" />
+        </template>
+      </vue-virtual-table>
+
+      <div v-else class="stub-text">
+        Ничего не найдено...
+      </div>
       <button
         v-if="checkUser"
         aria-label="Add user to list"
@@ -87,18 +76,20 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
-import ExpandedText from "./ExpandedText";
-import SuccessScreen from "Common/SuccessScreen";
 import AccordionEl from "./AccordionEl";
+import ExpandedText from "./ExpandedText";
+import VueVirtualTable from "vue-virtual-table";
+import { mapState, mapActions, mapGetters } from "vuex";
+import SuccessScreen from "Common/SuccessScreen";
 const PopUp = () => import("Common/PopUp");
 
 export default {
   components: {
-    PopUp,
     AccordionEl,
     ExpandedText,
-    SuccessScreen
+    PopUp,
+    SuccessScreen,
+    VueVirtualTable
   },
 
   filters: {
@@ -111,7 +102,8 @@ export default {
     return {
       showPopup: false,
       showSuccessPopup: false,
-      searchText: ""
+      searchText: "",
+      isMobile: false
     };
   },
 
@@ -125,10 +117,50 @@ export default {
           .includes(this.searchText.toLowerCase());
       });
       return this.searchText ? filterdList : this.listData;
+    },
+
+    tableConfig() {
+      return [
+        { prop: "_index", name: "№", width: 50 },
+        {
+          prop: "_action",
+          name: "ФИО",
+          actionName: "name",
+          width: 160
+        },
+        { prop: "dateOfBirth", name: "Дата рождения", width: 160 },
+        { prop: "placeOfBirth", name: "Город рождения" },
+        { prop: "categoriesOfViolations", name: "Нарушение", width: 130 },
+        { prop: "nameOfHotel", name: "Гостиница", width: 150 },
+        { prop: "phone", name: "Телефон гостиницы", isHidden: !this.isAdmin },
+        { prop: "address", name: "Местоположение" },
+        {
+          prop: "_action",
+          name: "Комментарий",
+          actionName: "reasonForAdding"
+        },
+        { prop: "dateAdded", name: "Дата добавления", width: 160 },
+        {
+          prop: "_action",
+          name: "Управление",
+          actionName: "management",
+          width: 120,
+          isHidden: !this.isAdmin
+        }
+      ];
     }
   },
 
   watch: {
+    searchText() {
+      if (this.formattedListData.length) {
+        this.$nextTick(() => {
+          const scroller = document.querySelector(".scroller");
+          scroller.scrollTop = 0;
+        });
+      }
+    },
+
     showPopup(val) {
       const html = document.querySelector("html");
       if (val) {
@@ -140,39 +172,52 @@ export default {
   },
 
   created() {
-    this.loadBlackList();
+    this.checkWindowSize();
+    window.addEventListener("resize", this.checkWindowSize);
+    this.showSpinnerForRequest(this.loadBlackList());
   },
 
   methods: {
     ...mapActions("blackList", ["loadBlackList", "deleteUserFromBlackList"]),
+    ...mapActions("common", ["showSpinnerForRequest"]),
 
     removeUser(id) {
       if (this.isAdmin) {
         const removeItem = confirm("Вы уверены, что хотите удалить гостя?");
 
         if (removeItem) {
-          this.deleteUserFromBlackList(id);
+          this.showSpinnerForRequest(this.deleteUserFromBlackList(id));
         }
       }
+    },
+
+    checkWindowSize() {
+      if (window.innerWidth < 768) {
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
+      }
     }
+  },
+
+  destroyed() {
+    window.removeEventListener("resize", this.checkWindowSize);
   }
 };
 </script>
 
 <style lang="scss" scoped>
+$tableHeadHeight: "40px";
+
 .black-list {
-  margin: 110px auto;
+  margin: 110px auto 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: calc(100vh - #{$header-height});
+  min-height: calc(100vh - (#{$header-height} + #{$tableHeadHeight}));
 
   &__search {
     margin-bottom: 40px;
-  }
-
-  &__accordion {
-    display: none;
   }
 
   @media screen and (max-width: 768px) {
@@ -212,7 +257,6 @@ export default {
     }
 
     &__accordion {
-      display: flex;
       margin-bottom: 50px;
     }
   }
@@ -222,69 +266,16 @@ export default {
     border-radius: 10px;
     width: 100%;
     overflow-x: auto;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     border: 1px solid $gray-color13;
+
+    &.admin-table {
+      max-width: 1758px;
+    }
 
     @media screen and (max-width: 768px) {
       margin: 0;
       border: none;
-
-      & > table {
-        display: none;
-      }
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-    }
-
-    th {
-      @include fontRubik(16px, $white-color4, 300);
-      line-height: 16px;
-      padding: 23px 15px;
-      white-space: pre;
-      min-height: 62px;
-      background: $gray-color5;
-      border-bottom: 1px solid $gray-color7;
-
-      &.without-bg {
-        max-width: 400px;
-        background: transparent;
-        border: none;
-      }
-    }
-
-    tr {
-      position: relative;
-      height: 62px;
-
-      &:not(:last-child) {
-        border-bottom: 1px solid $gray-color7;
-      }
-
-      &:nth-child(even) {
-        background: $black-color5;
-      }
-    }
-
-    td {
-      text-align: left;
-      padding: 6px 15px;
-      @include fontRubik(14px, $white-color1, 300);
-      line-height: 16px;
-      min-height: 62px;
-
-      &:first-child {
-        text-align: center;
-      }
-
-      &.without-bg {
-        max-width: 400px;
-        border: none;
-        cursor: default;
-      }
     }
 
     &_without-border {
@@ -303,7 +294,7 @@ export default {
     cursor: pointer;
     background: $brown-color1 url("~@/assets/svg/plus.svg") no-repeat center;
     position: fixed;
-    bottom: 30px;
+    bottom: 34px;
 
     @media screen and (min-width: 1870px) {
       margin-left: -50px;
@@ -318,36 +309,11 @@ export default {
 
 .stub-text {
   text-align: center;
+  overflow: hidden;
   @include fontRubik(25px, $white-color1, 300);
+
   @media screen and (max-width: 768px) {
     display: none;
-  }
-}
-
-.phone-cell {
-  position: relative;
-  white-space: nowrap;
-
-  &:hover {
-    & > .remove-item {
-      display: block;
-    }
-  }
-}
-
-.place-of-birth {
-  max-width: 200px;
-}
-
-.categories-of-violations {
-  max-width: 180px;
-}
-
-.comment-cell {
-  max-width: 300px !important;
-
-  @media screen and (max-width: 768px) {
-    padding: 14px 10px 14px 0px !important;
   }
 }
 
@@ -393,5 +359,78 @@ export default {
   @media screen and (max-width: 768px) {
     display: none !important;
   }
+}
+</style>
+
+<style lang="scss">
+.scroller {
+  &::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $gray-color14;
+    border-radius: 30px;
+  }
+
+  .items {
+    will-change: margin-top;
+  }
+
+  .item-cell {
+    border-bottom-color: $gray-color7 !important;
+
+    .item-cell-inner {
+      @include fontRubik(14px, $white-color1, 300);
+    }
+
+    &:not(:first-child) {
+      .item-cell-inner {
+        overflow: auto !important;
+        word-break: break-word !important;
+        text-align: left !important;
+        height: auto !important;
+        justify-content: start !important;
+      }
+    }
+  }
+
+  .item-line {
+    transition: height calc($transition / 2);
+    &:nth-child(odd) {
+      background-color: $black-color2 !important;
+    }
+    &:nth-child(even) {
+      background-color: $black-color5 !important;
+    }
+  }
+}
+
+.t-container {
+  height: calc(100vh - 295px) !important;
+}
+
+.main-scroll {
+  border: none !important;
+}
+
+.t-header {
+  background-color: $gray-color5;
+  border-bottom-color: $gray-color7 !important;
+}
+
+.header-line {
+  height: 62px !important;
+}
+
+.header-cell {
+  &:not(:first-child) {
+    justify-content: start !important;
+  }
+}
+
+.header-cell-inner {
+  @include fontRubik(16px, $white-color4, 300);
 }
 </style>
