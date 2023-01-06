@@ -1,6 +1,6 @@
 <template>
   <div class="authorization">
-    <h2 class="authorization__title">Вход</h2>
+    <h2 class="authorization__title">{{ titleText }}</h2>
     <form
       novalidate
       @submit.stop.prevent="tryToSendForm"
@@ -17,6 +17,7 @@
         label="Email"
       />
       <base-input
+        v-if="!recoverPasswordMode"
         v-model="$v.form.password.$model"
         :validationObj="$v.form.password"
         class="authorization__input"
@@ -28,7 +29,7 @@
       />
       <div class="authorization__submit-status">{{ beautifyErrorMessage }}</div>
       <base-button type="submit" class="authorization__button">
-        Войти
+        {{ btnText }}
       </base-button>
       <div class="authorization__remeber">
         <!-- TODO implement -->
@@ -41,12 +42,19 @@
       <router-link to="/registration" class="authorization__link"
         >Регистрация</router-link
       >
-      <div click="wip" class="authorization__link">Забыли пароль?</div>
+      <div
+        @click="recoverPassword"
+        class="authorization__link"
+        v-if="!recoverPasswordMode"
+      >
+        Забыли пароль?
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import firebase from "firebase/compat/app";
 import validateFormMixin from "@/mixins/validateForm";
 import { required, minLength, email } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
@@ -61,13 +69,22 @@ export default {
         email: "",
         password: ""
       },
-      submitStatus: null
+      submitStatus: null,
+      recoverPasswordMode: false
     };
   },
 
   computed: {
     status() {
       return this.submitStatus && this.submitStatus.code;
+    },
+
+    titleText() {
+      return this.recoverPasswordMode ? "Забыли пароль?" : "Вход";
+    },
+
+    btnText() {
+      return this.recoverPasswordMode ? "Сбросить пароль" : "Войти";
     },
 
     beautifyErrorMessage() {
@@ -86,12 +103,49 @@ export default {
 
   methods: {
     ...mapActions("userData", ["loginUser"]),
+    ...mapActions("common", ["showSpinnerForRequest"]),
+
+    recoverPassword() {
+      this.recoverPasswordMode = true;
+      this.$v.$reset();
+    },
+
     tryToSendForm() {
       this.submitStatus = null;
+
+      const action = this.recoverPasswordMode
+        ? this.tryRecoverPassword
+        : this.trySignIn;
+
       this.validateForm().then(() => {
-        this.loginUser(this.form).catch(err => {
-          this.submitStatus = err;
-        });
+        this.showSpinnerForRequest(action());
+      });
+    },
+
+    trySignIn() {
+      return this.loginUser(this.form).catch(err => {
+        this.submitStatus = err;
+      });
+    },
+
+    tryRecoverPassword() {
+      return new Promise((resolve, reject) => {
+        firebase
+          .auth()
+          .sendPasswordResetEmail(this.form.email)
+          .then(() => {
+            alert(
+              "Письмо со ссылкой для восстановления пароля будет отправлено на указанную почту!"
+            );
+            this.form.email = null;
+            this.recoverPasswordMode = false;
+            this.$v.$reset();
+            resolve();
+          })
+          .catch(error => {
+            alert(error);
+            reject(error);
+          });
       });
     }
   },
@@ -124,6 +178,7 @@ export default {
     }
     @media screen and (max-width: 450px) {
       margin-top: 40px;
+      font-size: 1.5em;
     }
   }
   &__form {
