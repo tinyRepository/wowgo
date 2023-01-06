@@ -8,12 +8,17 @@ import router from "./router";
 import store from "./store";
 import smoothscroll from "smoothscroll-polyfill";
 import Meta from "vue-meta";
+import FloatingVue from "floating-vue";
+
+import "floating-vue/dist/style.css";
 
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/database";
 import "firebase/compat/messaging";
 import "firebase/compat/storage";
+
+import firebaseConfig from "./firebaseConfig.js";
 
 // Declare uikit globally
 import SearchEl from "Common/SearchEl";
@@ -40,27 +45,18 @@ Vue.prototype.wip = () => alert("Функционал в разработке");
 
 Vue.use(Vuelidate);
 Vue.use(Meta);
+Vue.use(FloatingVue);
 
 smoothscroll.polyfill();
+
+firebase.initializeApp(firebaseConfig);
 
 new Vue({
   router,
   store,
   render: h => h(App),
-  created() {
-    const firebaseConfig = {
-      apiKey: "AIzaSyD9CaVFgo3YvJ9Nh6pgUMUIXJJ__HE7LnU",
-      authDomain: "black-list-5cf3a.firebaseapp.com",
-      databaseURL: "https://black-list-5cf3a.firebaseio.com",
-      projectId: "black-list-5cf3a",
-      storageBucket: "black-list-5cf3a.appspot.com",
-      messagingSenderId: "153762007030",
-      appId: "1:153762007030:web:1336071a31d1d2e8d7a9d7",
-      measurementId: "G-5NBQ5T5VT5"
-    };
-    firebase.initializeApp(firebaseConfig);
 
-    // Auth Check
+  beforeCreate() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // Check Logged
