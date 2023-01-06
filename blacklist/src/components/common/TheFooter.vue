@@ -29,7 +29,7 @@ export default {
         { text: "Политика конфиденциальности", href: "/privacy-policy" },
         {
           text: "Сообщество",
-          externalHref: "https://t.me/joinchat/U3w9KzSYwFZRGTnF"
+          externalHref: "https://t.me/+hcwdThDESuFkZWU6"
         },
         { text: "Контакты", href: "/contacts" }
       ]

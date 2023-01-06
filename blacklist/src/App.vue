@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <the-header class="main-header" />
-    <the-spinner v-if="loading" />
+    <the-spinner v-if="showSpinner" />
     <transition name="fade" mode="out-in">
       <main id="maincontent">
         <router-view class="content-block" />
@@ -14,7 +14,7 @@
 <script>
 import TheHeader from "Common/TheHeader";
 import TheFooter from "Common/TheFooter";
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   metaInfo() {
@@ -28,9 +28,12 @@ export default {
     TheHeader,
     TheFooter
   },
+  methods: {
+    ...mapActions("common", ["showSpinnerForRequest"])
+  },
 
   computed: {
-    ...mapGetters("common", ["loading"]),
+    ...mapGetters("common", ["showSpinner"]),
 
     metaTitle() {
       const { title } = this.$route.meta;
@@ -39,7 +42,7 @@ export default {
   },
 
   watch: {
-    loading(val) {
+    showSpinner(val) {
       const html = document.querySelector("html");
 
       if (val) {

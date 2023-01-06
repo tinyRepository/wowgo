@@ -49,7 +49,6 @@ const actions = {
     { email, password, name, surname, middleName, nameOfObject, address, phone }
   ) {
     commit(`common/${types.CLEAR_ERROR}`, { root: true });
-    commit(`common/${types.SET_LOADING}`, true, { root: true });
     try {
       const user = await firebase
         .auth()
@@ -64,17 +63,15 @@ const actions = {
         nameOfObject
       );
       commit(types.SET_USER, new User(user.user.uid, name, surname));
-      router.push("/black-list"); // TODO redirect ot success registration page
-      commit(`common/${types.SET_LOADING}`, false, { root: true });
+      router.push("/black-list"); // TODO redirect to success registration page
     } catch (error) {
-      commit(`common/${types.SET_LOADING}`, false, { root: true });
       commit(`common/${types.SET_ERROR}`, error.message, { root: true });
       throw error;
     }
   },
+
   async loginUser({ commit, dispatch }, { email, password }) {
     commit(`common/${types.CLEAR_ERROR}`, { root: true });
-    commit(`common/${types.SET_LOADING}`, true, { root: true });
     try {
       const user = await firebase
         .auth()
@@ -83,7 +80,6 @@ const actions = {
       commit(types.SET_USER, new User(user.user.uid));
       router.push("/black-list");
     } catch (error) {
-      commit(`common/${types.SET_LOADING}`, false, { root: true });
       commit(`common/${types.SET_ERROR}`, error.message, { root: true });
       throw error;
     }

@@ -1,13 +1,16 @@
 import * as types from "../mutation-types";
 
 const state = {
-  loading: false,
+  spinnerRequests: 0,
   error: null
 };
 
 const mutations = {
-  [types.SET_LOADING](state, payload) {
-    state.loading = payload;
+  [types.INCREMENT_SPINNER_REQUESTS]: state => state.spinnerRequests++,
+  [types.DECREMENT_SPINNER_REQUESTS]: state => {
+    if (state.spinnerRequests) {
+      state.spinnerRequests--;
+    }
   },
   [types.SET_ERROR](state, payload) {
     state.error = payload;
@@ -18,8 +21,11 @@ const mutations = {
 };
 
 const actions = {
-  setLoading({ commit }, payload) {
-    commit(types.SET_LOADING, payload);
+  showSpinnerForRequest({ commit }, promise) {
+    commit(types.INCREMENT_SPINNER_REQUESTS);
+    return promise.finally(() => {
+      commit(types.DECREMENT_SPINNER_REQUESTS);
+    });
   },
   setError({ commit }, payload) {
     commit(types.SET_ERROR, payload);
@@ -30,9 +36,7 @@ const actions = {
 };
 
 const getters = {
-  loading(state) {
-    return state.loading;
-  },
+  showSpinner: state => !!state.spinnerRequests,
   error(state) {
     return state.error;
   }

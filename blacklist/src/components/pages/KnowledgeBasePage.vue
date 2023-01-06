@@ -102,17 +102,20 @@ export default {
   },
 
   created() {
-    this.loadArticles().then(() => {
-      this.selectedItems = [...this.articles];
+    this.showSpinnerForRequest(
+      this.loadArticles().then(() => {
+        this.selectedItems = [...this.articles];
 
-      if (this.sectionType) {
-        this.selectActiveSection(this.sectionType);
-      }
-    });
+        if (this.sectionType) {
+          this.selectActiveSection(this.sectionType);
+        }
+      })
+    );
   },
 
   methods: {
     ...mapActions("articles", ["loadArticles"]),
+    ...mapActions("common", ["showSpinnerForRequest"]),
     selectActiveSection(title) {
       this.activeSection = title;
       this.searchText = "";

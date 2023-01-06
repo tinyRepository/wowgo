@@ -171,7 +171,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("common", ["setLoading"]),
+    ...mapActions("common", ["showSpinnerForRequest"]),
     ...mapActions("articles", ["addArticle", "loadSections"]),
     createSection(newTag) {
       const tag = {
@@ -232,10 +232,12 @@ export default {
           ? this.updateArticle()
           : this.addArticle(this.dataForSending);
 
-        task.then(() => {
-          alert(`Статья успешно ${this.alertText}`);
-          this.goToKnowledgeBasePage();
-        });
+        this.showSpinnerForRequest(
+          task.then(() => {
+            alert(`Статья успешно ${this.alertText}`);
+            this.goToKnowledgeBasePage();
+          })
+        );
       });
     },
 
@@ -266,11 +268,7 @@ export default {
 
     tryToSendForm() {
       this.validateForm().then(() => {
-        this.setLoading(true);
-
-        return this.editArticle().finally(() => {
-          this.setLoading(false);
-        });
+        this.showSpinnerForRequest(this.editArticle());
       });
     },
 
@@ -281,16 +279,11 @@ export default {
     fetchArticleData() {
       const actions = [this.loadSections()];
 
-      this.setLoading(true);
       if (this.articleId) {
         actions.push(this.getArticleById());
       }
 
-      Promise.all(actions)
-        .then(() => {})
-        .finally(() => {
-          this.setLoading(false);
-        });
+      this.showSpinnerForRequest(Promise.all(actions).then(() => {}));
     },
 
     updateDescription(html) {

@@ -95,7 +95,9 @@ export default {
   },
 
   created() {
-    Promise.all([this.loadSections(), this.getArticleById()]);
+    this.showSpinnerForRequest(
+      Promise.all([this.loadSections(), this.getArticleById()])
+    );
     window.addEventListener("scroll", this.handleScroll);
   },
 
@@ -105,15 +107,13 @@ export default {
 
   methods: {
     ...mapActions("articles", ["loadSections", "deleteArticle"]),
-    ...mapActions("common", ["setLoading"]),
+    ...mapActions("common", ["showSpinnerForRequest"]),
     zoomImage() {
       this.zoomed = !this.zoomed;
     },
 
     async getArticleById() {
-      this.setLoading(true);
-
-      await firebase
+      return await firebase
         .database()
         .ref(`articles/${this.articleId}`)
         .once("value")
@@ -122,9 +122,6 @@ export default {
             this.$router.replace("/knowledge-base");
           }
           this.article = snapshot.val();
-        })
-        .finally(() => {
-          this.setLoading(false);
         });
     },
 

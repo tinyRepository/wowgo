@@ -42,8 +42,6 @@ const actions = {
   },
 
   async loadArticles({ commit, dispatch }) {
-    commit(`common/${types.SET_LOADING}`, true, { root: true });
-
     return await firebase
       .database()
       .ref("articles")
@@ -62,9 +60,6 @@ const actions = {
         }
         dispatch("loadSections");
         commit(types.SET_ARTICLES, articles);
-      })
-      .finally(() => {
-        commit(`common/${types.SET_LOADING}`, false, { root: true });
       });
   }
 };

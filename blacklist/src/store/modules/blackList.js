@@ -9,7 +9,6 @@ const getters = {};
 
 const actions = {
   async addItemToList({ commit, dispatch }, dataForSending) {
-    commit(`common/${types.SET_LOADING}`, true, { root: true });
     return await firebase
       .database()
       .ref("black-list")
@@ -19,14 +18,10 @@ const actions = {
       })
       .catch(() => {
         alert("Ошибка!");
-      })
-      .finally(() => {
-        commit(`common/${types.SET_LOADING}`, false, { root: true });
       });
   },
 
   async loadBlackList({ commit }) {
-    commit(`common/${types.SET_LOADING}`, true, { root: true });
     return await firebase
       .database()
       .ref("black-list")
@@ -37,9 +32,6 @@ const actions = {
           snapshot.val(),
           Object.keys(snapshot.val())
         );
-      })
-      .finally(() => {
-        commit(`common/${types.SET_LOADING}`, false, { root: true });
       });
   },
   // eslint-disable-next-line

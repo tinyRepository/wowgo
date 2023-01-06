@@ -108,7 +108,7 @@
       <div class="registration-form__bottom">
         <base-button
           type="submit"
-          :disabled="loading"
+          :disabled="showSpinner"
           class="registration-form__button"
         >
           Зарегистрироваться
@@ -157,7 +157,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters("common", ["loading"])
+    ...mapGetters("common", ["showSpinner"])
   },
 
   validations: {
@@ -194,9 +194,11 @@ export default {
 
   methods: {
     ...mapActions("userData", ["registerUser"]),
+    ...mapActions("common", ["showSpinnerForRequest"]),
+
     tryToSendForm() {
       this.validateForm().then(() => {
-        this.registerUser(this.form);
+        this.showSpinnerForRequest(this.registerUser(this.form));
       });
     }
   }

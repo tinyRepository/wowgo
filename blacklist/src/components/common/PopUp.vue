@@ -179,18 +179,21 @@ export default {
 
   methods: {
     ...mapActions("blackList", ["addItemToList"]),
+    ...mapActions("common", ["showSpinnerForRequest"]),
     addItem() {
-      this.addItemToList(this.dataForSending)
-        .then(() => {
-          if (localStorage.getItem("hidePopup")) {
-            alert("Успешно добавлен!");
-          } else {
-            this.$emit("showSuccessPopup");
-          }
-        })
-        .finally(() => {
-          this.$emit("close");
-        });
+      this.showSpinnerForRequest(
+        this.addItemToList(this.dataForSending)
+          .then(() => {
+            if (localStorage.getItem("hidePopup")) {
+              alert("Успешно добавлен!");
+            } else {
+              this.$emit("showSuccessPopup");
+            }
+          })
+          .finally(() => {
+            this.$emit("close");
+          })
+      );
     },
 
     tryToSendForm() {
