@@ -1,13 +1,17 @@
 <template>
-  <div class="expanded-text" ref="expandedText">
-    <div>
-      {{ formattedText }}
+  <VTooltip :triggers="triggers" class="expand-component">
+    <div class="expanded-text" ref="expandedText">
+      <div class="content">
+        {{ formattedText }}
+      </div>
+      <div class="expand-button" v-if="isLotOfContent">
+        Показать полностью
+      </div>
     </div>
-
-    <div v-if="isLotOfContent" class="expand-button" @click="expandText">
-      {{ buttonText }}
-    </div>
-  </div>
+    <template #popper>
+      {{ text }}
+    </template>
+  </VTooltip>
 </template>
 
 <script>
@@ -21,61 +25,23 @@ export default {
     }
   },
 
-  data() {
-    return {
-      expanded: false,
-      baseHeight: 0
-    };
-  },
-
-  mounted() {
-    this.baseHeight = this.$refs.expandedText.scrollHeight;
-    this.setBaseHeight();
-  },
-
   computed: {
     isLotOfContent() {
       return this.text.length > maxQuantityChars;
     },
 
-    hideText() {
-      return !this.expanded && this.isLotOfContent;
-    },
-
     formattedText() {
-      return this.hideText
+      return this.isLotOfContent
         ? `${this.text.substring(0, maxQuantityChars)}...`
         : this.text;
     },
 
-    buttonText() {
-      return !this.expanded ? "Показать полностью" : "Скрыть";
-    }
-  },
-
-  methods: {
-    updateTextHeight() {
-      if (!this.expanded) {
-        this.setBaseHeight();
-      } else {
-        this.setMaxHeight();
-      }
+    isMobile() {
+      return window.innerWidth < 1200;
     },
 
-    setBaseHeight() {
-      this.$refs.expandedText.style.height = `${this.baseHeight}px`;
-    },
-
-    setMaxHeight() {
-      this.$refs.expandedText.style.height = `${this.$refs.expandedText.scrollHeight}px`;
-    },
-
-    expandText() {
-      this.expanded = !this.expanded;
-
-      this.$nextTick(() => {
-        this.updateTextHeight();
-      });
+    triggers() {
+      return this.isMobile ? ["click"] : ["hover"];
     }
   }
 };
@@ -84,11 +50,14 @@ export default {
 <style lang="scss" scoped>
 .expand-button {
   display: initial;
+  width: max-content;
   margin-top: 3px;
   color: $brown-color1;
   position: relative;
   cursor: pointer;
   user-select: none;
+  top: -1px;
+  position: relative;
 
   @media screen and (max-width: 768px) {
     font-size: 12px;
@@ -107,5 +76,31 @@ export default {
 
 .expanded-text {
   transition: height calc($transition / 2);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+</style>
+
+<style lang="scss">
+.v-popper__popper {
+  .v-popper {
+    &__wrapper {
+      max-width: 400px;
+    }
+
+    &__inner {
+      text-align: center;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.95);
+      @include fontRubik(14px, $white-color1, 300);
+    }
+  }
+}
+
+@-moz-document url-prefix() {
+  .expand-component {
+    overflow-y: hidden;
+  }
 }
 </style>
